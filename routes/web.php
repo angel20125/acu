@@ -12,6 +12,9 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/l', function () {
+    return view('layouts.home');
+});
 
 //Authentication Routes..
 Route::post('login', 'ProfileController@postLogin')->name('post_login');
