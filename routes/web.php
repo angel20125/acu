@@ -12,9 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/l', function () {
-    return view('layouts.home');
-});
+Route::get('dashboard', 'ProfileController@getDashboard')->middleware("logged")->name('dashboard');
 
 //Authentication Routes..
 Route::post('login', 'ProfileController@postLogin')->name('post_login');

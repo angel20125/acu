@@ -26,7 +26,7 @@
 		<a class="navbar-brand" href="#">ACU</a>
 		
 				
-					<a class="nav-link  " href="">
+					<a class="nav-link  " href="{{route("logout")}}">
 				<span data-feather="log-out"></span>
 				
 			</a>
@@ -42,8 +42,7 @@
 	<div class="pos-f-t">
 
 		<div class="collapse" id="navbarToggleExternalContent">
-			
-			@include("includes.side_consejero")
+			@include("includes.menu_".$user->getCurrentRol()->name)
 		</div>
 	</div>
 </header>
@@ -52,7 +51,7 @@
 	<div class="row">
 		<!-- SideBar -->
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar border-right" > 
-			@include("includes.side_consejero")
+			@include("includes.menu_".$user->getCurrentRol()->name)
 		</nav>
 		<!-- Contenido de pagina -->
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="marginto">
