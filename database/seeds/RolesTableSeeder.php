@@ -30,6 +30,12 @@ class RolesTableSeeder extends Seeder
       	$user->save();
       	$user->attachRole($admin);
 
+      //Role Presidente
+        $adjunto = new Role();
+        $adjunto->name = 'presidente';
+        $adjunto->display_name = 'Presidente';
+        $adjunto->save();
+
     	//Role Consejero
       	$consejero = new Role();
       	$consejero->name = 'consejero';
