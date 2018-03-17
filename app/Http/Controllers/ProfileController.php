@@ -9,6 +9,18 @@ use App\User;
 
 class ProfileController extends Controller
 {
+    public function getLogin()
+    {
+        $user = User::getCurrent();
+
+        if($user)
+        {
+            return redirect()->route("dashboard");
+        }
+
+        return view("user.login");
+    }
+
     public function postLogin()
     {
         $data = Input::only('email','password');

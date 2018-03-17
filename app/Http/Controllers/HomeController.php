@@ -13,11 +13,9 @@ class HomeController extends Controller
 
         if($user)
         {
-        	//Proximamente va redirigir al dashboard
-            //return redirect()->route("dashboard");
-            return "Usuario verificado";
+        	return redirect()->route("dashboard");
         }
 
-        return view("user.login");
+        return redirect()->route("login");
     }
 }
