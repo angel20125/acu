@@ -13,4 +13,9 @@ class Agenda extends Model
 		'description',
 		'date'
 	];
+
+    public function points()
+    {
+        return $this->belongsToMany('App\Models\Point','agenda_point')->withPivot("date");
+    }
 }
