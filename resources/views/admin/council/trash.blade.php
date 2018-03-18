@@ -1,3 +1,9 @@
+@if($errors->any())
+    @foreach ($errors->all() as $error)
+        {{$error}}
+    @endforeach
+@endif
+
 <p>¿Esta seguro que desea eliminar "{{$council->name}}"?</p>
 <p>Escriba Eliminar en el campo para confirmar</p>
 

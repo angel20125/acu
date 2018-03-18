@@ -82,8 +82,14 @@ class CouncilsController extends Controller
     {
         $council_id=$request->get("council_id");
 
-        Council::where("id",$council_id)->delete();
+        $council=Council::where("id",$council_id)->first();
 
+        if(count($council->members)>0) 
+        {
+            return redirect()->back()->withErrors(["No puede eliminar un consejo que tiene consejeros asignados"]);
+        }
+
+        Council::where("id",$council_id)->delete();
         return redirect()->route("admin_councils")->with(["message_info"=>"Se ha eliminado el consejo"]);
     }
 }

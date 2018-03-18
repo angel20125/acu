@@ -156,6 +156,15 @@ class UsersController extends Controller
             return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
         }
 
+        if($data["status"]==0) 
+        {
+            $edit_user->councils()->updateExistingPivot($council_id,["end_date"=>gmdate("d-m-Y")]);
+        }
+        else
+        {
+            $edit_user->councils()->updateExistingPivot($council_id,["start_date"=>gmdate("d-m-Y"),"end_date"=>null]);
+        }
+
         User::where("id",$user_id)->update($data);
 
         return redirect()->route("admin_users_edit",["user_id"=>$user_id])->with(["message_info"=>"Se ha actualizado el usuario"]);
