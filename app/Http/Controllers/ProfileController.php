@@ -76,7 +76,7 @@ class ProfileController extends Controller
 
         }
 
-        return redirect()->route("login")->withErrors(["Te hemos enviado un correo electrónico para que recuperes tu contraseña."]);
+        return redirect()->route("login")->withErrors(["Te hemos enviado un correo electrónico para que recuperes tu contraseña"]);
     }
 
     public function getResetPasswordToken($token)
@@ -115,13 +115,13 @@ class ProfileController extends Controller
 
         if(!$token)
         {
-            return redirect()->route("login")->withErrors(["El token ha expirado."]);
+            return redirect()->route("login")->withErrors(["El token ha expirado"]);
         }
 
         $user=User::where("email",$token->email)->first();
         if(!$user)
         {
-            return redirect()->route("login")->withErrors(["El token ha expirado."]);
+            return redirect()->route("login")->withErrors(["El token ha expirado"]);
         }
 
         User::where("id",$user->id)->update(["password"=>Hash::make($password)]);

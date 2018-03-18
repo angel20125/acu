@@ -9,6 +9,10 @@
 			<div style="margin-bottom: 25px; height: 7px; width: 100%; background: #007bff"></div>
 			<div style="margin: 10px 10px; text-align: left; padding: 10px; color: #555">
 
+				<div style="text-align: center;">
+					<h1 style="color: #007bff">ACU</h1>
+				</div>
+				
 				<p>Hola {{$user->first_name}},</p>
 
 				<p>Está recibiendo esta notificación debido a que usted (o alguien pretendiendo ser usted) ha solicitado una recuperación de contraseña de ACU. Si usted no realizó esta petición, por favor ignore este correo. Si continúa recibiéndolo por favor contáctenos.</p>
