@@ -3,14 +3,22 @@ html {
   min-height: 100%;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: auto; /* Set the fixed height of the footer here */
-  max-height: 10%;
-  line-height: 20px; /* Vertically center the text there */
-  background-color: #f5f5f5;
-  font-size: 0.8em
+
+.navbar{
+	padding: 0.3rem 1rem !important;
+  	top: 0 !important;
+  	right: 0 !important;
+  	left: 0 !important;
+  	z-index: 1030 !important;
+  	position: sticky !important;
+}
+
+.card{
+	 margin: 0rem 0.4rem !important;
+	 margin-top: 1rem !important;
+}
+
+.item-rg{
+	flex-grow: 0 !important; 
 }
 
