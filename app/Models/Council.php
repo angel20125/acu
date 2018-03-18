@@ -10,4 +10,9 @@ class Council extends Model
 	protected $fillable = [
 		'name',
 	];
+
+    public function members()
+    {
+        return $this->belongsToMany('App\User','council_user')->withPivot("start_date","end_date");
+    }
 }

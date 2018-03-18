@@ -29,6 +29,12 @@ class ProfileController extends Controller
     	{
             $user = User::getCurrent();
             $user->verifyRole();
+
+            if($user->status==0)
+            {
+                return redirect()->route("logout");
+            }
+
             return redirect()->route("dashboard");
         }
 

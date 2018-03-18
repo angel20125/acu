@@ -56,7 +56,7 @@ class CredentialsSeeder extends Seeder
          								'last_name'     => $user['last_name'],
          								'phone_number'  => $user['phone_number'],
          								'email'         => $user['email'],
-         								'password'      => $user['password'] ]);
+         								'password'      => \Hash::make($user['password'])]);
         }
 
         /* Predefinimos los permisos para cada usuario */

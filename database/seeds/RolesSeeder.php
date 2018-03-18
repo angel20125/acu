@@ -46,6 +46,10 @@ class RolesSeeder extends Seeder
 			['name' 		=> 'consejero',
 			 'display_name' => 'Consejero' ],
 
+ 			// Secretaria
+			['name' 		=> 'secretaria',
+			 'display_name' => 'Secretaria' ],
+
 			// Adjunto
 			['name' 		=> 'adjunto',
 			 'display_name' => 'Adjunto' ],

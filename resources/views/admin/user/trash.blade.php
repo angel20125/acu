@@ -1,13 +1,13 @@
-<p>¿Esta seguro que desea eliminar "{{$council->name}}"?</p>
+<p>¿Esta seguro que desea eliminar el usuario "{{$edit_user->first_name}} {{$edit_user->last_name}}"?</p>
 <p>Escriba Eliminar en el campo para confirmar</p>
 
-<form action="{{route("admin_councils_delete")}}" method="post" >
+<form action="{{route("admin_users_delete")}}" method="post" >
     @csrf
-    <input type="hidden" name="council_id" value="{{$council->id}}"/>
+    <input type="hidden" name="user_id" value="{{$edit_user->id}}"/>
 
     <input type="text" placeholder="Eliminar" id="confirm_delete">
     <button id="delete_button" disabled>Confirmar</button>
-    <a href="{{route("admin_councils")}}">Cancelar</a>
+    <a href="{{route("admin_users")}}">Cancelar</a>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
