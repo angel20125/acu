@@ -75,8 +75,12 @@ class ProfileController extends Controller
             });
 
         }
+        else
+        {
+            return redirect()->back()->withErrors("El email ingresado no se encuentra registrado");
+        }
 
-        return redirect()->route("login")->withErrors(["Te hemos enviado un correo electrónico para que recuperes tu contraseña"]);
+        return redirect()->route("login")->with(["message_info"=>"Te hemos enviado un correo electrónico para que recuperes tu contraseña"]);
     }
 
     public function getResetPasswordToken($token)
@@ -126,11 +130,40 @@ class ProfileController extends Controller
 
         User::where("id",$user->id)->update(["password"=>Hash::make($password)]);
         TokenReset::where("token",$token->token)->delete();
-        return redirect()->route("login")->withErrors(["La contraseña se ha cambiado exitosamente"]);
+        return redirect()->route("login")->with(["message_info"=>"La contraseña se ha cambiado exitosamente"]);
     }
 
     public function getDashboard()
     {
-        return view("main.admin_dashboard");
+        $user = User::getCurrent();
+        $rol=$user->getCurrentRol();
+
+        if($rol)
+        {
+            if($rol->name=="admin")
+            {
+                return view("main.admin_dashboard");
+            }
+
+            if($rol->name=="presidente")
+            {
+                return "Aquí va el dashboard del presidente";
+            }
+
+            if($rol->name=="consejero")
+            {
+                return "Aquí va el dashboard del consejero";
+            }
+
+            if($rol->name=="secretaria")
+            {
+                return "Aquí va el dashboard del secretaria";
+            }
+
+            if($rol->name=="adjunto")
+            {
+                return "Aquí va el dashboard del adjunto";
+            }
+        }
     }
 }
