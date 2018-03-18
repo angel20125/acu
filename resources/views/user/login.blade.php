@@ -29,7 +29,7 @@
 			<button class="btn  btn-primary " type="submit">Ingresar</button>
 		</div>
 		<label>
-			<a href="" ><br> ¿Olvidaste tu contraseña? </a>
+			<a href="{{route("password_reset")}}" ><br> ¿Olvidaste tu contraseña? </a>
 		</label>		
 	</form>
 

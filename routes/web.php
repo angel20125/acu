@@ -14,10 +14,16 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('dashboard', 'ProfileController@getDashboard')->middleware("logged")->name('dashboard');
 
-//Authentication Routes...
+//Authentication Routes
 Route::get('login', 'ProfileController@getLogin')->name('login');
 Route::post('login', 'ProfileController@postLogin')->name('post_login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Password Reset Routes...
+Route::get('password/reset', 'ProfileController@getResetPassword')->name("password_reset");
+Route::post('password/email', 'ProfileController@sendResetLinkEmail')->name("post_password_reset");
+Route::get('password/reset/{token}', 'ProfileController@getResetPasswordToken')->name("password_reset_token");
+Route::post('password/reset', 'ProfileController@resetPassword')->name("post_password_reset_token");
 
 //Admin - Council
 Route::get('admin/councils', 'Admin\CouncilsController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_councils');
