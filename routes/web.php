@@ -18,3 +18,4 @@ Route::get('dashboard', 'ProfileController@getDashboard')->middleware("logged")-
 Route::get('login', 'ProfileController@getLogin')->name('login');
 Route::post('login', 'ProfileController@postLogin')->name('post_login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+

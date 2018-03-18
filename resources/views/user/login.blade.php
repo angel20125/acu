@@ -14,7 +14,7 @@
             <h4>{{$errors->first()}}</h4>
         @endif
         @csrf
-		<img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="74" height="74">
+		<img class="mb-4" src="{{ asset('img/icon_uneg.png') }}" alt="" width="74" height="74">
 		<h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
 		
 		<input name="email" type="email" id="inputEmail" class="form-control" placeholder="Correo Electrónico" required autofocus>
