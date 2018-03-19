@@ -1,4 +1,15 @@
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+@extends('layouts.home')
+
+@section('title' , "Crear consejo")
+
+@section('links')
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> 
+   
+@endsection
+
+@section('content')
+
 
 @if($errors->any())
     @foreach ($errors->all() as $error)
@@ -9,26 +20,35 @@
 @if(session('message_info'))
     {{session('message_info')}}
 @endif
+<div class="row justify-content-end">
+    <div class=" col-lg-2 col-md-3 col-sm-4 ">
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear usuario</a>
+    </div>
+</div>
+<br>
 
-<a href="{{route("admin_users_create")}}">Crear usuario</a>
-
-<table id="table" class="display" cellspacing="0" width="100%">
+<div class="table-responsive">
+<table id="table" class="table-striped mr1 " cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Correo electrónico</th>
-            <th>Nombre y apellido</th>
-            <th>Cédula de identidad</th>
-            <th>Número de teléfono</th>
+            <th>Correo</th>
+            <th>Nombre </th>
+            <th>Cédula</th>
+            <th>Teléfono</th>
             <th>Rol</th>
             <th>Consejo</th>
             <th></th>
         </tr>
     </thead>
 </table>
+</div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+@endsection
 
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+@section('script')
+<script  src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script  src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script  src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -63,3 +83,4 @@
         } );
     });
 </script>
+@endsection
