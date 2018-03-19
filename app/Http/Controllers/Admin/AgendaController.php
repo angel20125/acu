@@ -24,6 +24,11 @@ class AgendaController extends Controller
         return response()->json(['data' => $agenda]);
     }
 
+    public function getCreate()
+    {
+        return view('agenda.create');
+    }
+
     public function create()
     {
         return view('agenda.create');
