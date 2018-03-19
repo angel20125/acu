@@ -90,3 +90,9 @@
 .tette{
   color: floralwhite !important;
 }
+
+@media only screen and (max-width: 768px) {
+  .nav-link{
+    color: floralwhite !important;
+  }
+}
