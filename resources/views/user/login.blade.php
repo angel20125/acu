@@ -8,7 +8,7 @@
 
 @section('content')
 
-	<form class="form-signin" action="{{route("post_login")}}" method="post">
+	<form class="form-signin text-center" action="{{route("post_login")}}" method="post">
         @if($errors->any())
             <div class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}
@@ -26,6 +26,8 @@
 		<input name="email" type="email" id="inputEmail" class="form-control" placeholder="Correo Electrónico" required autofocus>
 		
 		<input name="password" type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+		
+		
 		<div class="checkbox mb-3">
 			<label>
 				<input type="checkbox" value="remember-me"> Recuérdame

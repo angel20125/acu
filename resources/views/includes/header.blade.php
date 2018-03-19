@@ -11,14 +11,14 @@
 		<div class=" d-flex justify-content-center  align-items-center px-3 item-rg nav-pills nav-fill" >
 			<ul class="nav flex-column mr-sm-2  ">
 				<li class="nav-item">
-					<a class="nav-item tette"  href="{{route("logout")}}" >
+					<a class="nav-item tette"  href="#" >
 						<i class="far fa-bell float-right" data-toggle="tooltip" data-placement="bottom" title="Notificaciones" ></i>
 					</a>	
 				</li>
 			</ul>
 			<ul class="nav flex-column mr-sm-2" style="margin-left: 2rem !important">
 				<li class="nav-item">
-					<a class="nav-item tette" href="#">
+					<a class="nav-item tette" href="{{route("logout")}}">
 						<i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="bottom" title="Cerrar Sesión"></i>
 					</a>
 				</li>
