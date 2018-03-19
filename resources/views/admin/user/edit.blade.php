@@ -3,7 +3,7 @@
 @section('title' , "Editar Usuario")
 
 @section('links')
-    <link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
+   
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@
         @endif
         @csrf
         <h1 class="text-center font-weight-normal">Editar Usuario</h1>
-        <br><br>
+        <br>
         <input type="hidden" name="user_id" value="{{$edit_user->id}}"/>
         <div class="form-row">
             <div class="form-group col-md-6 col-sm-12">
@@ -50,13 +50,13 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-6  col-sm-12">
+            <div class="form-group col-md-6  col-sm-12">
                  <label for="email_input">Correo Electrónico</label>
                  <div class="input-group mb-3">
                         <input name="email" type="email" id="email" class="form-control" placeholder="nombre@ejemplo.com" aria-label="Email" aria-describedby="basic-addon1" required autofocus value="{{$edit_user->email}}">
                 </div>
              </div>
-             <div class="form-group col-6  col-sm-12">
+             <div class="form-group col-md-6  col-sm-12">
                 <label for="rol_input">Estado</label>
                 <select name="status" class="form-control" id="status" required>
                     <option @if($edit_user->status==1) selected @endif value="1">Activo</option>
@@ -86,8 +86,7 @@
         <br>
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Registrar</button>
-        </div>
-        <div class="justify-content-center text-center">
+            <br>
             <a href="{{route("admin_users")}}"><br>Ver Usuarios</a>
         </div>
     </form>

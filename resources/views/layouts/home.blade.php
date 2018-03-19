@@ -19,14 +19,15 @@
 <body>
 	<!-- Barra de navegacion fija -->
 	@include("includes.header")
+		<!-- SideBar -->
+
+	<nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right" > 
+		<div class="sidebar-sticky">
+			@include("includes.menu_".$user->getCurrentRol()->name)
+		</div>
+	</nav>
 
 <div class="container-fluid">
-		<!-- SideBar -->
-		<nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right" > 
-			<div class="sidebar-sticky">
-				@include("includes.menu_".$user->getCurrentRol()->name)
-			</div>
-		</nav>
 		<!-- Contenido de pagina  -->
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10   " style="marginto">
 			@yield('content')
@@ -43,6 +44,12 @@
 	<script  src="{{ asset('js/popper.min.js') }}" ></script>
 	<!-- Icons -->
 	<script  src="{{ asset('js/fontawesome-all.min.js') }}" ></script>
+	<script type="text/javascript">
+		$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+		
+	</script>
 	@yield('script')
 </body>
 </html>

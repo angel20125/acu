@@ -12,7 +12,7 @@
 			<ul class="nav flex-column mr-sm-2  ">
 				<li class="nav-item">
 					<a class="nav-item tette"  href="{{route("logout")}}" >
-						<i class="far fa-bell float-right" data-toggle="tooltip" data-placement="aria-label" title="Notificaciones" ></i>
+						<i class="far fa-bell float-right" data-toggle="tooltip" data-placement="bottom" title="Notificaciones" ></i>
 					</a>	
 				</li>
 			</ul>

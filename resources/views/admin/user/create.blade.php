@@ -1,5 +1,3 @@
-
-
 @extends('layouts.home')
 
 @section('title' , "Registrar Usuario")
@@ -88,6 +86,7 @@
 	  	</div>
 	</form>
 </div>
+
 
 @endsection
 
