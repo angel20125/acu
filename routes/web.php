@@ -11,7 +11,7 @@
 |
 */
 
-//Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('dashboard', 'ProfileController@getDashboard')->middleware("logged")->name('dashboard');
 
 //Authentication Routes
