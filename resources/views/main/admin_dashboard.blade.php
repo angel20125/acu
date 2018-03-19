@@ -42,6 +42,13 @@
 	</div>
 	
 </div>
+<!-- Calendar -->
+<div class="row"> 
+	
+</div>
+
+@endsection
+@section('script')
 
 @endsection
 

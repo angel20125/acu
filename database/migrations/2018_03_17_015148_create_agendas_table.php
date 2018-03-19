@@ -18,7 +18,7 @@ class CreateAgendasTable extends Migration
             $table->integer('status');
             $table->text('attached_document');
             $table->text('description');
-            $table->date('date');
+            $table->date('event_date');
             $table->timestamps();
         });
     }

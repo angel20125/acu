@@ -44,3 +44,23 @@ Route::get('admin/users/edit/{user_id}', 'Admin\UsersController@getEdit')->middl
 Route::post('admin/users/edit', 'Admin\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_users_update');
 Route::get('admin/users/trash/{user_id}', 'Admin\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_users_trash');
 Route::post('admin/users/delete', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
+
+//Agenda
+Route::group([
+    'prefix' => 'admin',
+    'namespace' => 'Admin',
+], function() {
+
+    Route::group([
+        'prefix' => 'agenda',
+    ], function() {
+        Route::get('', 'AgendaController@index');
+        Route::get('{id}','AgendaController@show');
+        Route::get('create', 'AgendaController@create');
+        Route::post('create', 'AgendaController@store');
+        Route::post('update/{agenda_id}', 'AgendaController@update');
+        Route::delete('delete/{agenda_id}', 'AgendaController@delete');
+    });
+
+});
+

@@ -30,7 +30,7 @@ class UsersController extends Controller
 
             if($rol->name!="admin")
             {
-                $users_list[]=[$user->email,$user->first_name." ".$user->last_name,$user->identity_card,$user->phone_number,$rol->display_name,$council->name,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'">Editar</a><a href="'.route("admin_users_trash",["user_id"=>$user->id]).'">Borrar</a>'];
+                $users_list[]=[$user->email,$user->first_name." ".$user->last_name,$user->identity_card,$user->phone_number,$rol->display_name,$council->name,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 

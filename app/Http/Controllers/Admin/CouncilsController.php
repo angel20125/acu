@@ -21,7 +21,7 @@ class CouncilsController extends Controller
         $councils_list=[];
         foreach($councils as $council)
         {
-            $councils_list[]=[$council->name,\DateTime::createFromFormat("Y-m-d H:i:s",$council->created_at)->format("d-m-Y"),'<a href="'.route("admin_councils_edit",["council_id"=>$council->id]).'">Editar</a><a href="'.route("admin_councils_trash",["council_id"=>$council->id]).'">Borrar</a>'];
+            $councils_list[]=[$council->name,\DateTime::createFromFormat("Y-m-d H:i:s",$council->created_at)->format("d-m-Y"),'<a href="'.route("admin_councils_edit",["council_id"=>$council->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_councils_trash",["council_id"=>$council->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
 
         return response()->json(['data' => $councils_list]);

@@ -1,43 +1,45 @@
 @extends('layouts.home')
 
-@section('title' , "Crear consejo")
+@section('title' , "Usuarios")
 
 @section('links')
     
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> 
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
    
 @endsection
 
 @section('content')
 
-
+</b>
 @if($errors->any())
-    @foreach ($errors->all() as $error)
-        {{$error}}
-    @endforeach
+    <div class="alert alert-danger" role="alert">
+        {{$errors->first()}}
+    </div>
+@endif
+@if(session('message_info'))
+    <div class="alert alert-success" role="alert">
+        {{session('message_info')}}
+    </div>
 @endif
 
-@if(session('message_info'))
-    {{session('message_info')}}
-@endif
 <div class="row justify-content-end">
     <div class=" col-lg-2 col-md-3 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear usuario</a>
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear Usuario</a>
     </div>
 </div>
 <br>
 
 <div class="table-responsive">
-<table id="table" class="table-striped mr1 " cellspacing="0" width="100%">
+<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Correo</th>
-            <th>Nombre </th>
+            <th>Usuario </th>
             <th>Cédula</th>
             <th>Teléfono</th>
             <th>Rol</th>
             <th>Consejo</th>
-            <th></th>
+            <th><i class="fa fa-sync"></i></th>
         </tr>
     </thead>
 </table>
@@ -46,9 +48,10 @@
 @endsection
 
 @section('script')
-<script  src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script  src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script  src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+<script  src="{{ asset('js/jquery-1.12.4.js') }}" ></script>
+<script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
+<script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
 
 <script>
     $(document).ready(function() {

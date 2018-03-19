@@ -1,0 +1,53 @@
+@extends('layouts.home')
+
+@section('title' , "Usuarios")
+
+@section('links')
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+@endsection
+
+@section('content')
+
+</b>
+@if($errors->any())
+    <div class="alert alert-danger" role="alert">
+        {{$errors->first()}}
+    </div>
+@endif
+@if(session('message_info'))
+    <div class="alert alert-success" role="alert">
+        {{session('message_info')}}
+    </div>
+@endif
+
+<div class="row justify-content-end">
+    <div class=" col-lg-2 col-md-3 col-sm-4 ">
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear agenda</a>
+    </div>
+</div>
+<br>
+
+<div class="table-responsive">
+<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Estado</th>
+            <th>Fecha </th>
+            <th>Estado</th>
+            
+            <th><i class="fa fa-sync"></i></th>
+        </tr>
+    </thead>
+</table>
+</div>
+
+@endsection
+
+@section('script')
+
+
+<script>
+    
+</script>
+@endsection

@@ -1,3 +1,5 @@
+
+
 @extends('layouts.home')
 
 @section('title' , "Registrar usuario")
@@ -8,20 +10,20 @@
 
 @section('content')
 
-@if($errors->any())
-	@foreach ($errors->all() as $error)
-        {{$error}}
-	@endforeach
-@endif
-
-@if(session('message_info'))
-    {{session('message_info')}}
-@endif
-
 <div class="row justify-content-center">
 	<form class="form-signin col-md-10 col-sm-12 " action="{{route("admin_users_create")}}" method="post" enctype="multipart/form-data">
+        @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+			  	{{$errors->first()}}
+			</div>
+        @endif
+        @if(session('message_info'))
+			<div class="alert alert-success" role="alert">
+  				{{session('message_info')}}
+			</div>
+		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Registrar Usuario</h1>
+		<h1 class="text-center font-weight-normal">Registrar usuario</h1>
 		<br><br>
 
 	  	<div class="form-row">
@@ -60,7 +62,7 @@
 		<div class="form-row">
 			<div class="form-group col-6">
 			    <label for="council_id">Consejo</label>
-			    <select name="council_id" class="form-control" id="council_id">
+			    <select name="council_id" class="form-control" id="council_id" required>
 			    	<option selected>Seleccione...</option>
 			       	@foreach($councils as $council)
 	            		<option value="{{$council->id}}">{{$council->name}}</option>
@@ -69,7 +71,7 @@
 			</div>
 		  	<div class="form-group col-6">
 			    <label for="rol_input">Rol</label>
-			    <select name="rol" class="form-control" id="rol">
+			    <select name="rol" class="form-control" id="rol" required>
 			    	<option selected>Seleccione...</option>
 			    	@foreach($roles as $rol)
 	        			@if($rol->name!="admin")
