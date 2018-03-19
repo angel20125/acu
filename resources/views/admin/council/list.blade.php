@@ -1,4 +1,15 @@
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+@extends('layouts.home')
+
+@section('title' , "Consejos")
+
+@section('links')
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> 
+   
+@endsection
+
+@section('content')
+
 
 @if($errors->any())
     @foreach ($errors->all() as $error)
@@ -9,22 +20,33 @@
 @if(session('message_info'))
     {{session('message_info')}}
 @endif
-
-<a href="{{route("admin_councils_create")}}">Crear consejo</a>
-
-<table id="table" class="display" cellspacing="0" width="100%">
+ 
+<div class="row justify-content-end">
+    <div class=" col-lg-2 col-md-3 col-sm-4 ">
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_councils_create")}}" role="button">Crear consejo</a>
+    </div>
+</div>
+<br>
+<table id="table" class="table table-striped mr1 " cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Nombre del consejo</th>
-            <th>Fecha de creación</th>
-            <th></th>
+            <th  scope="col">Nombre del consejo</th>
+            <th  scope="col">Fecha de creación</th>
+            <th  scope="col"></th>
         </tr>
     </thead>
 </table>
 
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+@endsection
+
+@section('script')
+
+
+<script  src="{{ asset('js/jquery-1.12.4.js') }}" ></script>
+<script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
+<script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
+
 
 <script>
     $(document).ready(function() {
@@ -59,3 +81,4 @@
         } );
     });
 </script>
+@endsection

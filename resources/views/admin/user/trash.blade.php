@@ -1,22 +1,48 @@
+@extends('layouts.home')
+
+@section('title' , "Eliminar usuario")
+
+@section('links')
+    <link href="{{ asset('css/create_user.css') }}" rel="stylesheet"> 
+
+@endsection
+
+@section('content')
+
+
 @if($errors->any())
     @foreach ($errors->all() as $error)
         {{$error}}
     @endforeach
 @endif
 
-<p>¿Esta seguro que desea eliminar el usuario "{{$edit_user->first_name}} {{$edit_user->last_name}}"?</p>
-<p>Escriba Eliminar en el campo para confirmar</p>
 
-<form action="{{route("admin_users_delete")}}" method="post" >
-    @csrf
-    <input type="hidden" name="user_id" value="{{$edit_user->id}}"/>
+<div class="row justify-content-center text-center">
+    <form class="form-signin col-lg-8 col-md-10 col-sm-12" action="{{route("admin_users_delete")}}" method="post">
+        @csrf
+        <h1 class="text-center mr1 font-weight-normal">Eliminar usuario</h1>
+        <br>
+        <h5 class="text-center mr1 font-weight-normal">¿Esta seguro que desea eliminar "{{$edit_user->first_name}} {{$edit_user->last_name}}"?</h5>
+        
+        <div class="form-group col-10 offset-1">
+            <label for="firstname_input">Escriba Eliminar en el campo para confirmar</label>
+            <div class="input-group mb-3">
+                <input type="hidden" name="council_id" value="{{$edit_user->id}}"/>
+                <input type="text" id="confirm_delete" class="form-control" placeholder="Eliminar" >
+            </div>
+        </div>
+        <div class="justify-content-center text-center">
+            <button id="delete_button" class="btn btn-primary " disabled>Confirmar</button>
+        </div>
+        <div class="justify-content-center text-center">
+            <a href="{{route("admin_users")}}"><br>Cancelar</a>
+        </div>
+        
+    </form>
+</div>
 
-    <input type="text" placeholder="Eliminar" id="confirm_delete">
-    <button id="delete_button" disabled>Confirmar</button>
-    <a href="{{route("admin_users")}}">Cancelar</a>
-</form>
-
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+@endsection
+@section('script')
 
 <script>
     $(document).ready(function() {
@@ -29,3 +55,4 @@
         })
     });
 </script>
+@endsection

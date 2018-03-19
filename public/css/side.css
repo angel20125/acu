@@ -1,6 +1,4 @@
-body {
-  
-}
+
 
 .feather {
   width: 16px;
@@ -75,6 +73,9 @@ body {
 .mr8{
   margin-left: .6rem !important;
 }
+.mr1{
+  margin-top: 1rem !important;
+}
 
 /*
  * Utilities
@@ -83,3 +84,6 @@ body {
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
+.tette{
+  color: floralwhite !important;
+}
