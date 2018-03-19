@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="row justify-content-center">
-    <form class="form-signin col-md-10 col-sm-12 " action="" method="post" enctype="multipart/form-data">
+    <form class="form-signin col-md-10 col-sm-12 " action="#" method="post" enctype="multipart/form-data">
         @if($errors->any())
             <div class="alert alert-danger" role="alert">
                 {{$errors->first()}}
@@ -40,7 +40,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6 col-sm-12">
-                <label for="phone_input">Cargar archivo</label>
+                <label for="phone_input">Cargar Archivo</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="customFileLang" lang="es">
                     <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
