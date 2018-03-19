@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Editar usuario")
+@section('title' , "Editar Usuario")
 
 @section('links')
     <link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -8,18 +8,18 @@
 
 @section('content')
 
-@if($errors->any())
-    @foreach ($errors->all() as $error)
-        {{$error}}
-    @endforeach
-@endif
-
-@if(session('message_info'))
-    {{session('message_info')}}
-@endif
-
 <div class="row justify-content-center">
     <form class="form-signin col-md-10 col-sm-12 " action="{{route("admin_users_update")}}" method="post" enctype="multipart/form-data">
+        @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+                {{$errors->first()}}
+            </div>
+        @endif
+        @if(session('message_info'))
+            <div class="alert alert-success" role="alert">
+                {{session('message_info')}}
+            </div>
+        @endif
         @csrf
         <h1 class="text-center font-weight-normal">Editar Usuario</h1>
         <br><br>
@@ -58,7 +58,7 @@
              </div>
              <div class="form-group col-6  col-sm-12">
                 <label for="rol_input">Estado</label>
-                <select name="status" class="form-control" id="status">
+                <select name="status" class="form-control" id="status" required>
                     <option @if($edit_user->status==1) selected @endif value="1">Activo</option>
                     <option @if($edit_user->status==0) selected @endif value="0">Inactivo</option>
                 </select>
@@ -67,13 +67,13 @@
         <div class="form-row">
             <div class="form-group col-6">
                 <label for="council_id">Consejo</label>
-                <select name="council_id" class="form-control" id="council_id">
+                <select name="council_id" class="form-control" id="council_id" required>
                     <option selected value="{{$currentCouncil->id}}">{{$currentCouncil->name}}</option>
                 </select>
             </div>
             <div class="form-group col-6">
                 <label for="rol_input">Rol</label>
-                <select name="rol" class="form-control" id="rol">
+                <select name="rol" class="form-control" id="rol" required>
                     @foreach($roles as $rol)
                         @if($rol->name!="admin")
                             <option {{$edit_user->hasRole($rol->name)?"selected":""}} value="{{$rol->name}}">{{$rol->display_name}}</option>
@@ -86,6 +86,9 @@
         <br>
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Registrar</button>
+        </div>
+        <div class="justify-content-center text-center">
+            <a href="{{route("admin_users")}}"><br>Ver Usuarios</a>
         </div>
     </form>
 </div>

@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Registrar consejo")
+@section('title' , "Registrar Consejo")
 
 @section('links')
 	<link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -8,19 +8,18 @@
 
 @section('content')
 
-
-@if($errors->any())
-	@foreach ($errors->all() as $error)
-        {{$error}}
-	@endforeach
-@endif
-
-@if(session('message_info'))
-    {{session('message_info')}}
-@endif
-
 <div class="row justify-content-center">
 	<form class="form-signin col-lg-8 col-md-10 col-sm-12" action="{{route("admin_councils_create")}}" method="post" enctype="multipart/form-data">
+        @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+                {{$errors->first()}}
+            </div>
+        @endif
+        @if(session('message_info'))
+            <div class="alert alert-success" role="alert">
+                {{session('message_info')}}
+            </div>
+        @endif
 		@csrf
 		<h1 class="text-center mr1 font-weight-normal">Registrar Consejo</h1>
 		<br><br>

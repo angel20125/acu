@@ -5,12 +5,12 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " >
-			Nombre  <br> (rol) 
+			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->name}}) 
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="">
-			Editar perfil  
+			Editar Perfil  
 		</a>
 	</li>
 	
@@ -25,14 +25,14 @@
 <ul class="nav flex-column">
 	<li class="nav-item-active">
 		<a class="nav-link  " href="#">
-			Ver agendas
+			Ver Agendas
 		</a>
 	</li>
 
 	
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			Agregar punto
+			Agregar Punto
 		</a>
 	</li>
 </ul>
@@ -46,7 +46,7 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("admin_councils")}}">
-			Ver consejos
+			Ver Consejos
 		</a>
 	</li>
 	<li class="nav-item">
@@ -56,7 +56,7 @@
 	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("admin_users")}}">
-			Ver usuarios
+			Ver Usuarios
 		</a>
 	</li>
 	<li class="nav-item">
@@ -75,12 +75,12 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("dashboard")}}">
-			Ver reuniones
+			Ver Reuniones
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			Registrar reunion
+			Registrar Reunión
 		</a>
 	</li>
 

@@ -10,29 +10,30 @@
 
 @section('content')
 
-
+<br>
 @if($errors->any())
-    @foreach ($errors->all() as $error)
-        {{$error}}
-    @endforeach
+    <div class="alert alert-danger" role="alert">
+        {{$errors->first()}}
+    </div>
 @endif
-
 @if(session('message_info'))
-    {{session('message_info')}}
+    <div class="alert alert-success" role="alert">
+        {{session('message_info')}}
+    </div>
 @endif
  
 <div class="row justify-content-end">
     <div class=" col-lg-2 col-md-3 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_councils_create")}}" role="button">Crear consejo</a>
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_councils_create")}}" role="button">Crear Consejo</a>
     </div>
 </div>
 <br>
-<table id="table" class="table table-striped mr1 " cellspacing="0" width="100%">
+<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th  scope="col">Nombre del consejo</th>
             <th  scope="col">Fecha de creación</th>
-            <th  scope="col"></th>
+            <th  scope="col"><i class="fa fa-sync"></i></th>
         </tr>
     </thead>
 </table>
