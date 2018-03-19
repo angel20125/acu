@@ -8,6 +8,18 @@
 
 @section('content')
 
+<br>
+@if($errors->any())
+    <div class="alert alert-danger" role="alert">
+        {{$errors->first()}}
+    </div>
+@endif
+@if(session('message_info'))
+    <div class="alert alert-success" role="alert">
+        {{session('message_info')}}
+    </div>
+@endif
+
 <div class="row justify-content-center">
 	<div class="card text-center col-lg-3 col-md-5 col-sm-10">
 		<div class="card-body">

@@ -30,7 +30,7 @@ class UsersController extends Controller
 
             if($rol->name!="admin")
             {
-                $users_list[]=[$user->email,$user->first_name." ".$user->last_name,$user->identity_card,$user->phone_number,$rol->display_name,$council->name,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+                $users_list[]=[$user->email,$user->first_name." ".$user->last_name,$user->identity_card,$user->phone_number,$rol->display_name,$council->name,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 
@@ -40,6 +40,12 @@ class UsersController extends Controller
     public function getCreate()
     {
     	$councils=Council::all();
+
+        if(count($councils)==0)
+        {
+            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un usuario"]);
+        }
+
     	$roles=Role::all();
         return view("admin.user.create",["councils"=>$councils,"roles"=>$roles]);
     }
@@ -74,7 +80,7 @@ class UsersController extends Controller
     	}
         else
         {
-            return redirect()->back()->withErrors(["Primero debes crear un consejo para crear un usuario"]);
+            return redirect()->back()->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un usuario"]);
         }
 
         $data=($request->only(["identity_card","first_name","last_name","phone_number","email"]));
@@ -94,7 +100,7 @@ class UsersController extends Controller
             $message->to($user->email,$user->first_name);
         });
 
-        return redirect()->route("admin_users_edit",["user_id"=>$user->id])->with(["message_info"=>"Se ha creado el usuario"]);
+        return redirect()->route("admin_users_edit",["user_id"=>$user->id])->with(["message_info"=>"Se ha registrado el usuario"]);
     }
 
     public function getEdit($user_id)

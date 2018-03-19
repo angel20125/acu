@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Registrar agenda")
+@section('title' , "Editar Agenda")
 
 @section('links')
     <link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -21,7 +21,7 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center font-weight-normal">Editar agenda</h1>
+        <h1 class="text-center font-weight-normal">Editar Agenda</h1>
         <br><br>
     
 

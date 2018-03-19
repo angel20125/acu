@@ -63,7 +63,6 @@
 			<div class="form-group col-6">
 			    <label for="council_id">Consejo</label>
 			    <select name="council_id" class="form-control" id="council_id" required>
-			    	<option selected>Seleccione...</option>
 			       	@foreach($councils as $council)
 	            		<option value="{{$council->id}}">{{$council->name}}</option>
 	        		@endforeach
@@ -72,7 +71,6 @@
 		  	<div class="form-group col-6">
 			    <label for="rol_input">Rol</label>
 			    <select name="rol" class="form-control" id="rol" required>
-			    	<option selected>Seleccione...</option>
 			    	@foreach($roles as $rol)
 	        			@if($rol->name!="admin")
 	            			<option value="{{$rol->name}}">{{$rol->display_name}}</option>

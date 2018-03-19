@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Usuarios")
+@section('title' , "Agendas")
 
 @section('links')
     
@@ -23,7 +23,7 @@
 
 <div class="row justify-content-end">
     <div class=" col-lg-2 col-md-3 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear agenda</a>
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear Agenda</a>
     </div>
 </div>
 <br>

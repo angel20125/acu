@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Eliminar agenda")
+@section('title' , "Eliminar Agenda")
 
 @section('links')
     <link href="{{ asset('css/create_user.css') }}" rel="stylesheet"> 
@@ -22,9 +22,9 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center mr1 font-weight-normal">Eliminar agenda</h1>
+        <h1 class="text-center mr1 font-weight-normal">Eliminar Agenda</h1>
         <br>
-        <h5 class="text-center mr1 font-weight-normal">¿Esta seguro que desea eliminar el usuario ""?</h5>
+        <h5 class="text-center mr1 font-weight-normal">¿Esta seguro que desea eliminar la agenda ""?</h5>
         
         <div class="form-group col-10 offset-1">
             <label for="firstname_input">Escriba Eliminar en el campo para confirmar</label>

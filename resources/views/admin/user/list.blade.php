@@ -10,7 +10,7 @@
 
 @section('content')
 
-</b>
+<br>
 @if($errors->any())
     <div class="alert alert-danger" role="alert">
         {{$errors->first()}}
@@ -24,7 +24,7 @@
 
 <div class="row justify-content-end">
     <div class=" col-lg-2 col-md-3 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Crear Usuario</a>
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Registrar Usuario</a>
     </div>
 </div>
 <br>

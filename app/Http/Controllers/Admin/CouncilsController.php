@@ -21,7 +21,7 @@ class CouncilsController extends Controller
         $councils_list=[];
         foreach($councils as $council)
         {
-            $councils_list[]=[$council->name,\DateTime::createFromFormat("Y-m-d H:i:s",$council->created_at)->format("d-m-Y"),'<a href="'.route("admin_councils_edit",["council_id"=>$council->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_councils_trash",["council_id"=>$council->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+            $councils_list[]=[$council->name,\DateTime::createFromFormat("Y-m-d H:i:s",$council->created_at)->format("d-m-Y"),'<a href="'.route("admin_councils_edit",["council_id"=>$council->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_councils_trash",["council_id"=>$council->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
 
         return response()->json(['data' => $councils_list]);
@@ -39,12 +39,12 @@ class CouncilsController extends Controller
         $checkCouncil=Council::where("name",$data["name"])->first();
         if($checkCouncil)
         {
-            return redirect()->back()->withErrors(["El consejo que trata de crear ya existe"]);
+            return redirect()->back()->withErrors(["El consejo que trata de registar ya existe"]);
         }
 
         $council=Council::create($data);
 
-        return redirect()->route("admin_councils_edit",["council_id"=>$council->id])->with(["message_info"=>"Se ha creado el consejo"]);
+        return redirect()->route("admin_councils_edit",["council_id"=>$council->id])->with(["message_info"=>"Se ha registrado el consejo"]);
     }
 
     public function getEdit($council_id)
