@@ -13,3 +13,4 @@ patron =/[A-Za-z\s]/;
 te = String.fromCharCode(tecla);
 return patron.test(te); 
 }
+

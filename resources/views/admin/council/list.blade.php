@@ -4,7 +4,7 @@
 
 @section('links')
     
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> 
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
    
 @endsection
 
@@ -28,6 +28,8 @@
     </div>
 </div>
 <br>
+
+<div class="table-responsive">
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
@@ -37,7 +39,7 @@
         </tr>
     </thead>
 </table>
-
+</div>
 
 @endsection
 

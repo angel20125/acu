@@ -6,7 +6,6 @@
 
 @section('title' , "Ingresar")
 
-
 @section('content')
 
 	<form class="form-signin" action="{{route("post_login")}}" method="post">

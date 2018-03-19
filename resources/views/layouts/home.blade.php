@@ -6,7 +6,6 @@
 	<link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
 
 	<title>@yield('title') - ACU</title>
-
 	
 	<!-- Custom styles for this template -->
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -18,14 +17,10 @@
 </head>
 
 <body>
-
-
 	<!-- Barra de navegacion fija -->
 	@include("includes.header")
- 	
 
 <div class="container-fluid">
-	
 		<!-- SideBar -->
 		<nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right" > 
 			<div class="sidebar-sticky">
@@ -45,12 +40,9 @@
 		
 	<script  src="{{ asset('js/jquery-3.3.1.js') }}" ></script>
 	<script  src="{{ asset('js/bootstrap.min.js') }} " ></script>
-	
 	<script  src="{{ asset('js/popper.min.js') }}" ></script>
-
 	<!-- Icons -->
 	<script  src="{{ asset('js/fontawesome-all.min.js') }}" ></script>
-	
 	@yield('script')
 </body>
 </html>

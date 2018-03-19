@@ -4,7 +4,7 @@
 
 @section('links')
     
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"> 
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
    
 @endsection
 
@@ -48,9 +48,10 @@
 @endsection
 
 @section('script')
-<script  src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script  src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script  src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+<script  src="{{ asset('js/jquery-1.12.4.js') }}" ></script>
+<script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
+<script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
 
 <script>
     $(document).ready(function() {
