@@ -8,11 +8,15 @@ class Agenda extends Model
 {
   	protected $table = 'agendas';
 	protected $fillable = [
-		'status', 
-		'attached_document', 
+		'status',
+		'attached_document',
 		'description',
-		'date'
+		'event_date'
 	];
+
+    // STATUS
+	const STATUS_ATRATAR = 1;
+	const STATUS_TRATADA = 2;
 
     public function points()
     {
