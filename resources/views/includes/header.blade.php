@@ -18,7 +18,7 @@
 			</ul>
 			<ul class="nav flex-column mr-sm-2" style="margin-left: 2rem !important">
 				<li class="nav-item">
-					<a class="nav-item tette" href="{{route("logout")}}">
+					<a class="nav-item tette" href="#">
 						<i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="bottom" title="Cerrar Sesión"></i>
 					</a>
 				</li>

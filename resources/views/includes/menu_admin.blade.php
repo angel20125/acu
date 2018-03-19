@@ -72,7 +72,6 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link" href="{{route("dashboard")}}">
-		<a class="nav-link" href="#">
 			Ver Reuniones
 		</a>
 	</li>
