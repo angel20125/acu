@@ -23,7 +23,7 @@
 			</div>
 		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Registrar usuario</h1>
+		<h1 class="text-center font-weight-normal">Registrar Usuario</h1>
 		<br><br>
 
 	  	<div class="form-row">
