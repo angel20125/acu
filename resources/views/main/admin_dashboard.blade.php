@@ -33,7 +33,7 @@
 	</div>
 	<div class="card text-center col-lg-3 col-md-5 col-sm-10">
 		<div class="card-body">
-			<h5 class="card-title">20/03/2018</h5>
+			<h5 class="card-title">21/03/2018</h5>
 			<p class="card-text">Situacion Comedor</p>
 			<a href="#" class="btn btn-primary">Ver reunión</a>
 		</div>
@@ -44,12 +44,12 @@
 
 	<div class="card text-center col-lg-3 col-md-5 col-sm-10  d-md-none d-lg-block">
 		<div class="card-body">
-			<h5 class="card-title">20/03/2018</h5>
+			<h5 class="card-title">30/03/2018</h5>
 			<p class="card-text">Alargue de Semestre</p>
 			<a href="#" class="btn btn-primary">Ver reunión</a>
 		</div>
 		<div class="card-footer text-muted">
-			faltan 9 dias
+			faltan 10 dias
 		</div>
 	</div>
 	

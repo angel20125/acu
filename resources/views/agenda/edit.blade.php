@@ -44,23 +44,20 @@
                     <label class="custom-file-label" for="load_file">Seleccione un archivo .pdf</label>
                 </div>
             </div>
-            @if(file_exists("docs/".$agenda->attached_document))
-                <div class="form-group col-md-12 col-sm-12">
-                    <div>
-                        <a class="btn btn-primary" href="{{asset("docs/".$agenda->attached_document)}}">Archivo .pdf actual</a>
-                    </div>
-                </div>
-            @endif
         </div>
+        @if(file_exists("docs/".$agenda->attached_document))
+
+            <div class="justify-content-center text-center">
+                <button type="submit" class="btn btn-primary " href="{{asset("docs/".$agenda->attached_document)}}">Archivo .pdf actual</button>
+            </div>
+        @endif
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6 col-sm-10">
                 <label for="date_input">Fecha</label>
                 <input name="event_date" type="date" class="form-control" id="date_input" value="{{$agenda->event_date}}">
             </div>
          </div>
-        
         <br>
-
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Guardar</button>
             <br>

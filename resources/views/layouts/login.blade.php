@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<main  class=" col-md-6 col-lg-4 col-sm-6">
+<main  class="text-center col-md-6 col-lg-4 col-sm-6">
      @yield('content')
 </main>
 </body>

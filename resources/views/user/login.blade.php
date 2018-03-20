@@ -8,7 +8,7 @@
 
 @section('content')
 
-	<form class="form-signin text-center" action="{{route("post_login")}}" method="post">
+	<form class="form-signin " action="{{route("post_login")}}" method="post">
         @if($errors->any())
             <div class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}

@@ -3,7 +3,7 @@
 @section('title' , "Editar Usuario")
 
 @section('links')
-   
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/create_user.css') }}">
 @endsection
 
 @section('content')
@@ -39,11 +39,11 @@
 
         <div class="form-row">
             <div class="form-group col-md-6 col-sm-12 " >
-                <label for="identity_card">Cedula</label>
+                <label for="identity_card">Cédula</label>
                 <input name="identity_card" type="text" id="identity_card" class="form-control" placeholder="12345678" required autofocus onkeypress="return numeros(event)" value="{{$edit_user->identity_card}}">
             </div>
             <div class="form-group col-md-6 col-sm-12">
-                <label for="phone_input">Telefono</label>
+                <label for="phone_input">Teléfono</label>
                 <div class="input-group mb-3">
                     <input name="phone_number" type="text" id="phone_number" class="form-control" placeholder="04241234567" aria-label="Telefono" aria-describedby="basic-addon1" maxlength="11" minlength="11"  required autofocus onkeypress="return numeros(event)" value="{{$edit_user->phone_number}}">
                 </div>
@@ -97,4 +97,3 @@
 @section('script')
     <script type="text/javascript" src="{{ asset('js/create_user.js') }}"></script>
 @endsection
-
