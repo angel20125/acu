@@ -30,7 +30,7 @@
 		    <div class="form-group col-md-6 col-sm-12">
 		      	<label for="firstname_input">Nombre</label>
 				<div class="input-group mb-3">
-				  	<input name="first_name" type="text" id="first_name" class="form-control" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1" required autofocus onkeypress="return validar(event)">
+				  	<input name="first_name" type="text" id="first_name" class="form-control" placeholder="Nombre" aria-label="Nombre"  aria-describedby="basic-addon1" required autofocus onkeypress="return validar(event)">
 				</div>
 		    </div>
 		    <div class="form-group col-md-6 col-sm-12">
