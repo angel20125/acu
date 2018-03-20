@@ -36,7 +36,7 @@ class RolesSeeder extends Seeder
 
 			// Admin
 			['name' 		=> 'admin',
-			 'display_name' => 'Admin' ],
+			 'display_name' => 'Administrador' ],
 
 			// Presidente
 			['name' 		=> 'presidente',

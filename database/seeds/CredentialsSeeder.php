@@ -38,10 +38,10 @@ class CredentialsSeeder extends Seeder
 
 			//Súper Admin
 			['identity_card' 	=> 'admin',
-			 'first_name' 		=> 'admin', 
-			 'last_name' 		=> 'admin', 
+			 'first_name' 		=> 'Administrador', 
+			 'last_name' 		=> 'ACU', 
 			 'phone_number' 	=> 'admin', 
-			 'email' 			=> 'admin_acu@gmail.com', 
+			 'email' 			=> 'acu.uneg@gmail.com', 
 			 'password' 		=> 'admin1234' ],
 		]];
 
@@ -63,7 +63,7 @@ class CredentialsSeeder extends Seeder
 
         // Usuario Administrador
 
-        $user = User::where('first_name','admin')->first();
+        $user = User::where('first_name','Administrador')->first();
         $role = Role::where('name','admin')->first();
 
         $user->attachRole($role);
