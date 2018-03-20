@@ -46,11 +46,11 @@ Route::get('admin/users/trash/{user_id}', 'Admin\UsersController@getTrash')->mid
 Route::post('admin/users/delete', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
 
 //Agenda
-Route::get('admin/agendas', 'Agenda\UsersController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');
-Route::get('admin/agendas/get', 'Agenda\UsersController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_agendas');
-Route::get('admin/agendas/create', 'Agenda\UsersController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
-Route::post('admin/agendas/create', 'Agenda\UsersController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
-Route::get('admin/agendas/edit/{agenda_id}', 'Agenda\UsersController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_edit');
-Route::post('admin/agendas/edit', 'Agenda\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_update');
-Route::get('admin/agendas/trash/{agenda_id}', 'Agenda\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_trash');
-Route::post('admin/agendas/delete', 'Agenda\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_delete');
+Route::get('admin/agendas', 'Admin\AgendaController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');
+Route::get('admin/agendas/get', 'Admin\AgendaController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_agendas');
+Route::get('admin/agendas/create', 'Admin\AgendaController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
+Route::post('admin/agendas/create', 'Admin\AgendaController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
+Route::get('admin/agendas/edit/{agenda_id}', 'Admin\AgendaController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_edit');
+Route::post('admin/agendas/edit', 'Admin\AgendaController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_update');
+Route::get('admin/agendas/trash/{agenda_id}', 'Admin\AgendaController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_trash');
+Route::post('admin/agendas/delete', 'Admin\AgendaController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_delete');

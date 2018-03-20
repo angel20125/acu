@@ -15,7 +15,7 @@ class AgendaController extends Controller
 {
     public function getIndex()
     {
-        return view("admin.agenda.list");
+        return view("agenda.list");
     }
 
     public function getList()
@@ -32,7 +32,7 @@ class AgendaController extends Controller
 
     public function getCreate()
     {
-        return view("admin.agenda.create");
+        return view("agenda.create");
     }
 
     public function create(CreateAgendaRequest $request)
@@ -54,7 +54,7 @@ class AgendaController extends Controller
     public function getEdit($agenda_id)
     {
         $agenda=Agenda::where("id",$agenda_id)->first();
-        return view("admin.agenda.edit",["agenda"=>$agenda]);
+        return view("agenda.edit",["agenda"=>$agenda]);
     }
 
     public function update(UpdateAgendaRequest $request)
@@ -74,7 +74,7 @@ class AgendaController extends Controller
     {
         $agenda=Agenda::where("id",$agenda_id)->first();
 
-        return view("admin.agenda.trash",["agenda"=>$agenda]);
+        return view("agenda.trash",["agenda"=>$agenda]);
     }
 
     public function delete(DeleteAgendaRequest $request)
