@@ -46,20 +46,11 @@ Route::get('admin/users/trash/{user_id}', 'Admin\UsersController@getTrash')->mid
 Route::post('admin/users/delete', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
 
 //Agenda
-Route::group([
-    'prefix' => 'admin',
-    'namespace' => 'Admin',
-], function() {
-
-    Route::group([
-        'prefix' => 'agenda',
-    ], function() {
-        Route::get('', 'AgendaController@index');
-        Route::get('{id}','AgendaController@show');
-        Route::get('create', 'AgendaController@create');
-        Route::post('create', 'AgendaController@store');
-        Route::post('update/{agenda_id}', 'AgendaController@update');
-        Route::delete('delete/{agenda_id}', 'AgendaController@delete');
-    });
-
-});
+Route::get('admin/agendas', 'Agenda\UsersController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');
+Route::get('admin/agendas/get', 'Agenda\UsersController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_agendas');
+Route::get('admin/agendas/create', 'Agenda\UsersController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
+Route::post('admin/agendas/create', 'Agenda\UsersController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
+Route::get('admin/agendas/edit/{agenda_id}', 'Agenda\UsersController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_edit');
+Route::post('admin/agendas/edit', 'Agenda\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_update');
+Route::get('admin/agendas/trash/{agenda_id}', 'Agenda\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_trash');
+Route::post('admin/agendas/delete', 'Agenda\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_delete');
