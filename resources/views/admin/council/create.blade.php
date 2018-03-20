@@ -24,7 +24,7 @@
 		<h1 class="text-center mr1 font-weight-normal">Registrar Consejo</h1>
 		<br><br>
 		<div class="form-group col-md-10  offset-md-1 offset-sm-0">
-	      	<label for="firstname_input">Nombre</label>
+	      	<label for="name_input">Nombre</label>
 			<div class="input-group mb-3">
 			  	<input name="name" type="text" id="name" class="form-control" placeholder="Nombre del consejo" aria-label="Nombre" aria-describedby="basic-addon1" required autofocus >
 			</div>

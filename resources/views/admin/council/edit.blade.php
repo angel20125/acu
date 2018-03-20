@@ -24,7 +24,7 @@
 		<h1 class="text-center mr1 font-weight-normal">Editar Consejo</h1>
 		<br><br>
 		<div class="form-group col-10 offset-1">
-	      	<label for="firstname_input">Nombre</label>
+	      	<label for="name_input">Nombre</label>
 			<div class="input-group mb-3">
 				<input type="hidden" name="council_id" value="{{$council->id}}"/>
 			  	<input name="name" type="text" id="name" class="form-control" aria-label="Nombre" aria-describedby="basic-addon1" value="{{$council->name}}" required autofocus >

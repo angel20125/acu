@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Agendas")
+@section('title' , "Reuniones")
 
 @section('links')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
@@ -21,8 +21,8 @@
 @endif
 
 <div class="row justify-content-end">
-    <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4">
-        <a class="btn  mr1 btn-outline-dark  "  href="#" role="button">Registrar Agenda</a>
+    <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4 ">
+        <a class="btn  mr1 btn-outline-dark  "  href="#" role="button">Registrar Reunión</a>
     </div>
 </div>
 <br>
@@ -31,10 +31,8 @@
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Consejo</th>
+            <th>Presidente</th>
             <th>Fecha </th>
-            <th>Estado</th>
-            
             <th><i class="fa fa-sync"></i></th>
         </tr>
     </thead>

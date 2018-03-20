@@ -31,8 +31,8 @@
         </div>
         <div class="form-row form-group">
             <div class="form-group col-md-6 col-sm-12">
-                <label for="council_id">Estado</label>
-                <select name="council_id" class="form-control" id="council_id" >
+                <label for="status_input">Estado</label>
+                <select name="status" class="form-control" id="status" >
                     
                         <option >a tratar</option>
                   
@@ -40,17 +40,17 @@
                 </select>
             </div>
             <div class="form-group col-md-6 col-sm-12">
-                <label for="phone_input">Cargar Archivo</label>
+                <label for="load_file_input">Cargar Archivo</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFileLang" lang="es">
-                    <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+                    <input name="load_file" type="file" class="custom-file-input" id="load_file" lang="es">
+                    <label class="custom-file-label" for="load_file">Seleccionar Archivo</label>
                 </div>
             </div>
         </div>
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6 col-sm-10">
-                <label for="council_id">Fecha</label>
-                <input type="date" class="form-control">
+                <label for="date_input">Fecha</label>
+                <input name="date" type="date" class="form-control" id="date_input">
             </div>
          </div>
         
