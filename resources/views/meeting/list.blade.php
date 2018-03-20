@@ -22,7 +22,7 @@
 
 <div class="row justify-content-end">
     <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark"  href="#" role="button">Registrar Reunión</a>
+        <a class="btn  mr1 btn-outline-dark"  href="#" role="button">Convocar Reunión</a>
     </div>
 </div>
 <br>

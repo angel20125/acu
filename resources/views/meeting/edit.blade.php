@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Editar reunión")
+@section('title' , "Editar Reunión")
 
 @section('links')
     <link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -21,7 +21,7 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center font-weight-normal">Editar reunión</h1>
+        <h1 class="text-center font-weight-normal">Editar Reunión</h1>
         <br><br>
     
         <div class="form-row justify-content-center">
@@ -33,7 +33,7 @@
                 
                 <label for="president_input">Presidente</label>
                 <select name="president" class="form-control" id="president" required>
-                    <option> Victor Leon</option>
+                    <option> Victor León</option>
                     
                 </select>
 
@@ -43,7 +43,7 @@
         <br>
 
         <div class="justify-content-center text-center">
-            <button type="submit" class="btn btn-primary ">Registrar</button>
+            <button type="submit" class="btn btn-primary ">Actualizar</button>
         </div>
     </form>
 </div>

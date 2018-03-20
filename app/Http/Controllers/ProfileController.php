@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\EditProfileRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
@@ -131,6 +132,52 @@ class ProfileController extends Controller
         User::where("id",$user->id)->update(["password"=>Hash::make($password)]);
         TokenReset::where("token",$token->token)->delete();
         return redirect()->route("login")->with(["message_info"=>"La contraseña se ha cambiado exitosamente"]);
+    }
+
+    public function getProfile()
+    {
+        return view("user.edit");
+    }
+
+    public function saveProfile(EditProfileRequest $request)
+    {
+        $user=User::getCurrent();
+        
+        $data=$request->only(["first_name","last_name","identity_card","phone_number","email"]);
+        $password=$request->get("password");
+
+        if($password && !empty($password))
+        {
+            $confirm_password=$request->get("confirm_password");
+
+            if($password!=$confirm_password)
+            {
+                return redirect()->back()->withErrors(["Las contraseñas no coinciden"]);
+            }
+
+            if(strlen($password)<5)
+            {
+                return redirect()->back()->withErrors(["La contraseña debe tener al menos 5 caracteres"]);
+            }
+
+            User::where("id",$user->id)->update(["password"=>Hash::make($password)]);
+        }
+
+        $check_user=User::where("identity_card",$data["identity_card"])->first();
+        if($check_user && $check_user->id!=$user->id)
+        {
+            return redirect()->back()->withErrors(["Ya existe un usuario con esa cédula de identidad"]);
+        }
+
+        $check_user=User::where("email",$data["email"])->first();
+        if($check_user && $check_user->id!=$user->id)
+        {
+            return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
+        }
+
+        User::where("id",$user->id)->update($data);
+        
+        return redirect()->route("profile")->with(["message_info"=>"La información de su perfil ha sido actualizada"]);
     }
 
     public function getDashboard()

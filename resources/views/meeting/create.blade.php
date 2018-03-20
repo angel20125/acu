@@ -1,7 +1,7 @@
 
 @extends('layouts.home')
 
-@section('title' , "Registrar Agenda")
+@section('title' , "Convocar Reunión")
 
 @section('links')
 	<link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -22,7 +22,7 @@
 			</div>
 		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Registrar reunión</h1>
+		<h1 class="text-center font-weight-normal">Convocar Reunión</h1>
 		<br><br>
   	
 		<div class="form-row justify-content-center">
@@ -41,7 +41,7 @@
 		<br>
 
 		<div class="justify-content-center text-center">
-	  		<button type="submit" class="btn btn-primary ">Registrar</button>
+	  		<button type="submit" class="btn btn-primary ">Convocar</button>
 	  	</div>
 	</form>
 </div>

@@ -9,11 +9,11 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->name}}) 
+			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->display_name}}) 
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link  " href="#">
+		<a class="nav-link  " href="{{route("profile")}}">
 			Editar Perfil  
 		</a>
 	</li>

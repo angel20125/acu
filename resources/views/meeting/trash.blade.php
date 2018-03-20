@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Eliminar reunión")
+@section('title' , "Eliminar Reunión")
 
 @section('links')
     <link href="{{ asset('css/create_user.css') }}" rel="stylesheet"> 
@@ -22,7 +22,7 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center mr1 font-weight-normal">Eliminar reunión</h1>
+        <h1 class="text-center mr1 font-weight-normal">Eliminar Reunión</h1>
         <br>
         <h5 class="text-center mr1 font-weight-normal">¿Esta seguro que desea eliminar la reunión?</h5>
         

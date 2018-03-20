@@ -14,6 +14,10 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('inicio', 'ProfileController@getDashboard')->middleware('logged')->name('dashboard');
 
+//Profile Controller
+Route::get('perfil', 'ProfileController@getProfile')->middleware('logged')->name('profile');
+Route::post('perfil/editar', 'ProfileController@saveProfile')->middleware('logged')->name('save_profile');
+
 //Authentication Routes
 Route::get('login', 'ProfileController@getLogin')->name('login');
 Route::post('login', 'ProfileController@postLogin')->name('post_login');
