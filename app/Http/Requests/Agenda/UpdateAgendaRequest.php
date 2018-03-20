@@ -24,7 +24,7 @@ class UpdateAgendaRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'                => 'integer|required'
+            'agenda_id'         => 'integer|required'
             'status'            => 'integer|required|in:1,2',
             'attached_document' => 'file|max:10240|mimes:doc,pdf,xls,csv,xml,zip,rar',
             'description'       => 'string|required',

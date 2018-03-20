@@ -24,7 +24,7 @@ class DeleteAgendaRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'integer|required',
+            'agenda_id' => 'integer|required',
         ];
     }
 }

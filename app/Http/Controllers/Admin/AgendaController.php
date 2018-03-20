@@ -39,16 +39,15 @@ class AgendaController extends Controller
     {
         $newAgenda = Agenda::create($request->all());
 
-        $points = $request->points; // this is an array of points
+        /*$points = $request->points; // this is an array of points
 
         foreach($points as $key => $point)
         {
             $newPoint = new Point($point);
 
             $newAgenda->points()->save($point);
-
-        }
-
+        }*/
+        
         return redirect()->route("admin_agendas_edit",["agenda_id"=>$agenda->id])->with(["message_info"=>"Se ha registrado la agenda"]);
     }
 
