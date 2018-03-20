@@ -8,7 +8,7 @@
 
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link  " >
+		<a class="nav-link  " href="#">
 			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->name}}) 
 		</a>
 	</li>
@@ -25,7 +25,7 @@
 
 <ul class="nav flex-column">
 	<li class="nav-item-active">
-		<a class="nav-link  " href="#">
+		<a class="nav-link  " href="{{route("admin_agendas")}}">
 			Ver Agendas
 		</a>
 	</li>

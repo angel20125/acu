@@ -25,9 +25,18 @@ class CreateAgendaRequest extends FormRequest
     {
         return [
             'status'            => 'integer|required|in:1,2',
-            'attached_document' => 'file|max:10240|mimes:doc,pdf,xls,csv,xml,zip,rar',
+            'attached_document' => 'file|max:10240|mimes:pdf',
             'description'       => 'string|required',
             'event_date'        => 'date|required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'attached_document.mimes' => 'El documento adjunto debe ser un archivo de tipo: pdf',
+            'description.required' => 'Olvidaste agregar la descripción',
+            'event_date.required' => 'Olvidaste agregar la fecha donde se va a tratar la agenda',
         ];
     }
 }

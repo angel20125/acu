@@ -12,45 +12,48 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('dashboard', 'ProfileController@getDashboard')->middleware("logged")->name('dashboard');
+Route::get('inicio', 'ProfileController@getDashboard')->middleware('logged')->name('dashboard');
 
 //Authentication Routes
 Route::get('login', 'ProfileController@getLogin')->name('login');
 Route::post('login', 'ProfileController@postLogin')->name('post_login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-// Password Reset Routes...
+// Password Reset Routes
 Route::get('password/reset', 'ProfileController@getResetPassword')->name("password_reset");
 Route::post('password/email', 'ProfileController@sendResetLinkEmail')->name("post_password_reset");
 Route::get('password/reset/{token}', 'ProfileController@getResetPasswordToken')->name("password_reset_token");
 Route::post('password/reset', 'ProfileController@resetPassword')->name("post_password_reset_token");
 
+//Admin - Dashboard
+Route::get('admin/inicio', 'Admin\AdminController@getAdminDashboard')->middleware("logged")->middleware(['role:admin'])->name('admin_dashboard');
+
 //Admin - Council
-Route::get('admin/councils', 'Admin\CouncilsController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_councils');
-Route::get('admin/councils/get', 'Admin\CouncilsController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_councils');
-Route::get('admin/councils/create', 'Admin\CouncilsController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_create');
-Route::post('admin/councils/create', 'Admin\CouncilsController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_create');
-Route::get('admin/councils/edit/{council_id}', 'Admin\CouncilsController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_edit');
-Route::post('admin/councils/edit', 'Admin\CouncilsController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_update');
-Route::get('admin/councils/trash/{council_id}', 'Admin\CouncilsController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_trash');
-Route::post('admin/councils/delete', 'Admin\CouncilsController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_delete');
+Route::get('admin/consejos', 'Admin\CouncilsController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_councils');
+Route::get('admin/consejos/obtener', 'Admin\CouncilsController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_councils');
+Route::get('admin/consejos/registrar', 'Admin\CouncilsController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_create');
+Route::post('admin/consejos/registrar', 'Admin\CouncilsController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_create');
+Route::get('admin/consejos/editar/{council_id}', 'Admin\CouncilsController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_edit');
+Route::post('admin/consejos/editar', 'Admin\CouncilsController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_update');
+Route::get('admin/consejos/eliminar/{council_id}', 'Admin\CouncilsController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_trash');
+Route::post('admin/consejos/eliminar', 'Admin\CouncilsController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_delete');
 
 //Admin - Users
-Route::get('admin/users', 'Admin\UsersController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_users');
-Route::get('admin/users/get', 'Admin\UsersController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_users');
-Route::get('admin/users/create', 'Admin\UsersController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
-Route::post('admin/users/create', 'Admin\UsersController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
-Route::get('admin/users/edit/{user_id}', 'Admin\UsersController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_users_edit');
-Route::post('admin/users/edit', 'Admin\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_users_update');
-Route::get('admin/users/trash/{user_id}', 'Admin\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_users_trash');
-Route::post('admin/users/delete', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
+Route::get('admin/usuarios', 'Admin\UsersController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_users');
+Route::get('admin/usuarios/obtener', 'Admin\UsersController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_users');
+Route::get('admin/usuarios/registrar', 'Admin\UsersController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
+Route::post('admin/usuarios/registrar', 'Admin\UsersController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
+Route::get('admin/usuarios/editar/{user_id}', 'Admin\UsersController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_users_edit');
+Route::post('admin/usuarios/editar', 'Admin\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_users_update');
+Route::get('admin/usuarios/eliminar/{user_id}', 'Admin\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_users_trash');
+Route::post('admin/usuarios/eliminar', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
 
-//Agenda
-Route::get('admin/agendas', 'Admin\AgendaController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');
-Route::get('admin/agendas/get', 'Admin\AgendaController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_agendas');
-Route::get('admin/agendas/create', 'Admin\AgendaController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
-Route::post('admin/agendas/create', 'Admin\AgendaController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
-Route::get('admin/agendas/edit/{agenda_id}', 'Admin\AgendaController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_edit');
-Route::post('admin/agendas/edit', 'Admin\AgendaController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_update');
-Route::get('admin/agendas/trash/{agenda_id}', 'Admin\AgendaController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_trash');
-Route::post('admin/agendas/delete', 'Admin\AgendaController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_delete');
+//Admin - Agenda
+Route::get('admin/agendas', 'AgendaController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');
+Route::get('admin/agendas/obtener', 'AgendaController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_agendas');
+Route::get('admin/agendas/registrar', 'AgendaController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
+Route::post('admin/agendas/registrar', 'AgendaController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
+Route::get('admin/agendas/editar/{agenda_id}', 'AgendaController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_edit');
+Route::post('admin/agendas/editar', 'AgendaController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_update');
+Route::get('admin/agendas/eliminar/{agenda_id}', 'AgendaController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_trash');
+Route::post('admin/agendas/eliminar', 'AgendaController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_delete');

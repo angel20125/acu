@@ -21,8 +21,8 @@
 @endif
 
 <div class="row justify-content-end">
-    <div class=" col-lg-2 col-md-3 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark  "  href="#" role="button">Crear Agenda</a>
+    <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4">
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_agendas_create")}}" role="button">Registrar Agenda</a>
     </div>
 </div>
 <br>
@@ -31,10 +31,9 @@
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Consejo</th>
-            <th>Fecha </th>
+            <th>Descripción</th>
+            <th>Fecha a tratar</th>
             <th>Estado</th>
-            
             <th><i class="fa fa-sync"></i></th>
         </tr>
     </thead>
@@ -44,7 +43,42 @@
 @endsection
 
 @section('script')
+
+<script  src="{{ asset('js/jquery-1.12.4.js') }}" ></script>
+<script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
+<script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
+
 <script>
-    
+    $(document).ready(function() {
+        $('#table').DataTable( {
+            "ajax": '{{route("get_admin_agendas")}}',
+            "columnDefs": [{ "orderable": false, "targets": -1 }],
+            "iDisplayLength": 10,
+            "language": {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ agendas",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando de _START_ a _END_ agendas de un total de _TOTAL_",
+                "sInfoEmpty":      "No se ha registrado ninguna agenda",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ agendas)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        } );
+    });
 </script>
 @endsection

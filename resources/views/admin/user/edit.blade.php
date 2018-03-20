@@ -97,3 +97,4 @@
 @section('script')
     <script type="text/javascript" src="{{ asset('js/create_user.js') }}"></script>
 @endsection
+

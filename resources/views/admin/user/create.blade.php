@@ -1,3 +1,5 @@
+
+
 @extends('layouts.home')
 
 @section('title' , "Registrar Usuario")

@@ -142,7 +142,7 @@ class ProfileController extends Controller
         {
             if($rol->name=="admin")
             {
-                return view("main.admin_dashboard");
+                return redirect()->route("admin_dashboard");
             }
 
             if($rol->name=="presidente")
