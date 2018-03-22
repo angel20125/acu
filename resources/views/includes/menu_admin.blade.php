@@ -29,6 +29,11 @@
 			Ver Agendas
 		</a>
 	</li>
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("admin_agendas_create")}}">
+			Registrar Agendas
+		</a>
+	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
 			Agregar Punto

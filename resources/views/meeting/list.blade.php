@@ -19,7 +19,7 @@
         {{session('message_info')}}
     </div>
 @endif
-
+ <h1 class="text-center mr1 font-weight-normal">Lista de Reuniones</h1>
 <div class="row justify-content-end">
     <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4 ">
         <a class="btn  mr1 btn-outline-dark"  href="#" role="button">Convocar Reunión</a>
@@ -33,7 +33,7 @@
         <tr>
             <th>Presidente</th>
             <th>Fecha </th>
-            <th><i class="fa fa-sync"></i></th>
+            <th><i></i></th>
         </tr>
     </thead>
 </table>

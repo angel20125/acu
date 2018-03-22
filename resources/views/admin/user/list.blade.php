@@ -21,7 +21,7 @@
         {{session('message_info')}}
     </div>
 @endif
-
+ <h1 class="text-center mr1 font-weight-normal">Lista de Usuarios</h1>
 <div class="row justify-content-end">
     <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4">
         <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Registrar Usuario</a>
@@ -33,13 +33,13 @@
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Correo</th>
             <th>Usuario </th>
             <th>Cédula</th>
+            <th>Correo</th>
             <th>Teléfono</th>
             <th>Rol</th>
             <th>Consejo</th>
-            <th><i class="fa fa-sync"></i></th>
+            <th><i ></i></th>
         </tr>
     </thead>
 </table>

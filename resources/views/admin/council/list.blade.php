@@ -21,13 +21,15 @@
         {{session('message_info')}}
     </div>
 @endif
- 
+ <h1 class="text-center mr1 font-weight-normal">Lista de Consejos</h1>
 <div class="row justify-content-end">
     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 ">
         <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_councils_create")}}" role="button">Registrar Consejo</a>
     </div>
 </div>
-<br>
+
+
+        <br>
 
 <div class="table-responsive">
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -35,7 +37,7 @@
         <tr>
             <th  scope="col">Nombre del consejo</th>
             <th  scope="col">Fecha de creación</th>
-            <th  scope="col"><i class="fa fa-sync"></i></th>
+            <th  scope="col"><i ></i></th>
         </tr>
     </thead>
 </table>

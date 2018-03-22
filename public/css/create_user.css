@@ -3,14 +3,11 @@ body {
   height: 100%;
 }
 body {
-   
+  
   -ms-flex-pack: center;
   -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  
-  
+   -webkit-box-pack: center;
+  justify-content: center; 
 }
 
 

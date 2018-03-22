@@ -29,30 +29,13 @@
 	   		<label for="description">Descripción</label>
 	    	<textarea name="description" class="form-control" id="description" rows="3" required></textarea>
 	    </div>
-		<div class="form-row form-group">
-			<div class="form-group col-md-6 col-sm-12">
-			    <label for="status_input">Estado</label>
-			    <select name="status" class="form-control" id="status" readonly>
-			    	<option selected value="1">A tratar</option>
-			    </select>
-			</div>
-		  	<div class="form-group col-md-6 col-sm-12">
-				<label for="load_file_input">Cargar Archivo</label>
-				<div class="custom-file">
-  					<input name="attached_document" type="file" class="custom-file-input" id="load_file" lang="es" required>
-  					<label class="custom-file-label" for="load_file">Seleccione un archivo .pdf</label>
-				</div>
-			</div>
-		</div>
-		<div class="form-row justify-content-center">
-			<div class="form-group col-md-6 col-sm-10">
-			    <label for="date_input">Fecha</label>
-			    <input name="event_date" type="date" class="form-control" id="date_input">
-			</div>
-		 </div>
-		
+			
 		<br>
 
+		<!-- Aqui el codigo de los puntos-->
+
+
+		<br>
 		<div class="justify-content-center text-center">
 	  		<button type="submit" class="btn btn-primary ">Registrar</button>
 	  	</div>

@@ -37,6 +37,14 @@
 				</div>
 			</div>
 		</div>
+
+
+
+		
+		<div class="custom-file">
+  					<input name="attached_document" type="file" class="custom-file-input" id="load_file" lang="es" required>
+  					<label class="custom-file-label" for="load_file">Seleccione un archivo .pdf</label>
+				</div>
 		
 		<br>
 

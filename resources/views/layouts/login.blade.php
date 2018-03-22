@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<main  class="text-center col-md-6 col-lg-4 col-sm-6">
+<main  class="text-center col-md-6 col-lg-4 col-sm-6 container " style="position: sticky;">
      @yield('content')
 </main>
 </body>

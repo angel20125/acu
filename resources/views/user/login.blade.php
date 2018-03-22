@@ -7,7 +7,7 @@
 @section('title' , "Ingresar")
 
 @section('content')
-
+<div class="row" >
 	<form class="form-signin " action="{{route("post_login")}}" method="post">
         @if($errors->any())
             <div class="alert alert-danger" role="alert">
@@ -20,26 +20,28 @@
 			</div>
 		@endif
         @csrf
-		<img class="mb-4" src="{{ asset('img/icon_uneg.png') }}" alt="" width="74" height="74">
-		<h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
+		<img class="mb-1" src="{{ asset('img/icon_uneg.png') }}" alt="" width="74" height="74">
+		<h5 class="font-weight-normal">Agenda de Consejos Unegista</h5>
+		<h2 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h2>
+
 		
 		<input name="email" type="email" id="inputEmail" class="form-control" placeholder="Correo Electrónico" required autofocus>
 		
 		<input name="password" type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
 		
 		
-		<div class="checkbox mb-3">
+		<div class="checkbox mb-2">
 			<label>
 				<input type="checkbox" value="remember-me"> Recuérdame
 			</label>
 		</div>
 		<div>
-			<button class="btn  btn-primary " type="submit">Ingresar</button>
+			<button class="btn  btn-primary mb-2" type="submit">Ingresar</button>
 		</div>
 		<label>
-			<a href="{{route("password_reset")}}" ><br> ¿Olvidaste tu contraseña? </a>
+			<a href="{{route("password_reset")}}" > ¿Olvidaste tu contraseña? </a>
 		</label>		
 	</form>
-
+</div>
 @endsection
 

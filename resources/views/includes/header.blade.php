@@ -1,7 +1,12 @@
 <header class="navbar navbar-expand-md navbar-dark  bg-dark justify-content-between">
 	
-	<a class="navbar-brand" href="{{route("dashboard")}}">ACU</a>
-		
+	
+	
+		<a class="navbar-brand" href="{{ route('dashboard') }}">
+			<img src="{{ asset('img/icon_uneg_white.png') }}" width="25"" alt="">
+			ACU
+		</a>
+
   
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     	<span class="navbar-toggler-icon"></span>
