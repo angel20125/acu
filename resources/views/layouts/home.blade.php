@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,16 +38,17 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 		
 	<script  src="{{ asset('js/jquery-3.3.1.js') }}" ></script>
-	<script  src="{{ asset('js/bootstrap.min.js') }} " ></script>
 	<script  src="{{ asset('js/popper.min.js') }}" ></script>
+	<script  src="{{ asset('js/bootstrap.min.js') }} " ></script>
+	
 	<!-- Icons -->
 	<script  src="{{ asset('js/fontawesome-all.min.js') }}" ></script>
 	<script type="text/javascript">
 		$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-		
+ 			 $('[data-toggle="tooltip"]').tooltip()
+		})
 	</script>
+	
 	@yield('script')
 </body>
 </html>

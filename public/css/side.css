@@ -90,6 +90,10 @@
   color: floralwhite !important;
 }
 
+.custom-file-label::after{
+  content: "Elegir"  ;
+}
+
 @media only screen and (max-width: 768px) {
   .nav-link{
     color: floralwhite !important;
