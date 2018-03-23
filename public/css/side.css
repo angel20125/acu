@@ -1,11 +1,7 @@
-
-
-.feather {
-  width: 16px;
-  height: 16px;
-  vertical-align: text-bottom;
-}
-
+.navbar{
+    position: sticky !important;
+    top: 0 !important;
+  }
 /*
  * Sidebar
  */
@@ -79,6 +75,9 @@
 .pdd{
   padding: 0em !important;
 }
+.pdr{
+  padding-right: 15px !important;
+}
 
 /*
  * Utilities
@@ -94,5 +93,9 @@
 @media only screen and (max-width: 768px) {
   .nav-link{
     color: floralwhite !important;
+  }
+  .navbar{
+    position: relative !important;
+    top: none !important;
   }
 }

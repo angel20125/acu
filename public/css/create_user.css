@@ -1,9 +1,4 @@
-html,
 body {
-  height: 100%;
-}
-body {
-  
   -ms-flex-pack: center;
   -webkit-box-align: center;
    -webkit-box-pack: center;

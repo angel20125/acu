@@ -1,6 +1,4 @@
-<header class="navbar navbar-expand-md navbar-dark  bg-dark justify-content-between">
-	
-	
+<header class="navbar navbar-expand-md navbar-dark  bg-dark bd-navbar justify-content-between">
 	
 		<a class="navbar-brand" href="{{ route('dashboard') }}">
 			<img src="{{ asset('img/icon_uneg_white.png') }}" width="25"" alt="">

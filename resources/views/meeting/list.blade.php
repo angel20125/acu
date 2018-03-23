@@ -8,7 +8,7 @@
 
 @section('content')
 
-<br>
+
 @if($errors->any())
     <div class="alert alert-danger" role="alert">
         {{$errors->first()}}
@@ -20,9 +20,10 @@
     </div>
 @endif
  <h1 class="text-center mr1 font-weight-normal">Lista de Reuniones</h1>
-<div class="row justify-content-end">
-    <div class=" col-xl-2 col-lg-3 col-md-4 col-sm-4 ">
-        <a class="btn  mr1 btn-outline-dark"  href="#" role="button">Convocar Reunión</a>
+
+<div class="form-group">
+    <div class="  text-right pdr">
+        <a class="btn  mr1 btn-outline-dark  "  href="" role="button">Registrar Reunión</a>
     </div>
 </div>
 <br>

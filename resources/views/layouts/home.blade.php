@@ -11,7 +11,7 @@
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/sticky.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/side.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
+	
 	<link href="{{ asset('css/fa-svg-with-js.css') }}" rel="stylesheet">
 	@yield('links')
 </head>
@@ -20,18 +20,16 @@
 	<!-- Barra de navegacion fija -->
 	@include("includes.header")
 		<!-- SideBar -->
-
-	<nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right" > 
-		<div class="sidebar-sticky">
-			@include("includes.menu_".$user->getCurrentRol()->name)
-		</div>
-	</nav>
-
 <div class="container-fluid">
-		<!-- Contenido de pagina  -->
-		<main role="main" class="col-md-9 ml-sm-auto col-lg-10   " style="marginto">
-			@yield('content')
-		</main>
+	<div class="row flex-xl-nowrap">
+	<div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right sidebar-sticky bd-sidebar" > 
+		@include("includes.menu_".$user->getCurrentRol()->name)
+	</div>
+
+	<!-- Contenido de pagina  -->
+	<main  class="col-md-9 ml-sm-auto col-lg-10  py-md-3 pl-md-5 bd-content" role="main">
+		@yield('content')
+	</main>
 	</div>
 </div>
 
