@@ -9,10 +9,27 @@ class Council extends Model
   	protected $table = 'councils';
 	protected $fillable = [
 		'name',
+		'president_id',
+		'adjunto_id'
 	];
 
-    public function members()
+	public function president()
+	{
+		return $this->hasOne('App\User','id','president_id');
+	}
+
+	public function adjunto()
+	{
+		return $this->hasOne('App\User','id','adjunto_id');
+	}
+
+    public function users()
     {
-        return $this->belongsToMany('App\User','council_user')->withPivot("start_date","end_date");
+        return $this->belongsToMany('App\User','council_user');
+    }
+
+    public function diaries()
+    {
+        return $this->hasMany('App\Models\Diary');
     }
 }

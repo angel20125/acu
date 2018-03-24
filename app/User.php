@@ -25,8 +25,10 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'authorizing',
-        'allocator'
+        'validate',
+        'position_id',
+        'position_boss_id',
+        'user_boss_id'
     ];
 
     /**
@@ -100,28 +102,38 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role');
     }
 
-    public function councils()
+    public function position()
     {
-        return $this->belongsToMany('App\Models\Council','council_user')->withPivot("start_date","end_date");
+        return $this->hasOne('App\Models\Position','position_id');
     }
 
-    public function meetings()
+    public function positionBoss()
     {
-        return $this->belongsToMany('App\Models\Meeting','meeting_user')->withPivot("convene","member");
+        return $this->hasOne('App\Models\Position','position_boss_id');
+    }
+
+    public function boss()
+    {
+        return $this->hasOne('App\User','id','user_boss_id');
+    }
+
+    public function councils()
+    {
+        return $this->belongsToMany('App\Models\Council','council_user');
+    }
+
+    public function diaries()
+    {
+        return $this->belongsToMany('App\Models\Diary','diary_user');
     }
 
     public function points()
     {
-        return $this->belongsToMany('App\Models\Point','point_user')->withPivot("date");
+        return $this->hasMany('App\Models\Point');
     }
 
-    public function handle()
+    public function transactions()
     {
-        return $this->belongsToMany('App\Models\Meeting','meeting_agenda_user');
-    }
-
-    public function present()
-    {
-        return $this->belongsToMany('App\Models\Agenda','agenda_point_user');
+        return $this->hasMany('App\Models\Transaction');
     }
 }

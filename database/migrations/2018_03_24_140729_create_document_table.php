@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAgendasTable extends Migration
+class CreateDocumentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateAgendasTable extends Migration
      */
     public function up()
     {
-        Schema::create('agendas', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('status');
-            $table->text('attached_document');
-            $table->text('description');
-            $table->date('event_date');
+            $table->integer('point_id')->unsigned();
+            $table->foreign('point_id')->references('id')->on('points')->onUpdate('cascade')->onDelete('cascade');
+            $table->text('direction');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateAgendasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agendas');
+        Schema::dropIfExists('documents');
     }
 }

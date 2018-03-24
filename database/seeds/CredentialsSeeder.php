@@ -17,6 +17,7 @@
  */
 
 use Illuminate\Database\Seeder;
+use App\Models\Position;
 use App\Models\Role;
 use App\User;
 
@@ -34,6 +35,13 @@ class CredentialsSeeder extends Seeder
      */
     public function run()
     {
+        //Position Administrador
+        $position = new Position();
+        $position->name = 'Administrador';
+        $position->save();
+
+        $position = Position::where('name','Administrador')->first();
+
 		$data = ['credentials' => [
 
 			//Súper Admin
@@ -42,7 +50,9 @@ class CredentialsSeeder extends Seeder
 			 'last_name' 		=> 'ACU', 
 			 'phone_number' 	=> 'admin', 
 			 'email' 			=> 'acu.uneg@gmail.com', 
-			 'password' 		=> 'admin1234' ],
+			 'password' 		=> 'admin1234',
+             'validate'         => 1,
+             'position_id'      => $position->id],
 		]];
 
 		// Insertar datos en la BD
@@ -56,13 +66,14 @@ class CredentialsSeeder extends Seeder
          								'last_name'     => $user['last_name'],
          								'phone_number'  => $user['phone_number'],
          								'email'         => $user['email'],
-         								'password'      => \Hash::make($user['password'])]);
+                                        'password'      => \Hash::make($user['password']),
+                                        'validate'      => $user['validate'],
+                                        'position_id'   => $user['position_id']]);
         }
 
         /* Predefinimos los permisos para cada usuario */
 
         // Usuario Administrador
-
         $user = User::where('first_name','Administrador')->first();
         $role = Role::where('name','admin')->first();
 
