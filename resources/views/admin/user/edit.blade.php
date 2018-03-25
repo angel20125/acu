@@ -11,12 +11,12 @@
 <div class="row justify-content-center">
     <form class="form-signin col-md-10 col-sm-12 " action="{{route("admin_users_update")}}" method="post" enctype="multipart/form-data">
         @if($errors->any())
-            <div class="alert alert-danger" role="alert">
+            <div style="text-align:center;" class="alert alert-danger" role="alert">
                 {{$errors->first()}}
             </div>
         @endif
         @if(session('message_info'))
-            <div class="alert alert-success" role="alert">
+            <div style="text-align:center;" class="alert alert-success" role="alert">
                 {{session('message_info')}}
             </div>
         @endif
@@ -110,12 +110,12 @@
                 </div>
 
                 @if($council->president_id==$edit_user->id)
-                    <div class="alert alert-primary" role="alert">
-                        <b>Nota:</b> Si deseas degradar el usuario de <b>Presidente</b>, debes hacerlo desde el <b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b>
+                    <div style="text-align:center;" class="alert alert-primary" role="alert">
+                        <b>Nota:</b> Si deseas degradar el usuario de <b>Presidente</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
                     </div>
                 @elseif($council->adjunto_id==$edit_user->id)
-                    <div class="alert alert-primary" role="alert">
-                        <b>Nota:</b> Si deseas degradar el usuario de <b>Adjunto</b>, debes hacerlo desde el <b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b>
+                    <div style="text-align:center;" class="alert alert-primary" role="alert">
+                        <b>Nota:</b> Si deseas degradar el usuario de <b>Adjunto</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
                     </div>
                 @endif
 

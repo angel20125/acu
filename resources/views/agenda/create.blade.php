@@ -11,12 +11,12 @@
 <div class="row justify-content-center">
 	<form class="form-signin col-lg-10 col-md-12 col-sm-12 " action="{{route("admin_agendas_create")}}" method="post" enctype="multipart/form-data">
         @if($errors->any())
-            <div class="alert alert-danger" role="alert">
+            <div style="text-align:center;" class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}
 			</div>
         @endif
         @if(session('message_info'))
-			<div class="alert alert-success" role="alert">
+			<div style="text-align:center;" class="alert alert-success" role="alert">
   				{{session('message_info')}}
 			</div>
 		@endif

@@ -10,12 +10,12 @@
 
 <br>
 @if($errors->any())
-    <div class="alert alert-danger" role="alert">
+    <div style="text-align:center;" class="alert alert-danger" role="alert">
         {{$errors->first()}}
     </div>
 @endif
 @if(session('message_info'))
-    <div class="alert alert-success" role="alert">
+    <div style="text-align:center;" class="alert alert-success" role="alert">
         {{session('message_info')}}
     </div>
 @endif
