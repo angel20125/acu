@@ -67,32 +67,58 @@
 
         @php $i=1; @endphp
         @foreach($edit_user->councils as $key => $council)
+            <input type="hidden" name="councils_transactions[]" value="{{$council->id}}">
             <div class="rol-{{$key}}">
                 <div class="row justify-content-between" style="padding-left: 12px; padding-right: 15px">
                     <h3 class="text-center font-weight-normal" >Rol Actual</h3>
-                    <button value="{{$key}}" type="button" id="remove-rol-{{$key}}" class="btn btn-danger"><i class="fa fa-trash text-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Eliminar Rol"></i>
+                    @if($council->president_id!=$edit_user->id && $council->adjunto_id!=$edit_user->id)
+                        <button value="{{$key}}" type="button" id="remove-rol-{{$key}}" class="btn btn-danger"><i class="fa fa-trash text-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Eliminar Rol"></i></button>
+                    @endif
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6 col-sm-12">
                         <label for="council_id">Consejo</label>
                         <select name="council_id[]" class="form-control" id="council_id" required>
-                            @foreach($councils as $new_council)
-                                <option {{$council->id==$new_council->id?"selected":""}} value="{{$new_council->id}}">{{$new_council->name}}</option>
-                            @endforeach
+                            @if($council->president_id==$edit_user->id)
+                                <option selected value="{{$council->id}}">{{$council->name}}</option>
+                            @elseif($council->adjunto_id==$edit_user->id)
+                                <option selected value="{{$council->id}}">{{$council->name}}</option>
+                            @else
+                                @foreach($councils as $new_council)
+                                    <option {{$council->id==$new_council->id?"selected":""}} value="{{$new_council->id}}">{{$new_council->name}}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label for="rol_input">Rol</label>
                         <select name="roles[]" class="form-control" id="rol" required>
-                            @foreach($roles as $rol)
-                                @if($rol->name!="admin" && $rol->name!="secretaria")
-                                    <option {{$council->pivot->role_id==$rol->id?"selected":""}} value="{{$rol->id}}">{{$rol->display_name}}</option>
-                                @endif
-                            @endforeach
+                            @if($council->president_id==$edit_user->id)
+                                <option selected value="presidente">Presidente</option>
+                            @elseif($council->adjunto_id==$edit_user->id)
+                                <option selected value="adjunto">Adjunto</option>
+                            @else
+                                @foreach($roles as $rol)
+                                    @if($rol->name!="admin" && $rol->name!="secretaria")
+                                        <option {{$council->pivot->role_id==$rol->id?"selected":""}} value="{{$rol->name}}">{{$rol->display_name}}</option>
+                                    @endif
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
+
+                @if($council->president_id==$edit_user->id)
+                    <div class="alert alert-primary" role="alert">
+                        <b>Nota:</b> Si deseas degradar el usuario de <b>Presidente</b>, debes hacerlo desde el <b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b>
+                    </div>
+                @elseif($council->adjunto_id==$edit_user->id)
+                    <div class="alert alert-primary" role="alert">
+                        <b>Nota:</b> Si deseas degradar el usuario de <b>Adjunto</b>, debes hacerlo desde el <b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b>
+                    </div>
+                @endif
+
             </div>
             @php $i++; @endphp
         @endforeach
@@ -136,7 +162,7 @@
 
             function addNew() 
             {
-                inputRol.append('<div style="margin-bottom:50px;" class="rol-'+i+'"><div class="row justify-content-between" style="padding-left: 12px; padding-right: 15px"><h3 class="text-center font-weight-normal" >Rol Extra</h3><button value="'+i+'" type="button" id="remove-rol-'+i+'" class="btn btn-danger"><i class="fa fa-trash text-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Eliminar Rol"></i></div><div class="row"><div class="col-xs-12 col-sm-6"><label for="council_id">Consejo</label><select name="council_id[]" class="form-control" id="council_id" required>@foreach($councils as $council)<option value="{{$council->id}}">{{$council->name}}</option>@endforeach</select></div><div class="col-xs-12 col-sm-6"><label for="rol_input">Rol</label><select name="roles[]" class="form-control" id="rol" required> @foreach($roles as $rol) @if($rol->name!="admin" && $rol->name!="secretaria") <option value="{{$rol->name}}">{{$rol->display_name}}</option> @endif @endforeach</select></div></div></div></div>');
+                inputRol.append('<div style="margin-bottom:50px;" class="rol-'+i+'"><div class="row justify-content-between" style="padding-left: 12px; padding-right: 15px"><h3 class="text-center font-weight-normal" >Rol Extra</h3><button value="'+i+'" type="button" id="remove-rol-'+i+'" class="btn btn-danger"><i class="fa fa-trash text-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Eliminar Rol"></i></button></div><div class="row"><div class="col-xs-12 col-sm-6"><label for="council_id">Consejo</label><select name="council_id[]" class="form-control" id="council_id" required>@foreach($councils as $council)<option value="{{$council->id}}">{{$council->name}}</option>@endforeach</select></div><div class="col-xs-12 col-sm-6"><label for="rol_input">Rol</label><select name="roles[]" class="form-control" id="rol" required> @foreach($roles as $rol) @if($rol->name!="admin" && $rol->name!="secretaria") <option value="{{$rol->name}}">{{$rol->display_name}}</option> @endif @endforeach</select></div></div></div></div>');
 
                 $("#remove-rol-"+i).click(function(event) {
                     $(".rol-"+$(this).val()).remove();
