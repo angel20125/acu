@@ -43,10 +43,11 @@
 	
 	<!-- Icons -->
 	<script  src="{{ asset('js/fontawesome-all.min.js') }}" ></script>
+
 	<script type="text/javascript">
 		$(function () {
  			 $('[data-toggle="tooltip"]').tooltip()
-		})
+		});
 	</script>
 	
 	@yield('script')

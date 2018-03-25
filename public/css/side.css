@@ -5,6 +5,18 @@
 /*
  * Sidebar
  */
+#myProgress {
+    width: 100%;
+    background-color: white;
+}
+#myBar {
+    width: 0%;
+    height: 12px;
+    background-color: #007bff;
+    text-align: center;
+    line-height: 10px;
+}
+
 
 .sidebar {
   position: fixed;
