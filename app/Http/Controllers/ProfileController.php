@@ -12,6 +12,22 @@ use App\Models\TokenReset;
 
 class ProfileController extends Controller
 {
+    public function verify($code)
+    {
+        $user = User::where("confirmation_code",$code)->first();
+
+        if(!$user)
+        {
+            return redirect()->route("login")->withErrors(["No encontramos tu código de confirmación"]);
+        }   
+
+        $user->validate=1;
+        $user->confirmation_code=null;
+        $user->save();
+
+        return redirect()->route("login")->with(["message_info"=>"Tu email ha sido verificado exitosamente, ya puedes iniciar sesión"]);
+    }
+
     public function getLogin()
     {
         $user = User::getCurrent();
@@ -28,6 +44,8 @@ class ProfileController extends Controller
     {
         $data = Input::only('email','password');
 
+        $check_user=User::where("email",$data['email'])->first();
+
         if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']], true))
     	{
             $user = User::getCurrent();
@@ -38,10 +56,19 @@ class ProfileController extends Controller
                 return redirect()->route("logout");
             }
 
+            if($user->validate==0)
+            {
+                return redirect()->back()->withErrors("Debes verificar tu cuenta para poder iniciar sesión, te hemos enviado un correo electrónico para que la verifiques");
+            }
+
             return redirect()->route("dashboard");
         }
 
-        return redirect()->back()->withErrors("Datos incorrectos, verifique por favor");
+        if(!$check_user){
+            return redirect()->back()->withErrors("El email que has introducido es incorrecto");
+        }else{
+            return redirect()->back()->withErrors("La contraseña que has introducido es incorrecta");
+        }
     }
 
     public function getResetPassword()
@@ -93,8 +120,7 @@ class ProfileController extends Controller
             return redirect()->route("dashboard");
         }
 
-        $limitTime=\DateTime::createFromFormat("Y-m-d H:i:s",gmdate("Y-m-d H:i:s"))->sub(new \DateInterval("PT1H"));
-        $token=TokenReset::where("token",$token)->where("created_at",">",$limitTime->format("Y-m-d H:i:s"))->first();
+        $token=TokenReset::where("token",$token)->first();
         
         if(!$token)
         {
@@ -114,9 +140,7 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors(["La contraseña debe tener al menos 5 caracteres"]);
         }
 
-        $limitTime=\DateTime::createFromFormat("Y-m-d H:i:s",gmdate("Y-m-d H:i:s"))->sub(new \DateInterval("PT1H"));
-        $token=TokenReset::where("token",$token)->where("created_at",">",$limitTime->format("Y-m-d H:i:s"))->first();
-
+        $token=TokenReset::where("token",$token)->first();
 
         if(!$token)
         {

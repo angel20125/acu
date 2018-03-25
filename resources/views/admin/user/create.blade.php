@@ -52,17 +52,25 @@
 			</div>
 		</div>
 
-		<div class="form-group ">
-			<label for="email_input">Correo Electrónico</label>
-			<div class="input-group mb-3">
-			    <input name="email" type="email" id="email" class="form-control" placeholder="nombre@ejemplo.com" aria-label="Email" aria-describedby="basic-addon1" required autofocus>
+	  	<div class="form-row">
+		  	<div class="form-group col-md-6 col-sm-12 " >
+				<label for="email_input">Correo Electrónico</label>
+				<input name="email" type="email" id="email" class="form-control" placeholder="nombre@ejemplo.com" aria-label="Email" aria-describedby="basic-addon1" required autofocus>
+			</div>
+			<div class="form-group col-md-6 col-sm-12">
+			    <label for="position_id">Cargo</label>
+			    <select name="position_id" class="form-control" id="position_id" required>
+			       	@foreach($positions as $position)
+	            		<option value="{{$position->id}}">{{$position->name}}</option>
+	        		@endforeach
+			    </select>
 			</div>
 		</div>
 
 		<div class="form-row">
 			<div class="form-group col-6">
 			    <label for="council_id">Consejo</label>
-			    <select name="council_id" class="form-control" id="council_id" required>
+			    <select name="council_id[]" class="form-control" id="council_id" required>
 			       	@foreach($councils as $council)
 	            		<option value="{{$council->id}}">{{$council->name}}</option>
 	        		@endforeach
@@ -70,16 +78,22 @@
 			</div>
 		  	<div class="form-group col-6">
 			    <label for="rol_input">Rol</label>
-			    <select name="rol" class="form-control" id="rol" required>
+			    <select name="roles[]" class="form-control" id="rol" required>
 			    	@foreach($roles as $rol)
-	        			@if($rol->name!="admin")
+	        			@if($rol->name!="admin" && $rol->name!="secretaria")
 	            			<option value="{{$rol->name}}">{{$rol->display_name}}</option>
 	            		@endif
 	        		@endforeach
 			    </select>
 			  </div>
 		</div>
+
 		<br>
+	 	<div id="inputRol"></div>
+
+		<div class="justify-content-end text-right">
+            <button id="btn-add" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Rol Extra</button>
+        </div>
 
 		<div class="justify-content-center text-center">
 	  		<button type="submit" class="btn btn-primary ">Registrar</button>
@@ -92,4 +106,25 @@
 
 @section('script')
 	<script type="text/javascript" src="{{ asset('js/create_user.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            var inputRol = $("#inputRol");
+            var i=0;
+            
+            $("#btn-add").click(function() {
+                i++;
+                addNew();
+            });
+
+            function addNew() 
+            {
+                inputRol.append('<div style="margin-bottom:50px;" class="rol-'+i+'"><div class="row justify-content-between" style="padding-left: 12px; padding-right: 15px"><h3 class="text-center font-weight-normal" >Rol Extra</h3><button value="'+i+'" type="button" id="remove-rol-'+i+'" class="btn btn-danger"><i class="fa fa-trash text-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Eliminar Rol"></i></div><div class="row"><div class="col-xs-12 col-sm-6"><label for="council_id">Consejo</label><select name="council_id[]" class="form-control" id="council_id" required>@foreach($councils as $council)<option value="{{$council->id}}">{{$council->name}}</option>@endforeach</select></div><div class="col-xs-12 col-sm-6"><label for="rol_input">Rol</label><select name="roles[]" class="form-control" id="rol" required> @foreach($roles as $rol) @if($rol->name!="admin" && $rol->name!="secretaria") <option value="{{$rol->name}}">{{$rol->display_name}}</option> @endif @endforeach</select></div></div></div></div>');
+
+	            $("#remove-rol-"+i).click(function(event) {
+	                $(".rol-"+$(this).val()).remove();
+	            });
+            }
+        });
+    </script>
 @endsection

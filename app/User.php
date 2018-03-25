@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'status',
         'validate',
+        'confirmation_code',
         'position_id',
         'position_boss_id',
         'user_boss_id'
@@ -119,7 +120,7 @@ class User extends Authenticatable
 
     public function councils()
     {
-        return $this->belongsToMany('App\Models\Council','council_user');
+        return $this->belongsToMany('App\Models\Council','council_user')->withPivot("role_id");
     }
 
     public function diaries()

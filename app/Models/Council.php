@@ -25,7 +25,7 @@ class Council extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User','council_user');
+        return $this->belongsToMany('App\User','council_user')->withPivot("role_id");;
     }
 
     public function diaries()

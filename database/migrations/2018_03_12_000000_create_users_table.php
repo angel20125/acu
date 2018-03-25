@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('status')->default(1);
             $table->integer('validate')->default(0);
+            $table->string('confirmation_code')->nullable();
 
             $table->integer('position_id')->unsigned();
             $table->foreign('position_id')->references('id')->on('positions')->onUpdate('cascade')->onDelete('restrict');

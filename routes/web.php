@@ -19,6 +19,7 @@ Route::get('perfil', 'ProfileController@getProfile')->middleware('logged')->name
 Route::post('perfil/editar', 'ProfileController@saveProfile')->middleware('logged')->name('save_profile');
 
 //Authentication Routes
+Route::get('verify/{code}', 'ProfileController@verify')->name('verify');
 Route::get('login', 'ProfileController@getLogin')->name('login');
 Route::post('login', 'ProfileController@postLogin')->name('post_login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -31,6 +32,16 @@ Route::post('password/reset', 'ProfileController@resetPassword')->name("post_pas
 
 //Admin - Dashboard
 Route::get('admin/inicio', 'Admin\AdminController@getAdminDashboard')->middleware("logged")->middleware(['role:admin'])->name('admin_dashboard');
+
+//Admin - Cargos
+Route::get('admin/cargos', 'Admin\PositionsController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_positions');
+Route::get('admin/cargos/obtener', 'Admin\PositionsController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_positions');
+Route::get('admin/cargos/registrar', 'Admin\PositionsController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_positions_create');
+Route::post('admin/cargos/registrar', 'Admin\PositionsController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_positions_create');
+Route::get('admin/cargos/editar/{council_id}', 'Admin\PositionsController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_positions_edit');
+Route::post('admin/cargos/editar', 'Admin\PositionsController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_positions_update');
+Route::get('admin/cargos/eliminar/{council_id}', 'Admin\PositionsController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_positions_trash');
+Route::post('admin/cargos/eliminar', 'Admin\PositionsController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_positions_delete');
 
 //Admin - Council
 Route::get('admin/consejos', 'Admin\CouncilsController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_councils');

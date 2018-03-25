@@ -15,13 +15,16 @@
 
 				<p>Hola {{$user->first_name}},</p>
 
-				<p>Le damos una cordial bienvenida a la Agenda de Consejos Unegistas (ACU), desde este momento ya puede ingresar a nuestra plataforma, su rol dentro de la misma será de <b>{{$rol->display_name}} del {{$council->name}}</b>.</p>
+			    <p>Le damos una cordial bienvenida a la Agenda de Consejos Unegista (ACU), por favor debe confirmar su email para poder iniciar sesión en nuestra plataforma.</p>
+			    <p>Para ello, simplemente debe hacer clic en el siguiente enlace:</p>
 
-				<p>Para ingresar, diríjase al link que está al final del correo y utilice la siguiente información:</p>
+			    <a href="{{url('/verify/'.$confirmation_code)}}">
+			        Clic aquí para confirmar su email
+			    </a>
+
+			    <p>Una vez confirmada su cuenta, utilice la siguiente información para poder iniciar sesión por primera vez:</p>
 				<p>Usuario: {{ $user->email }}</p>
 				<p>Contraseña: 12345 (Cámbiala una vez ingreses) </p>
-
-				<p><a href="{{route('home')}}">Ingrese aquí</a> para ir a la plataforma.</p>
 
 				<div style="width: 100%; background: #007bff; padding: 10px; box-sizing: border-box; color: #fff; text-align: center">ACU Team</div>
 			</div>

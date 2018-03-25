@@ -9,7 +9,9 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Models\Council;
+use App\Models\Position;
 use App\Models\Role;
+use App\Models\Transaction;
 
 class UsersController extends Controller
 {
@@ -25,12 +27,17 @@ class UsersController extends Controller
         $users_list=[];
         foreach($users as $user)
         {
-            $rol=$user->roles->first();
-            $council=$user->councils->first();
-
-            if($rol->name!="admin")
+            $roles="";
+            $councils="";
+            foreach($user->councils as $council)
             {
-                $users_list[]=[$user->first_name." ".$user->last_name,$user->identity_card,$user->email,$user->phone_number,$rol->display_name,$council->name,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
+                $roles.=Role::where("id",$council->pivot->role_id)->first()->display_name."<br>";
+                $councils.=$council->name."<br>";
+            }
+
+            if(!$user->hasRole("admin"))
+            {
+                $users_list[]=[$user->first_name." ".$user->last_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 
@@ -39,62 +46,98 @@ class UsersController extends Controller
 
     public function getCreate()
     {
-    	$councils=Council::all();
+        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->get();
+    	$councils=Council::orderBy("name","asc")->get();
+
+        if(count($positions)==0)
+        {
+            return redirect()->route("admin_positions_create")->withErrors(["Primero debes registrar un cargo como mínimo, para poder registrar un usuario"]);
+        }
 
         if(count($councils)==0)
         {
             return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un usuario"]);
         }
 
-    	$roles=Role::all();
-        return view("admin.user.create",["councils"=>$councils,"roles"=>$roles]);
+    	$roles=Role::orderBy("name","asc")->get();
+        return view("admin.user.create",["positions"=>$positions,"councils"=>$councils,"roles"=>$roles]);
     }
 
-    public function create(CreateUserRequest $request)
+    public function create(Request $request)
     {
-    	$council_id=$request->get("council_id");
-    	$rol=$request->get("rol");
+        $last_councils=$request->get("council_id");
+        $councils=array_unique($last_councils);
 
-    	$council=Council::where("id",$council_id)->first();
-
-    	if($council)
-    	{
-    		$members=$council->members;
-    		foreach ($members as $member) 
-    		{
-    			if($member->hasRole("presidente") && $rol=="presidente" && $member->pivot->end_date==null) 
-    			{
-    				return redirect()->back()->withErrors(["El ".$council->name." ya tiene asignado un presidente"]);
-    			}
-
-    			if($member->hasRole("secretaria") && $rol=="secretaria" && $member->pivot->end_date==null) 
-    			{
-    				return redirect()->back()->withErrors(["El presidente del ".$council->name." ya tiene asignada una secretaria"]);
-    			}
-
-    			if($member->hasRole("adjunto") && $rol=="adjunto" && $member->pivot->end_date==null) 
-    			{
-    				return redirect()->back()->withErrors(["El ".$council->name." ya tiene asignado un adjunto"]);
-    			}
-    		}
-    	}
-        else
+        if(count($last_councils)!=count($councils)) 
         {
-            return redirect()->back()->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un usuario"]);
+            return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
-        $data=($request->only(["identity_card","first_name","last_name","phone_number","email"]));
+        $last_roles=$request->get("roles");
+        $roles=array_unique($last_roles);
+        
+        $councils_errors=[];
+        $count_errors_councils=0;
+
+        foreach($councils as $key => $council)
+        {
+            $council=Council::where("id",$council)->first();
+            $users=$council->users;
+
+            foreach($users as $user) 
+            {
+                $transaction=Transaction::where("type","create_user_".$last_roles[$key])->where("affected_id",$council->id)->where("end_date",null)->first();
+
+                if($user->hasRole("presidente") && $last_roles[$key]=="presidente" && $transaction) 
+                {
+                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado un presidente"];
+                    $count_errors_councils++;
+                }
+                
+                if($user->hasRole("adjunto") && $last_roles[$key]=="adjunto" && $transaction) 
+                {
+                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado un presidente"];
+                    $count_errors_councils++;
+                }  
+            }
+        }
+
+        if(!empty($councils_errors)) 
+        {
+            return redirect()->back()->withErrors($councils_errors); 
+        }
+
+        $data=($request->only(["identity_card","first_name","last_name","phone_number","email","position_id"]));
         $data["password"]="12345";
+        $data["confirmation_code"]=str_random(25);
 
         $user=User::create($data);
 
-        $user->attachRole(Role::where("name",$rol)->first());
+        foreach($councils as $key => $council)
+        {
+            $rol=Role::where("name",$last_roles[$key])->first();
 
-        $user->councils()->attach($council_id,["start_date"=>gmdate("d-m-Y")]);
+            $user->councils()->attach($council,["role_id"=>$rol->id]);
+            Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$user->id,"affected_id"=>$council,"start_date"=>gmdate("d/m/Y")]);
 
-        $rol=$user->roles->first();
+            if($last_roles[$key]=="presidente") 
+            {
+                Council::where("id",$council)->update(["president_id"=>$user->id]);
+            }
 
-        \Mail::send('emails.user_welcome', ["user"=>$user,"rol"=>$rol,"council"=>$council], function($message) use($user)
+            if($last_roles[$key]=="adjunto") 
+            {
+                Council::where("id",$council)->update(["adjunto_id"=>$user->id]);
+            }
+
+        }
+
+        foreach($roles as $rol)
+        {
+            $user->attachRole(Role::where("name",$rol)->first());
+        }
+
+        \Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
         {
             $message->subject("Bienvenido a ACU");
             $message->to($user->email,$user->first_name);
@@ -106,11 +149,13 @@ class UsersController extends Controller
     public function getEdit($user_id)
     {
         $edit_user=User::where("id",$user_id)->first();
-        $roles=Role::all();
+        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->get();
+        $councils=Council::orderBy("name","asc")->get();
+        $roles=Role::orderBy("name","asc")->get();
 
         $currentCouncil=$edit_user->councils->first(); 
 
-        return view("admin.user.edit",["edit_user"=>$edit_user,"roles"=>$roles,"currentCouncil"=>$currentCouncil]); 
+        return view("admin.user.edit",["edit_user"=>$edit_user,"positions"=>$positions,"councils"=>$councils,"roles"=>$roles]); 
     }
 
     public function update(UpdateUserRequest $request)
@@ -187,7 +232,15 @@ class UsersController extends Controller
     {
         $user_id=$request->get("user_id");
 
-        User::where("id",$user_id)->delete();
+        try 
+        {
+            User::where("id",$user_id)->delete();
+        } 
+        catch (\Illuminate\Database\QueryException $e) 
+        {
+            return redirect()->back()->withErrors(["No puede eliminar un usuario del cual dependen funcionalidades del sistema"]);
+        }
+        
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha eliminado el usuario"]);
     }

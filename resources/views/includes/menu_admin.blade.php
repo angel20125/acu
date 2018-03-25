@@ -20,32 +20,26 @@
 </ul>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
-	<i class="far fa-calendar-alt"></i><span class="mr8">AGENDA</span> 
+	<i class="fas fa-list"></i><span class="mr8">CARGOS</span>
 </h6>
 
 <ul class="nav flex-column">
-	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("admin_agendas")}}">
-			Ver Agendas
-		</a>
-	</li>
-	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("admin_agendas_create")}}">
-			Registrar Agendas
+	<li class="nav-item">
+		<a class="nav-link" href="{{route("admin_positions")}}">
+			Ver Cargos
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link  " href="#">
-			Agregar Punto
+		<a class="nav-link  " href="{{route("admin_positions_create")}}">
+			Registrar Cargo
 		</a>
 	</li>
-</ul>
 
+</ul>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
 	<i class="fas fa-sitemap"></i><span class="mr8">CONSEJOS</span>
 </h6>
-
 
 <ul class="nav flex-column">
 	<li class="nav-item">
@@ -69,6 +63,29 @@
 		</a>
 	</li>
 </ul>
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="far fa-calendar-alt"></i><span class="mr8">AGENDAS</span> 
+</h6>
+
+<ul class="nav flex-column">
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("admin_agendas")}}">
+			Ver Agendas
+		</a>
+	</li>
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("admin_agendas_create")}}">
+			Registrar Agendas
+		</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link  " href="#">
+			Agregar Punto
+		</a>
+	</li>
+</ul>
+
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
 	<i class="fas fa-users"></i><span class="mr8">REUNIONES</span>
