@@ -5,24 +5,24 @@
 			ACU
 		</a>
 
-  
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+
+	<button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     	<span class="navbar-toggler-icon"></span>
   	</button>
   	
 	<div class="collapse navbar-collapse item-rg  d-md-none bd-navba d-lg-none " id="navbarsExampleDefault">
 		<div class=" d-flex justify-content-center  align-items-center px-3 item-rg nav-pills nav-fill" >
 			<ul class="nav flex-column mr-sm-2  ">
-				<li class="nav-item">
-					<a class="nav-item tette"  href="#" >
-						<i  class="far fa-bell float-right" data-toggle="tooltip" data-placement="bottom" title="Notificaciones" ></i>
+				<li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Notificaciones">
+					<a class="tette float-right"  href="#" >
+						<i class=" far fa-bell"></i>
 					</a>	
 				</li>
 			</ul>
 			<ul class="nav flex-column mr-sm-2" style="margin-left: 2rem !important">
-				<li class="nav-item">
-					<a class="nav-item tette" href="{{route("logout")}}">
-						<i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="bottom" title="Cerrar Sesión"></i>
+				<li class="nav-item"  data-toggle="tooltip" data-placement="bottom" title="Cerrar Sesión">
+					<a class=" tette " href="{{route("logout")}}">
+						<i class="fas fa-sign-out-alt"></i>
 					</a>
 				</li>
 			</ul>

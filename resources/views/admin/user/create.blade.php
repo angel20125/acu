@@ -101,6 +101,8 @@
 
 	  	
 	</form>
+
+	
 </div>
 
 @endsection
@@ -120,8 +122,10 @@
 
             function addNew() 
             {
-                inputRol.append('<div class="rol-'+i+'"><div class="row justify-content-between" style="padding: 0em 15px !important" ><h3 class="text-center font-weight-normal" >Rol Extra</h3><button value="'+i+'" type="button" id="remove-rol-'+i+'" class="btn btn-danger"><i class="fa fa-trash text-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Eliminar Rol"></i></button></div><div class="form-row"><div class=" col-sm-6 form-group"><label for="council_id">Consejo</label><select name="council_id[]" class="form-control" id="council_id" required>@foreach($councils as $council)<option value="{{$council->id}}">{{$council->name}}</option>@endforeach</select></div><div class=" col-sm-6 form-group"><label for="rol_input">Rol</label><select name="roles[]" class="form-control" id="rol" required>@foreach($roles as $rol)@if($rol->name!="admin" && $rol->name!="secretaria") <option value="{{$rol->name}}">{{$rol->display_name}}</option> @endif @endforeach</select></div></div></div>');
-
+                inputRol.append('<div class="rol-'+i+'"><div class="row justify-content-between" style="padding: 0em 15px !important" ><h3 class="text-center font-weight-normal" >Rol Extra</h3><button value="'+i+'" type="button" id="remove-rol-'+i+'" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Eliminar Rol"><i class="fa fa-trash text-right" aria-hidden="true" ></i></button></div><div class="form-row"><div class=" col-sm-6 form-group"><label for="council_id">Consejo</label><select name="council_id[]" class="form-control" id="council_id" required>@foreach($councils as $council)<option value="{{$council->id}}">{{$council->name}}</option>@endforeach</select></div><div class=" col-sm-6 form-group"><label for="rol_input">Rol</label><select name="roles[]" class="form-control" id="rol" required>@foreach($roles as $rol)@if($rol->name!="admin" && $rol->name!="secretaria") <option value="{{$rol->name}}">{{$rol->display_name}}</option> @endif @endforeach</select></div></div></div>');
+	        $(function () {
+	 			$('[data-toggle="tooltip"]').tooltip()
+			});
 	            $("#remove-rol-"+i).click(function(event) {
 	                $(".rol-"+$(this).val()).remove();
 	            });

@@ -49,12 +49,12 @@
 
 @section('script')
 
-<script  src="{{ asset('js/jquery-1.12.4.js') }}" ></script>
 <script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
 <script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
 
 <script>
     $(document).ready(function() {
+
         $('#table').DataTable( {
             "ajax": '{{route("get_admin_users")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
@@ -83,6 +83,7 @@
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
             }
+            
         } );
     });
 </script>
