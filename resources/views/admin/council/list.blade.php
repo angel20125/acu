@@ -11,12 +11,12 @@
 @section('content')
 
 @if($errors->any())
-    <div class="alert alert-danger" role="alert">
+    <div style="text-align:center;" class="alert alert-danger" role="alert">
         {{$errors->first()}}
     </div>
 @endif
 @if(session('message_info'))
-    <div class="alert alert-success" role="alert">
+    <div style="text-align:center;" class="alert alert-success" role="alert">
         {{session('message_info')}}
     </div>
 @endif
@@ -36,6 +36,8 @@
     <thead>
         <tr>
             <th  scope="col">Nombre del consejo</th>
+            <th  scope="col">Presidente</th>
+            <th  scope="col">Adjunto</th>
             <th  scope="col">Fecha de creación</th>
             <th  scope="col"><i ></i></th>
         </tr>

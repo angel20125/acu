@@ -37,7 +37,7 @@ class UsersController extends Controller
 
             if(!$user->hasRole("admin"))
             {
-                $users_list[]=[$user->first_name." ".$user->last_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
+                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 
@@ -162,6 +162,12 @@ class UsersController extends Controller
         $edit_user=User::where("id",$user_id)->first();
 
         $last_councils=$request->get("council_id");
+
+        if(!isset($last_councils)) 
+        {
+            return redirect()->back()->withErrors(["Un usuario debe pertenecer como mínimo a un consejo y tener un rol dentro del sistema"]);
+        }
+
         $councils=array_unique($last_councils);
 
         if(count($last_councils)!=count($councils)) 
@@ -182,17 +188,15 @@ class UsersController extends Controller
 
             foreach($users as $user) 
             {
-                $transaction=Transaction::where("type","create_user_".$last_roles[$key])->where("affected_id",$council->id)->where("end_date",null)->first();
-
-                if($user->hasRole("presidente") && $last_roles[$key]=="presidente" && $transaction && $user->id!=$edit_user->id) 
+                if($user->hasRole("presidente") && $last_roles[$key]=="presidente" && $council->president_id!=$edit_user->id) 
                 {
-                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado un presidente"];
+                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado el cargo de presidente"];
                     $count_errors_councils++;
                 }
                 
-                if($user->hasRole("adjunto") && $last_roles[$key]=="adjunto" && $transaction && $user->id!=$edit_user->id) 
+                if($user->hasRole("adjunto") && $last_roles[$key]=="adjunto" && $council->adjunto_id!=$edit_user->id) 
                 {
-                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado un presidente"];
+                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado el cargo de adjunto"];
                     $count_errors_councils++;
                 }  
             }
