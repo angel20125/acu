@@ -126,9 +126,11 @@
         <br>
         <div id="inputRol"></div>
 
-        <div class="justify-content-end text-right">
-            <button id="btn-add" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Rol Extra</button>
-        </div>
+        @if($edit_user->hasRole("presidente") || $edit_user->hasRole("consejero") || $edit_user->hasRole("adjunto"))
+            <div class="justify-content-end text-right">
+                <button id="btn-add" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Rol Extra</button>
+            </div>
+        @endif
 
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Actualizar</button>

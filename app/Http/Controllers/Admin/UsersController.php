@@ -36,6 +36,16 @@ class UsersController extends Controller
                 $councils.=$council->name."<br>";
             }
 
+            if($roles=="") 
+            {
+                $roles="Secretaria";
+            }
+
+            if($councils=="") 
+            {
+                $councils="NA";
+            }
+
             if(!$user->hasRole("admin"))
             {
                 $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
@@ -54,7 +64,22 @@ class UsersController extends Controller
 
     public function createSecretary(CreateSecretaryRequest $request)
     {
-        $data=($request->only(["first_name","last_name","identity_card","phone_number","email","position_boss_id"]));
+        $data=($request->only(["identity_card","first_name","last_name","phone_number","email","position_boss_id"]));
+        $data["position_id"]=Position::where("name","Secretary")->first()->id;
+        $data["password"]="12345";
+        $data["confirmation_code"]=str_random(25);
+
+        $user=User::create($data);
+
+        $user->attachRole(Role::where("name","secretaria")->first());
+
+        \Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
+        {
+            $message->subject("Bienvenido a ACU");
+            $message->to($user->email,$user->first_name);
+        });
+
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado la secretaria exitosamente"]);
     }
 
     public function getCreate()
@@ -173,6 +198,27 @@ class UsersController extends Controller
     {
         $user_id=$request->get("user_id");
         $edit_user=User::where("id",$user_id)->first();
+
+        if($edit_user->hasRole("secretaria"))
+        {
+            $data=($request->only(["identity_card","first_name","last_name","phone_number","email","status"]));
+
+            $check_user=User::where("identity_card",$data["identity_card"])->first();
+            if($check_user && $check_user->id!=$edit_user->id)
+            {
+                return redirect()->back()->withErrors(["Ya existe un usuario con esa cédula de identidad"]);
+            }
+
+            $check_user=User::where("email",$data["email"])->first();
+            if($check_user && $check_user->id!=$edit_user->id)
+            {
+                return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
+            }
+
+            User::where("id",$user_id)->update($data);
+
+            return redirect()->route("admin_users_edit",["user_id"=>$user_id])->with(["message_info"=>"Se ha actualizado el usuario"]); 
+        }
 
         $last_councils=$request->get("council_id");
 

@@ -50,24 +50,6 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
-                    <label for="consejo_input">Consejo </label>
-                    <select id="consejo_input" class="form-control" disabled>
-                        @if($user->hasRole("presidente")||$user->hasRole("consejero")||$user->hasRole("secretaria")||$user->hasRole("adjunto"))
-                            <option selected disabled>{{$user->councils->first()->name}}</option>
-                        @else
-                            <option selected disabled>Ninguno</option>
-                        @endif
-                    </select>
-                </div>
-                <div class="form-group col-md-6 col-sm-12">
-                    <label for="role_input">Rol</label>
-                    <select id="role_input" class="form-control" disabled>
-                        <option selected disabled>{{$user->getCurrentRol()->display_name}}</option>
-                    </select>
-                </div>
-            </div> 
-            <div class="form-row">
-                <div class="form-group col-md-6 col-sm-12">
                     <label for="password_input">Contraseña</label>
                     <input name="password" type="password" id="password_input" class="form-control" placeholder="Contraseña" autofocus> 
                 </div>

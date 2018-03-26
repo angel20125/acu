@@ -46,27 +46,30 @@ class ProfileController extends Controller
 
         $check_user=User::where("email",$data['email'])->first();
 
+        if($check_user && !$check_user->validate)
+        {
+            return redirect()->back()->withErrors("Confirma tu correo electrónico para poder iniciar sesión");
+        }
+
+        if($check_user && !$check_user->status)
+        {
+            return redirect()->back()->withErrors("Tu cuenta ha sido desactivada");
+        }
+
         if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']], true))
     	{
             $user = User::getCurrent();
             $user->verifyRole();
 
-            if($user->status==0)
-            {
-                return redirect()->route("logout");
-            }
-
-            if($user->validate==0)
-            {
-                return redirect()->back()->withErrors("Debes verificar tu cuenta para poder iniciar sesión, te hemos enviado un correo electrónico para que la verifiques");
-            }
-
             return redirect()->route("dashboard");
         }
 
-        if(!$check_user){
+        if(!$check_user)
+        {
             return redirect()->back()->withErrors("El email que has introducido es incorrecto");
-        }else{
+        }
+        else
+        {
             return redirect()->back()->withErrors("La contraseña que has introducido es incorrecta");
         }
     }
