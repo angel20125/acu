@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateSecretaryRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -44,9 +45,21 @@ class UsersController extends Controller
         return response()->json(['data' => $users_list]);
     }
 
+    public function getCreateSecretary()
+    {
+        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->where("name","<>","Secretary")->get();
+
+        return view("admin.user.create_secretary",["positions"=>$positions]);
+    }
+
+    public function createSecretary(CreateSecretaryRequest $request)
+    {
+        $data=($request->only(["first_name","last_name","identity_card","phone_number","email","position_boss_id"]));
+    }
+
     public function getCreate()
     {
-        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->get();
+        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->where("name","<>","Secretary")->get();
     	$councils=Council::orderBy("name","asc")->get();
 
         if(count($positions)==0)
@@ -149,7 +162,7 @@ class UsersController extends Controller
     public function getEdit($user_id)
     {
         $edit_user=User::where("id",$user_id)->first();
-        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->get();
+        $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->where("name","<>","Secretary")->get();
         $councils=Council::orderBy("name","asc")->get();
         $roles=Role::orderBy("name","asc")->get();
 

@@ -62,6 +62,8 @@ Route::get('admin/usuarios/editar/{user_id}', 'Admin\UsersController@getEdit')->
 Route::post('admin/usuarios/editar', 'Admin\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_users_update');
 Route::get('admin/usuarios/eliminar/{user_id}', 'Admin\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_users_trash');
 Route::post('admin/usuarios/eliminar', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
+Route::get('admin/usuarios/registrar_secretaria', 'Admin\UsersController@getCreateSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
+Route::post('admin/usuarios/registrar_secretaria', 'Admin\UsersController@createSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
 
 //Admin - Agenda
 Route::get('admin/agendas', 'AgendaController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');

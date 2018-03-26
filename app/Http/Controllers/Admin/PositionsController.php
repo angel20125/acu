@@ -16,7 +16,7 @@ class PositionsController extends Controller
 
     public function getList()
     {
-        $positions=Position::where("name","<>","Administrador")->get();
+        $positions=Position::where("name","<>","Administrador")->where("name","<>","Secretary")->get();
 
         $positions_list=[];
         foreach($positions as $position)

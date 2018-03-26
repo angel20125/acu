@@ -35,6 +35,11 @@ class CredentialsSeeder extends Seeder
      */
     public function run()
     {
+        //Position Secretary
+        $secretary = new Position();
+        $secretary->name = 'Secretary';
+        $secretary->save();
+
         //Position Administrador
         $position = new Position();
         $position->name = 'Administrador';
