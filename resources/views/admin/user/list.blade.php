@@ -25,6 +25,7 @@
 <div class="form-group">
     <div class="  text-right pdr">
         <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create")}}" role="button">Registrar Usuario</a>
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_users_create_secretary")}}" role="button">Registrar Secretaria</a>
     </div>
 </div>
 <br>

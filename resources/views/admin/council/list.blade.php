@@ -35,7 +35,7 @@
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th  scope="col">Nombre del consejo</th>
+            <th  scope="col">Consejo</th>
             <th  scope="col">Presidente</th>
             <th  scope="col">Adjunto</th>
             <th  scope="col">Fecha de creación</th>
