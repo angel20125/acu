@@ -27,7 +27,7 @@
 	</div>
 
 	<!-- Contenido de pagina  -->
-	<main  class="col-md-9 ml-sm-auto col-lg-10  py-md-3 pl-md-5 bd-content" role="main">
+	<main  class="col-md-9 ml-sm-auto col-lg-10  py-md-3 bd-content" role="main">
 		@yield('content')
 	</main>
 	</div>

@@ -58,9 +58,31 @@
 <br>
 
 <!-- Calendar -->
+<div class="container-fluid">
 <div class="row"> 
 	@php $startDate = DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('first day of this month')->format("w"); @endphp
-	<div class="table-responsive">
+ 	
+ 	@php 
+ 	$mes =	array(
+    "01"  => "Enero",
+    "02" => "Febrero",
+    "03" => "Marzo",
+    "04"  => "Abril",
+    "05" => "Mayo",
+    "06" => "Junio",
+    "07"  => "Julio",
+    "08" => "Agosto",
+    "09" => "Septiembre",
+    "10"  => "Octubre",
+    "11" => "Noviembre",
+    "12" => "Diciembre",
+ 	);
+    $var = gmdate("m");
+    @endphp
+ 	
+ 	<h3 class="font-weight-normal col-12 text-center">{{ $mes[$var] }}</h3>
+ 	
+	<div class="table-responsive col-lg-10 offset-lg-1 col-md-12">
 		<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		    <thead>
 		        <tr style="text-align:center;">
@@ -80,25 +102,25 @@
 		        	@for($j=1; $j <= 7; $j++)
 
 		        		@if($count < $startDate)
-		        			<td>
-		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->sub(new DateInterval("P".$last_month."D"))->format("d/m/Y")}}
+		        			<td style="color: #BDBDBD">
+		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->sub(new DateInterval("P".$last_month."D"))->format("d")}}
 		        			</td>
 		        			@php $last_month--; @endphp
 
 		        		@elseif($count >= $startDate && $countDay <= DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
 	        				@if($countDay==gmdate("d"))
-			        			<td style="background:#28a745; color:white;">
-			        				{{$countDay}}/{{DateTime::createFromFormat("m/Y",gmdate("m/Y"))->format("m/Y")}}
+			        			<td style="background:#28a745; color:white; font-weight: bold;">
+			        				{{$countDay}}{{DateTime::createFromFormat("m/Y",gmdate("m/Y"))->format("")}}
 			        			</td>
 		        			@else
-			        			<td>
-			        				{{$countDay}}/{{DateTime::createFromFormat("m/Y",gmdate("m/Y"))->format("m/Y")}}
+			        			<td style="font-weight: bold; ">
+			        				{{$countDay}}{{DateTime::createFromFormat("m/Y",gmdate("m/Y"))->format("")}}
 			        			</td>
 		        			@endif
 		        			@php $countDay++; @endphp
 
 		        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
-		        			<td>
+		        			<td style="color: #BDBDBD">
 		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d/m/Y")}}
 		        			</td>
 		        			@php $future_month++; @endphp
@@ -111,6 +133,7 @@
 		    </tbody>
 		</table>
 	</div>
+</div>
 </div>
 
 @endsection
