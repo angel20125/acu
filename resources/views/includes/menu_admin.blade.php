@@ -79,11 +79,6 @@
 			Registrar Agendas
 		</a>
 	</li>
-	<li class="nav-item">
-		<a class="nav-link  " href="#">
-			Presentar Punto
-		</a>
-	</li>
 </ul>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">
