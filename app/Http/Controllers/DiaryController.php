@@ -180,6 +180,22 @@ class DiaryController extends Controller
                 }
             }
 
+            $council=Council::where("id",$data["council_id"])->first();
+
+            $users=$council->users;
+
+            foreach ($users as $user) 
+            {
+                if($user->status && $user->validate) 
+                {
+                    \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
+                    {
+                        $message->subject("Invitación del ".$council->name);
+                        $message->to($user->email,$user->first_name);
+                    });
+                }
+            }
+
             return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
         }
     }
