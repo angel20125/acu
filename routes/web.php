@@ -66,11 +66,14 @@ Route::get('admin/usuarios/registrar_secretaria', 'Admin\UsersController@getCrea
 Route::post('admin/usuarios/registrar_secretaria', 'Admin\UsersController@createSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
 
 //Admin - Agenda
-Route::get('admin/agendas', 'AgendaController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas');
-Route::get('admin/agendas/obtener', 'AgendaController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_agendas');
-Route::get('admin/agendas/registrar', 'AgendaController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
-Route::post('admin/agendas/registrar', 'AgendaController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_create');
-Route::get('admin/agendas/editar/{agenda_id}', 'AgendaController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_edit');
-Route::post('admin/agendas/editar', 'AgendaController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_update');
-Route::get('admin/agendas/eliminar/{agenda_id}', 'AgendaController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_trash');
-Route::post('admin/agendas/eliminar', 'AgendaController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_agendas_delete');
+Route::get('admin/agendas', 'DiaryController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries');
+Route::get('admin/agendas/obtener', 'DiaryController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_diaries');
+Route::get('admin/agendas/registrar', 'DiaryController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_create');
+Route::post('admin/agendas/registrar', 'DiaryController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_create');
+Route::get('admin/agendas/editar/{diary_id}', 'DiaryController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_edit');
+Route::post('admin/agendas/editar', 'DiaryController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_update');
+Route::get('admin/agendas/eliminar/{diary_id}', 'DiaryController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_trash');
+Route::post('admin/agendas/eliminar', 'DiaryController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_delete');
+
+//Show agenda
+Route::get('agendas/visualizar/{diary_id}', 'DiaryController@getDiary')->middleware("logged")->name('getDiary');

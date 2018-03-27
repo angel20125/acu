@@ -22,7 +22,7 @@
  <h1 class="text-center mr1 font-weight-normal">Lista de Agendas</h1>
 <div class="form-group">
     <div class="  text-right pdr">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_agendas_create")}}" role="button">Registrar Agenda</a>
+        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_diaries_create")}}" role="button">Registrar Agenda</a>
     </div>
 </div>
 <br>
@@ -31,10 +31,11 @@
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Descripción</th>
+            <th>Consejo involucrado</th>
+            <th>Presidente</th>
             <th>Fecha a tratar</th>
             <th>Estado</th>
-            <th><i ></i></th>
+            <th></th>
         </tr>
     </thead>
 </table>
@@ -50,7 +51,7 @@
 <script>
     $(document).ready(function() {
         $('#table').DataTable( {
-            "ajax": '{{route("get_admin_agendas")}}',
+            "ajax": '{{route("get_admin_diaries")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
             "iDisplayLength": 10,
             "language": {

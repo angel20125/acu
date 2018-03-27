@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Agenda;
+namespace App\Http\Requests\Diary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAgendaRequest extends FormRequest
+class UpdateDiaryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

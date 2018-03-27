@@ -10,7 +10,7 @@
 @section('content')
 
 <div class="row justify-content-center text-center">
-    <form class="form-signin col-lg-8 col-md-10 col-sm-12" action="{{route("admin_agendas_delete")}}" method="post">
+    <form class="form-signin col-lg-8 col-md-10 col-sm-12" action="{{route("admin_diaries_delete")}}" method="post">
         @if($errors->any())
             <div style="text-align:center;" class="alert alert-danger" role="alert">
                 {{$errors->first()}}
@@ -29,7 +29,7 @@
         <div class="form-group col-10 offset-1">
             <label for="confirm_delete_input">Escriba Eliminar en el campo para confirmar</label>
             <div class="input-group mb-3">
-                <input type="hidden" name="agenda_id" value="{{$agenda->id}}"/>
+                <input type="hidden" name="diary_id" value="{{$diary->id}}"/>
                 <input type="text" id="confirm_delete" class="form-control" placeholder="Eliminar" required>
             </div>
         </div>
@@ -37,7 +37,7 @@
             <button id="delete_button" class="btn btn-primary " disabled>Confirmar</button>
         </div>
         <div class="justify-content-center text-center">
-            <a href="{{route("admin_agendas")}}"><br>Cancelar</a>
+            <a href="{{route("admin_diaries")}}"><br>Cancelar</a>
         </div>
         
     </form>

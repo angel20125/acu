@@ -59,6 +59,11 @@ class UsersController extends Controller
     {
         $positions=Position::orderBy("name","asc")->where("name","<>","Administrador")->where("name","<>","Secretary")->get();
 
+        if(count($positions)==0)
+        {
+            return redirect()->route("admin_positions_create")->withErrors(["Primero debes registrar un cargo como mínimo, para poder registrar una secretaria"]);
+        }
+
         return view("admin.user.create_secretary",["positions"=>$positions]);
     }
 
@@ -156,7 +161,7 @@ class UsersController extends Controller
             $rol=Role::where("name",$last_roles[$key])->first();
 
             $user->councils()->attach($council,["role_id"=>$rol->id]);
-            Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$user->id,"affected_id"=>$council,"start_date"=>gmdate("d/m/Y")]);
+            Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$user->id,"affected_id"=>$council,"start_date"=>gmdate("Y-m-d")]);
 
             if($last_roles[$key]=="presidente") 
             {
@@ -293,7 +298,7 @@ class UsersController extends Controller
 
             if(!$transaction)
             {
-                Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$edit_user->id,"affected_id"=>$council,"start_date"=>gmdate("d/m/Y")]);
+                Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$edit_user->id,"affected_id"=>$council,"start_date"=>gmdate("Y-m-d")]);
             }
 
             if($last_roles[$key]=="presidente") 
@@ -311,7 +316,7 @@ class UsersController extends Controller
         {
             if(array_search($council, $councils_new)===false)
             {
-                Transaction::where("user_id",$edit_user->id)->where("affected_id",$council)->update(["end_date"=>gmdate("d/m/Y")]);
+                Transaction::where("user_id",$edit_user->id)->where("affected_id",$council)->update(["end_date"=>gmdate("Y-m-d")]);
             }
             else
             {
@@ -323,7 +328,7 @@ class UsersController extends Controller
 
                 if($transaction && $council_user->pivot->role_id!=$rol->id)
                 {
-                    Transaction::where("id",$transaction->id)->update(["end_date" => gmdate("d/m/Y")]);
+                    Transaction::where("id",$transaction->id)->update(["end_date" => gmdate("Y-m-d")]);
                 }
             }
         }

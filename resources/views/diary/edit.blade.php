@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="row justify-content-center">
-    <form class="form-signin col-md-10 col-sm-12 " action="{{route("admin_agendas_update")}}" method="post" enctype="multipart/form-data">
+    <form class="form-signin col-md-10 col-sm-12 " action="{{route("admin_diaries_update")}}" method="post" enctype="multipart/form-data">
         @if($errors->any())
             <div style="text-align:center;" class="alert alert-danger" role="alert">
                 {{$errors->first()}}
@@ -24,17 +24,17 @@
         <h1 class="text-center font-weight-normal">Editar Agenda</h1>
         <br><br>
     
-        <input type="hidden" name="agenda_id" value="{{$agenda->id}}"/>
+        <input type="hidden" name="diary_id" value="{{$diary->id}}"/>
         <div class="form-group">
             <label for="description">Descripción</label>
-            <textarea name="description" class="form-control" id="description" rows="3" required>{{$agenda->description}}</textarea>
+            <textarea name="description" class="form-control" id="description" rows="3" required>{{$diary->description}}</textarea>
         </div>
         <div class="form-row form-group">
             <div class="form-group col-md-6 col-sm-12">
                 <label for="status_input">Estado</label>
                 <select name="status" class="form-control" id="status" required>
-                    <option {{$agenda->status=="1"?"selected":""}} value="1">A tratar</option>
-                    <option {{$agenda->status=="2"?"selected":""}} value="2">Tratada</option>
+                    <option {{$diary->status=="1"?"selected":""}} value="1">A tratar</option>
+                    <option {{$diary->status=="2"?"selected":""}} value="2">Tratada</option>
                 </select>
             </div>
             <div class="form-group col-md-6 col-sm-12">
@@ -45,23 +45,23 @@
                 </div>
             </div>
         </div>
-        @if(file_exists("docs/".$agenda->attached_document))
+        @if(file_exists("docs/".$diary->attached_document))
 
             <div class="justify-content-center text-center">
-                <button type="submit" class="btn btn-primary " href="{{asset("docs/".$agenda->attached_document)}}">Archivo .pdf actual</button>
+                <button type="submit" class="btn btn-primary " href="{{asset("docs/".$diary->attached_document)}}">Archivo .pdf actual</button>
             </div>
         @endif
         <div class="form-row justify-content-center">
             <div class="form-group col-md-6 col-sm-10">
                 <label for="date_input">Fecha</label>
-                <input name="event_date" type="date" class="form-control" id="date_input" value="{{$agenda->event_date}}">
+                <input name="event_date" type="date" class="form-control" id="date_input" value="{{$diary->event_date}}">
             </div>
          </div>
         <br>
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Guardar</button>
             <br>
-            <a href="{{route("admin_agendas")}}"><br>Ver Agendas</a>
+            <a href="{{route("admin_diaries")}}"><br>Ver Agendas</a>
         </div>
     </form>
 </div>

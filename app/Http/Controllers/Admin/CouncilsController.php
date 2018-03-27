@@ -75,7 +75,7 @@ class CouncilsController extends Controller
             $last_president=$council->president;
 
             //Agregar fecha final del período del presidente actual
-            Transaction::where("type","create_user_presidente")->where("user_id",$last_president->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("d/m/Y")]);
+            Transaction::where("type","create_user_presidente")->where("user_id",$last_president->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
 
             //Eliminar el presidente actual del consejo
             Council::where("id",$council_id)->update(["president_id"=>null]);
@@ -84,7 +84,7 @@ class CouncilsController extends Controller
             $last_president->councils()->detach($council_id);
 
             //El presidente actual ahora pasa a ser un consejero
-            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_president->id,"affected_id"=>$council_id,"start_date"=>gmdate("d/m/Y")]);
+            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_president->id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
 
             //El presidente actual ahora es degredado a consejero
             $rol=Role::where("name","consejero")->first();
@@ -94,13 +94,13 @@ class CouncilsController extends Controller
             $new_president=User::where("id",$president_id)->first();
 
             //Agregar fecha final del período del consejero que ahora será presidente
-            Transaction::where("type","create_user_consejero")->where("user_id",$president_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("d/m/Y")]);
+            Transaction::where("type","create_user_consejero")->where("user_id",$president_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
 
             //Desvincular el presidente actual del consejo
             $new_president->councils()->detach($council_id);
 
             //Agregar fecha inicial del período del presidente nuevo
-            Transaction::create(["type"=>"create_user_presidente","user_id"=>$president_id,"affected_id"=>$council_id,"start_date"=>gmdate("d/m/Y")]);
+            Transaction::create(["type"=>"create_user_presidente","user_id"=>$president_id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
 
             //Agregar el presidente nuevo al consejo
             Council::where("id",$council_id)->update(["president_id"=>$president_id]);
@@ -115,7 +115,7 @@ class CouncilsController extends Controller
             $last_adjunto=$council->adjunto;
 
             //Agregar fecha final del período del adjunto actual
-            Transaction::where("type","create_user_adjunto")->where("user_id",$last_adjunto->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("d/m/Y")]);
+            Transaction::where("type","create_user_adjunto")->where("user_id",$last_adjunto->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
 
             //Eliminar el adjunto actual del consejo
             Council::where("id",$council_id)->update(["adjunto_id"=>null]);
@@ -124,7 +124,7 @@ class CouncilsController extends Controller
             $last_adjunto->councils()->detach($council_id);
 
             //El adjunto actual ahora pasa a ser un consejero
-            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_adjunto->id,"affected_id"=>$council_id,"start_date"=>gmdate("d/m/Y")]);
+            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_adjunto->id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
 
             //El adjunto actual ahora es degredado a consejero
             $rol=Role::where("name","consejero")->first();
@@ -134,13 +134,13 @@ class CouncilsController extends Controller
             $new_adjunto=User::where("id",$adjunto_id)->first();
 
             //Agregar fecha final del período del consejero que ahora será adjunto
-            Transaction::where("type","create_user_consejero")->where("user_id",$adjunto_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("d/m/Y")]);
+            Transaction::where("type","create_user_consejero")->where("user_id",$adjunto_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
 
             //Desvincular el adjunto actual del consejo
             $new_adjunto->councils()->detach($council_id);
 
             //Agregar fecha inicial del período del adjunto nuevo
-            Transaction::create(["type"=>"create_user_adjunto","user_id"=>$adjunto_id,"affected_id"=>$council_id,"start_date"=>gmdate("d/m/Y")]);
+            Transaction::create(["type"=>"create_user_adjunto","user_id"=>$adjunto_id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
 
             //Agregar el adjunto nuevo al consejo
             Council::where("id",$council_id)->update(["adjunto_id"=>$adjunto_id]);
