@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="row justify-content-center">
-	<form class="form-signin col-lg-10 col-md-12 col-sm-12 " action="{{route("admin_diaries_create")}}" method="post" enctype="multipart/form-data">
+	<form class="form-signin col-lg-10 col-md-12 col-sm-12 " @if($user->hasRole("admin")) action="{{route("admin_diaries_create")}}" @else action="{{route("presidente_diaries_create")}}" @endif method="post" enctype="multipart/form-data">
         @if($errors->any())
             <div style="text-align:center;" class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}

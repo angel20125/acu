@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use App\User;
+use App\Models\Diary;
 use App\Models\TokenReset;
 
 class ProfileController extends Controller
@@ -212,6 +213,20 @@ class ProfileController extends Controller
         $user = User::getCurrent();
         $rol=$user->getCurrentRol();
 
+        $date = new \DateTime();
+        $date->modify('first day of this month');
+
+        $new_date = new \DateTime();
+        $new_date->modify('first day of this month')->add(new \DateInterval("P1M"));
+
+        $diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
+
+        $calendar=[];
+        foreach($diaries as $key => $diary) 
+        {
+            $calendar[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d") => $diary->id];
+        }
+
         if($rol)
         {
             if($rol->name=="admin")
@@ -221,7 +236,7 @@ class ProfileController extends Controller
 
             if($rol->name=="presidente")
             {
-                return "Aquí va el dashboard del presidente";
+                return redirect()->route("president_dashboard");
             }
 
             if($rol->name=="consejero")
@@ -239,5 +254,24 @@ class ProfileController extends Controller
                 return "Aquí va el dashboard del adjunto";
             }
         }
+    }
+
+    public function getPresidentDashboard()
+    {
+        $date = new \DateTime();
+        $date->modify('first day of this month');
+
+        $new_date = new \DateTime();
+        $new_date->modify('first day of this month')->add(new \DateInterval("P1M"));
+
+        $diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
+
+        $calendar=[];
+        foreach($diaries as $key => $diary) 
+        {
+            $calendar[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d") => $diary->id];
+        }
+
+        return view("main.presidente_dashboard",["diaries"=>$diaries,"calendar"=>$calendar]);
     }
 }

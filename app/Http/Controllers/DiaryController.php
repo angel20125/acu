@@ -14,6 +14,23 @@ use App\Http\Controllers\Controller;
 
 class DiaryController extends Controller
 {
+    public function getLimitedIndex()
+    {
+        return view("diary.list_limited");
+    }
+
+    public function getListLimited()
+    {
+        $diaries=Diary::get();
+
+        $diaries_list=[];
+        foreach($diaries as $diary)
+        {
+            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+        }
+        return response()->json(['data' => $diaries_list]);
+    }
+
     public function getIndex()
     {
         return view("diary.list");
@@ -26,7 +43,7 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),$diary->status=="0"?"A tratar":"Tratada",'<a href="'.route("getDiary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -49,7 +66,7 @@ class DiaryController extends Controller
         }
         else
         {
-            //to do
+            $councils=$user->councils;
         }
 
         if(count($councils)==0)
@@ -196,7 +213,14 @@ class DiaryController extends Controller
                 }
             }
 
-            return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
+            if($user->hasRole("admin"))
+            {
+                return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
+            }
+            else
+            {
+                return redirect()->route("diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
+            }
         }
     }
 }

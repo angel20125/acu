@@ -186,7 +186,7 @@ class UsersController extends Controller
             $message->to($user->email,$user->first_name);
         });
 
-        return redirect()->route("admin_users_edit",["user_id"=>$user->id])->with(["message_info"=>"Se ha registrado el usuario"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el usuario exitosamente"]);
     }
 
     public function getEdit($user_id)

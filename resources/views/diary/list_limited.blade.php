@@ -19,12 +19,8 @@
         {{session('message_info')}}
     </div>
 @endif
- <h1 class="text-center mr1 font-weight-normal">Lista de Agendas</h1>
-<div class="form-group">
-    <div class="  text-right pdr">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_diaries_create")}}" role="button">Registrar Agenda</a>
-    </div>
-</div>
+<h1 class="text-center mr1 font-weight-normal">Lista de Agendas</h1>
+
 <br>
 
 <div class="table-responsive">
@@ -50,7 +46,7 @@
 <script>
     $(document).ready(function() {
         $('#table').DataTable( {
-            "ajax": '{{route("get_admin_diaries")}}',
+            "ajax": '{{route("get_diaries")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
             "iDisplayLength": 10,
             "language": {

@@ -19,7 +19,7 @@
 	    			<h5 class="card-title">Punto {{$key+1}}</h5>
 	  			</div>
 		  		<div class="card-body">
-		  			<h5 class="card-title">Presentado por el {{$point->user->getCurrentRol()->display_name}} "{{$point->user->first_name}} {{$point->user->last_name}}"</h5>
+		  			<h5 class="card-title">Presentado por el {{$point->user->getCurrentRol()->name}} "{{$point->user->first_name}} {{$point->user->last_name}}"</h5>
 		    		<h6 class="card-title">Descripción del punto</h6>
 		    		<p class="card-text">{{$point->description}}</p>
 		    		<p>(Punto de {{$point->type=="info"?"información":"decisión"}})</p>

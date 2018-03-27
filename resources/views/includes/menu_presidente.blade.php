@@ -20,46 +20,18 @@
 </ul>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
-	<i class="fas fa-list"></i><span class="mr8">CARGOS INTERNOS</span>
-</h6>
-
-<ul class="nav flex-column">
-	<li class="nav-item">
-		<a class="nav-link" href="{{route("admin_positions")}}">
-			Ver Cargos
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link  " href="{{route("admin_positions_create")}}">
-			Registrar Cargo
-		</a>
-	</li>
-
-</ul>
-
-<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
 	<i class="fas fa-sitemap"></i><span class="mr8">CONSEJOS</span>
 </h6>
 
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link  " href="{{route("admin_councils")}}">
+		<a class="nav-link  " href="{{route("councils")}}">
 			Ver Consejos
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link  " href="{{route("admin_councils_create")}}">
-			Registrar Consejo  
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link  " href="{{route("admin_users")}}">
+		<a class="nav-link  " href="{{route("users")}}">
 			Ver Usuarios
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link  " href="{{route("admin_users_create")}}">
-			Registrar Usuario  
 		</a>
 	</li>
 </ul>
@@ -70,13 +42,18 @@
 
 <ul class="nav flex-column">
 	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("admin_diaries")}}">
+		<a class="nav-link  " href="{{route("diaries")}}">
 			Ver Agendas
 		</a>
 	</li>
 	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("admin_diaries_create")}}">
+		<a class="nav-link  " href="{{route("presidente_diaries_create")}}">
 			Registrar Agenda
+		</a>
+	</li>
+	<li class="nav-item-active">
+		<a class="nav-link  " href="#">
+			Puntos Propuestos
 		</a>
 	</li>
 </ul>

@@ -46,7 +46,7 @@ class CouncilsController extends Controller
 
         $council=Council::create($data);
 
-        return redirect()->route("admin_councils_edit",["council_id"=>$council->id])->with(["message_info"=>"Se ha registrado el consejo"]);
+        return redirect()->route("admin_councils")->with(["message_info"=>"Se ha registrado el consejo exitosamente"]);
     }
 
     public function getEdit($council_id)

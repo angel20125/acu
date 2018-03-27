@@ -44,7 +44,7 @@ class PositionsController extends Controller
 
         $position=Position::create($data);
 
-        return redirect()->route("admin_positions_edit",["position_id"=>$position->id])->with(["message_info"=>"Se ha registrado el cargo"]);
+        return redirect()->route("admin_positions")->with(["message_info"=>"Se ha registrado el cargo exitosamente"]);
     }
 
     public function getEdit($position_id)

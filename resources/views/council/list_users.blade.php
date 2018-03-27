@@ -1,13 +1,14 @@
 @extends('layouts.home')
 
-@section('title' , "Agendas")
+@section('title' , "Usuarios")
 
 @section('links')
+    
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+   
 @endsection
 
 @section('content')
-
 
 @if($errors->any())
     <div style="text-align:center;" class="alert alert-danger" role="alert">
@@ -19,22 +20,20 @@
         {{session('message_info')}}
     </div>
 @endif
- <h1 class="text-center mr1 font-weight-normal">Lista de Agendas</h1>
-<div class="form-group">
-    <div class="  text-right pdr">
-        <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_diaries_create")}}" role="button">Registrar Agenda</a>
-    </div>
-</div>
+<h1 class="text-center mr1 font-weight-normal">Lista de Usuarios</h1>
+
 <br>
 
 <div class="table-responsive">
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Consejo involucrado</th>
-            <th>Presidente</th>
-            <th>Fecha a tratar</th>
-            <th></th>
+            <th>Usuario </th>
+            <th>Cédula</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Rol</th>
+            <th>Consejo</th>
         </tr>
     </thead>
 </table>
@@ -49,18 +48,19 @@
 
 <script>
     $(document).ready(function() {
+
         $('#table').DataTable( {
-            "ajax": '{{route("get_admin_diaries")}}',
+            "ajax": '{{route("get_users")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
             "iDisplayLength": 10,
             "language": {
                 "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ agendas",
+                "sLengthMenu":     "Mostrar _MENU_ usuarios",
                 "sZeroRecords":    "No se encontraron resultados",
                 "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando de _START_ a _END_ agendas de un total de _TOTAL_",
-                "sInfoEmpty":      "No se ha registrado ninguna agenda",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ agendas)",
+                "sInfo":           "Mostrando de _START_ a _END_ usuarios de un total de _TOTAL_",
+                "sInfoEmpty":      "No se ha registrado ningún usuario",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ usuarios)",
                 "sInfoPostFix":    "",
                 "sSearch":         "Buscar:",
                 "sUrl":            "",
@@ -77,6 +77,7 @@
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
             }
+            
         } );
     });
 </script>

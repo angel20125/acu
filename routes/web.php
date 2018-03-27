@@ -75,5 +75,20 @@ Route::post('admin/agendas/editar', 'DiaryController@update')->middleware("logge
 Route::get('admin/agendas/eliminar/{diary_id}', 'DiaryController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_trash');
 Route::post('admin/agendas/eliminar', 'DiaryController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_delete');
 
-//Show agenda
-Route::get('agendas/visualizar/{diary_id}', 'DiaryController@getDiary')->middleware("logged")->name('getDiary');
+//Presidente
+Route::get('presidente/inicio', 'ProfileController@getPresidentDashboard')->middleware("logged")->middleware(['role:presidente'])->name('president_dashboard');
+Route::get('presidente/agendas/registrar', 'DiaryController@getCreate')->middleware("logged")->middleware(['role:presidente'])->name('presidente_diaries_create');
+Route::post('presidente/agendas/registrar', 'DiaryController@create')->middleware("logged")->middleware(['role:presidente'])->name('presidente_diaries_create');
+
+// Routes accessible to other roles
+Route::get('consejos', 'CouncilsController@getIndex')->middleware("logged")->name('councils');
+Route::get('consejos/obtener', 'CouncilsController@getList')->middleware("logged")->name('get_councils');
+Route::get('consejos/visualizar/{council_id}', 'CouncilsController@getCouncil')->middleware("logged")->name('get_council');
+Route::get('consejos/visualizar/{council_id}/usuarios/', 'CouncilsController@getListMembers')->middleware("logged")->name('get_list_members');
+
+Route::get('agendas', 'DiaryController@getLimitedIndex')->middleware("logged")->name('diaries');
+Route::get('agendas/obtener', 'DiaryController@getListLimited')->middleware("logged")->name('get_diaries');
+Route::get('agendas/visualizar/{diary_id}', 'DiaryController@getDiary')->middleware("logged")->name('get_diary');
+
+Route::get('usuarios', 'UsersController@getIndex')->middleware("logged")->name('users');
+Route::get('usuarios/obtener', 'UsersController@getList')->middleware("logged")->name('get_users');
