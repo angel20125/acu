@@ -8,7 +8,6 @@
 
 @section('content')
 
-<br>
 @if($errors->any())
     <div style="text-align:center;" class="alert alert-danger" role="alert">
         {{$errors->first()}}
@@ -20,40 +19,32 @@
     </div>
 @endif
 
-<div class="row justify-content-center">
-	<div class="card text-center col-lg-3 col-md-5 col-sm-10">
-		<div class="card-body">
-			<h5 class="card-title">20/03/2018</h5>
-			<p class="card-text">Juegos Universitarios</p>
-			<a href="#" class="btn btn-primary">Ver reunión</a>
-		</div>
-		<div class="card-footer text-muted">
-			hoy
+@if(count($diaries)>0)
+	<div class="row justify-content-center">
+		@foreach($diaries as $key => $diary)
+			@if($key < 3)
+				<div class="card text-center col-lg-3 col-md-5 col-sm-10">
+					<div class="card-body">
+						<h5 class="card-title">{{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}}</h5>
+						<p class="card-text">{{$diary->council->name}}</p>
+						<a href="{{route("getDiary",["diary_id"=>$diary->id])}}" class="btn btn-primary">Ver Agenda</a>
+					</div>
+					<div class="card-footer text-muted">
+						Lugar: {{$diary->place}}	
+					</div>
+				</div>
+			@endif
+		@endforeach
+	</div>
+@else
+	<div class="row justify-content-center">
+		<div class="card">
+			<div class="card-body" style="text-align: center;">
+				<h4>¡No se ha registrado ninguna agenda por ahora!</h4>
+			</div>
 		</div>
 	</div>
-	<div class="card text-center col-lg-3 col-md-5 col-sm-10">
-		<div class="card-body">
-			<h5 class="card-title">21/03/2018</h5>
-			<p class="card-text">Situacion Comedor</p>
-			<a href="#" class="btn btn-primary">Ver reunión</a>
-		</div>
-		<div class="card-footer text-muted">
-			mañana
-		</div>
-	</div>
-
-	<div class="card text-center col-lg-3 col-md-5 col-sm-10  d-md-none d-lg-block">
-		<div class="card-body">
-			<h5 class="card-title">30/03/2018</h5>
-			<p class="card-text">Alargue de Semestre</p>
-			<a href="#" class="btn btn-primary">Ver reunión</a>
-		</div>
-		<div class="card-footer text-muted">
-			faltan 10 dias
-		</div>
-	</div>
-	
-</div>
+@endif
 
 <br>
 
@@ -110,18 +101,34 @@
 		        		@elseif($count >= $startDate && $countDay <= DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
 	        				@if($countDay==gmdate("d"))
 			        			<td style="background:#28a745; color:white; font-weight: bold;">
-			        				{{$countDay}}{{DateTime::createFromFormat("m/Y",gmdate("m/Y"))->format("")}}
+			        				{{$countDay}}
+			        				<br>
+			        				@foreach($calendar as $cal)
+										@foreach($cal as $key => $c)
+											@if($key==$countDay)
+												<a style="color:white;" href="{{route("getDiary",["diary_id"=>$c])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+											@endif
+										@endforeach
+									@endforeach
 			        			</td>
 		        			@else
 			        			<td style="font-weight: bold; ">
-			        				{{$countDay}}{{DateTime::createFromFormat("m/Y",gmdate("m/Y"))->format("")}}
+			        				{{$countDay}}
+			        				<br>
+			        				@foreach($calendar as $cal)
+										@foreach($cal as $key => $c)
+											@if($key==$countDay)
+												<a href="{{route("getDiary",["diary_id"=>$c])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+											@endif
+										@endforeach
+									@endforeach
 			        			</td>
 		        			@endif
 		        			@php $countDay++; @endphp
 
 		        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
 		        			<td style="color: #BDBDBD">
-		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d/m/Y")}}
+		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
 		        			</td>
 		        			@php $future_month++; @endphp
 		        		@endif

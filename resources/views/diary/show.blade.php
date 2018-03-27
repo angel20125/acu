@@ -9,8 +9,7 @@
     	<h2 class="card-title">{{$diary->council->name}}</h2>
     	<h5 class="card-subtitle mb-2 text-muted">Descripción de la agenda</h5>
     	<p style="font-style: oblique;" class="card-text">{{$diary->description}}</p>
-    	<p class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{$diary->event_date}} <b>Estado:</b> {{$diary->status=="0"?"A tratar":"Tratada"}}</p>
-    	<a class="btn btn-primary" href="{{route("admin_diaries")}}">Volver</a>
+    	<p class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> {{$diary->status=="0"?"A tratar":"Tratada"}}</p>
     	
     	<br><br>
 

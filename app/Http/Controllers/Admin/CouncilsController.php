@@ -65,12 +65,12 @@ class CouncilsController extends Controller
 
         $council=Council::where("id",$council_id)->first();
 
-        if($president_id==$adjunto_id) 
+        if($president_id && $adjunto_id && $president_id==$adjunto_id) 
         {
             return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
-        if($president_id!=$council->president->id)
+        if($council->president && $president_id!=$council->president->id)
         {
             $last_president=$council->president;
 
@@ -110,7 +110,7 @@ class CouncilsController extends Controller
             $new_president->councils()->attach($council_id,["role_id"=>$rol->id]);
         }
 
-        if($adjunto_id!=$council->adjunto->id)
+        if($council->adjunto && $adjunto_id!=$council->adjunto->id)
         {
             $last_adjunto=$council->adjunto;
 
