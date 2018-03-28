@@ -9,7 +9,7 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->display_name}})
+			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->display_name}}) <br> {{$user->councils()->wherePivot("role_id",$user->getCurrentRol()->id)->first()->name}}
 		</a>
 	</li>
 	<li class="nav-item">
