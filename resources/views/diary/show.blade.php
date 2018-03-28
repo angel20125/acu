@@ -11,7 +11,7 @@
     	<p style="font-style: oblique;" class="card-text">{{$diary->description}}</p>
     	<p class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> {{$diary->status=="0"?"A tratar":"Tratada"}}</p>
     	
-    	<br><br>
+    	<br>
 
     	@foreach($diary->points->where("pre_status","incluido")->sortByDesc("created_at") as $key => $point)
 	    	<div class="card">

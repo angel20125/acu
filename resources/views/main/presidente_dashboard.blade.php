@@ -9,7 +9,7 @@
 @section('content')
 
 @if($errors->any())
-    <div style="text-align:center;" class="alert alert-danger" role="alert">
+    <div style="text-align:center;" class="alert alert-danger " role="alert">
         {{$errors->first()}}
     </div>
 @endif
