@@ -6,6 +6,7 @@ use App\User;
 use App\Models\Council;
 use App\Models\Diary;
 use App\Models\Document;
+use App\Models\Role;
 use App\Models\Point;
 use Illuminate\Http\Request;
 use App\Http\Requests\Diary\CreateDiaryRequest;
@@ -399,9 +400,12 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($user->councils as $council) 
         {
-            foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+            if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
-                $diaries_list[]=[$diary->id, $council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")];
+                foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+                {
+                    $diaries_list[]=[$diary->id, $council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")];
+                }
             }
         }
 

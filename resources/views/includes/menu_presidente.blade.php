@@ -9,7 +9,7 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->display_name}}) 
+			{{$user->first_name}} {{$user->last_name}}  <br> ({{$user->getCurrentRol()->display_name}})
 		</a>
 	</li>
 	<li class="nav-item">
@@ -53,7 +53,7 @@
 	</li>
 	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("president_history_points")}}">
-			Historial de Puntos Incluidos
+			Historial de mis Puntos
 		</a>
 	</li>
 	<li class="nav-item-active">
@@ -62,6 +62,36 @@
 		</a>
 	</li>
 </ul>
+
+@if($user->hasRole("adjunto") || $user->hasRole("consejero") || $user->hasRole("secretaria"))
+	<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">
+		<i class="fas fa-address-card"></i><span class="mr8">ROLES</span>
+	</h6>
+
+	<ul class="nav flex-column ">
+		@if($user->hasRole("adjunto"))
+			<li class="nav-item">
+				<a class="nav-link " href="{{route("change_rol",["rol_name"=>"adjunto"])}}">
+					Adjunto
+				</a>
+			</li>
+		@endif
+		@if($user->hasRole("consejero"))
+			<li class="nav-item">
+				<a class="nav-link " href="{{route("change_rol",["rol_name"=>"consejero"])}}">
+					Consejero
+				</a>
+			</li>
+		@endif
+		@if($user->hasRole("secretaria"))
+			<li class="nav-item">
+				<a class="nav-link " href="{{route("change_rol",["rol_name"=>"secretaria"])}}">
+					Secretaria
+				</a>
+			</li>
+		@endif
+	</ul>
+@endif
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">
 	<i class="far fa-address-book"></i><span class="mr8">CONTACTO</span>

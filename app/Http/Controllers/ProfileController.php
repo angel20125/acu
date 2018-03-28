@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use App\Models\Diary;
+use App\Models\Role;
 use App\Models\TokenReset;
 
 class ProfileController extends Controller
@@ -213,20 +214,6 @@ class ProfileController extends Controller
         $user = User::getCurrent();
         $rol=$user->getCurrentRol();
 
-        $date = new \DateTime();
-        $date->modify('first day of this month');
-
-        $new_date = new \DateTime();
-        $new_date->modify('first day of this month')->add(new \DateInterval("P1M"));
-
-        $diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
-
-        $calendar=[];
-        foreach($diaries as $key => $diary) 
-        {
-            $calendar[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d") => $diary->id];
-        }
-
         if($rol)
         {
             if($rol->name=="admin")
@@ -254,6 +241,19 @@ class ProfileController extends Controller
                 return "Aquí va el dashboard del adjunto";
             }
         }
+    }
+
+    public function changeRol($rol)
+    {
+        $user = User::getCurrent();
+        
+        if($user->hasRole($rol))
+        {
+            $rol=Role::where("name",$rol)->first();
+            session(['current_rol' => $rol->id]);
+        }
+
+        return redirect()->route("dashboard")->with(["message_info"=>"Se ha cambiado su rol"]);
     }
 
     public function getPresidentDashboard()

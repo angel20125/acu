@@ -58,6 +58,36 @@
 	</li>
 </ul>
 
+@if($user->hasRole("adjunto") || $user->hasRole("presidente") || $user->hasRole("secretaria"))
+	<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">
+		<i class="fas fa-address-card"></i><span class="mr8">ROLES</span>
+	</h6>
+
+	<ul class="nav flex-column ">
+		@if($user->hasRole("adjunto"))
+			<li class="nav-item">
+				<a class="nav-link " href="{{route("change_rol",["rol_name"=>"adjunto"])}}">
+					Adjunto
+				</a>
+			</li>
+		@endif
+		@if($user->hasRole("presidente"))
+			<li class="nav-item">
+				<a class="nav-link " href="{{route("change_rol",["rol_name"=>"presidente"])}}">
+					Presidente
+				</a>
+			</li>
+		@endif
+		@if($user->hasRole("secretaria"))
+			<li class="nav-item">
+				<a class="nav-link " href="{{route("change_rol",["rol_name"=>"secretaria"])}}">
+					Secretaria
+				</a>
+			</li>
+		@endif
+	</ul>
+@endif
+
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">
 	<i class="far fa-address-book"></i><span class="mr8">CONTACTO</span>
 </h6>

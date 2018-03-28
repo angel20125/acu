@@ -17,6 +17,7 @@ Route::get('inicio', 'ProfileController@getDashboard')->middleware('logged')->na
 //Profile Controller
 Route::get('perfil', 'ProfileController@getProfile')->middleware('logged')->name('profile');
 Route::post('perfil/editar', 'ProfileController@saveProfile')->middleware('logged')->name('save_profile');
+Route::get('perfil/cambiar_rol/{rol}', 'ProfileController@changeRol')->middleware("logged")->name('change_rol');
 
 //Authentication Routes
 Route::get('verify/{code}', 'ProfileController@verify')->name('verify');
