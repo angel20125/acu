@@ -238,7 +238,7 @@ class ProfileController extends Controller
 
             if($rol->name=="adjunto")
             {
-                return "Aquí va el dashboard del adjunto";
+                return redirect()->route("adjunto_dashboard");
             }
         }
     }
@@ -311,5 +311,24 @@ class ProfileController extends Controller
         }
 
         return view("main.consejero_dashboard",["diaries"=>$diaries,"calendar"=>$calendar]);
+    }
+
+    public function getAdjuntoDashboard()
+    {
+        $date = new \DateTime();
+        $date->modify('first day of this month');
+
+        $new_date = new \DateTime();
+        $new_date->modify('first day of this month')->add(new \DateInterval("P1M"));
+
+        $diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
+
+        $calendar=[];
+        foreach($diaries as $key => $diary) 
+        {
+            $calendar[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d") => $diary->id];
+        }
+
+        return view("main.adjunto_dashboard",["diaries"=>$diaries,"calendar"=>$calendar]);
     }
 }

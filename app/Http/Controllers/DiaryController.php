@@ -32,6 +32,54 @@ class DiaryController extends Controller
         return response()->json(['data' => $diaries_list]);
     }
 
+    public function getAdjuntoIndex()
+    {
+        return view("diary.list_adjunto");
+    }
+
+    public function getListAdjunto()
+    {
+        $user=User::getCurrent();
+
+        $diaries_list=[];
+        
+        foreach($user->councils as $council) 
+        {
+            foreach($council->diaries->where("event_date","<=",gmdate("Y-m-d"))->where("status",0) as $diary) 
+            {
+                $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
+            }
+        }
+
+        return response()->json(['data' => $diaries_list]);
+    }
+
+    public function getDiaryAdjunto($diary_id)
+    {
+        $user=User::getCurrent();
+
+        $diary=Diary::where("id",$diary_id)->first();
+
+        if(!$diary) 
+        {
+            return redirect()->route("adjunto_dashboard")->withErrors(["La agenda que trata de finalizar no existe"]);
+        }
+
+        $user_council=$user->councils()->wherePivot("council_id",$diary->council->id)->first();
+
+        if(($diary && $user_council && $diary->council->id!=$user_council->id) || !$user_council) 
+        {
+            return redirect()->route("adjunto_dashboard")->withErrors(["No tiene permisos de finalizar esa determinada agenda"]);
+        }
+        
+        if($diary->event_date > gmdate("Y-m-d")) 
+        {
+            return redirect()->route("adjunto_dashboard")->withErrors(["La agenda que trata de finalizar aún no se ha tratado"]);
+        }
+
+        return view("diary.end",["diary"=>$diary]);
+    }
+
     public function getIndex()
     {
         return view("diary.list");
@@ -219,7 +267,7 @@ class DiaryController extends Controller
 
             foreach ($users as $user) 
             {
-                if($user->status && $user->validate) 
+                if($user->status && $user->validate && $user->hasRole("consejero")) 
                 {
                     \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                     {
@@ -530,5 +578,129 @@ class DiaryController extends Controller
     public function getPresidentHistoryPoints()
     {
         return view("point.president_added_points");
+    }
+
+    public function diaryUpdate(Request $request)
+    {
+        $dataPoints=($request->only(["place","description","user_id","diary_id","point_id","description_point","type","agreement","post_status","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
+
+        $diary_id=$dataPoints["diary_id"];
+
+        $diary=Diary::where("id",$diary_id)->update(["status"=>1,"place"=>$dataPoints["place"],"description"=>$dataPoints["description"]]);
+
+        foreach($dataPoints["description_point"] as $key => $description)
+        {
+            if(isset($dataPoints["point_id"][$key]))
+            {
+                $point=Point::where("id",$dataPoints["point_id"][$key])->first();
+            }
+            else
+            {
+                $point=null;
+            }
+
+            if(!$point)
+            {
+                $count=0;
+                $point=Point::create(
+                [
+                    'user_id' => $dataPoints["user_id"][$count],
+                    'diary_id' => $diary_id,
+                    'title' => "punto_".$key,
+                    'description' => $description,
+                    'type' => $dataPoints["type"][$key],
+                    'pre_status' => "incluido",
+                    'agreement' => $dataPoints["agreement"][$key],
+                    'post_status' => $dataPoints["post_status"][$key]
+                ]);
+
+                $new_date=gmdate("d_m_Y");
+
+                $n=0;
+                while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
+                {
+                    $n++;
+                }
+
+                if(!empty($dataPoints["attached_document_one"][$count]))
+                {
+                    $request->attached_document_one[$count]->storeAs('docs/', 'file_'.$point->id.'_'.$new_date.'_'.$n.'.pdf', 'uploads');
+                    $direction="file_".$point->id."_".$new_date."_".$n.".pdf";
+
+                    Document::create(
+                    [
+                      'point_id' => $point->id,
+                      'direction' => $direction
+                    ]);
+                }
+
+                $n=0;
+                while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
+                {
+                    $n++;
+                }
+
+                if(!empty($dataPoints["attached_document_two"][$count]))
+                {
+                    $request->attached_document_two[$count]->storeAs('docs/', 'file_'.$point->id.'_'.$new_date.'_'.$n.'.pdf', 'uploads');
+                    $direction="file_".$point->id."_".$new_date."_".$n.".pdf";
+
+                    Document::create(
+                    [
+                      'point_id' => $point->id,
+                      'direction' => $direction
+                    ]);
+                }
+
+                $n=0;
+                while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
+                {
+                    $n++;
+                }
+
+                if(!empty($dataPoints["attached_document_three"][$count]))
+                {
+                    $request->attached_document_three[$count]->storeAs('docs/', 'file_'.$point->id.'_'.$new_date.'_'.$n.'.pdf', 'uploads');
+                    $direction="file_".$point->id."_".$new_date."_".$n.".pdf";
+
+                    Document::create(
+                    [
+                      'point_id' => $point->id,
+                      'direction' => $direction
+                    ]);
+                }
+
+                $n=0;
+                while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
+                {
+                    $n++;
+                }
+
+                if(!empty($dataPoints["attached_document_four"][$count]))
+                {
+                    $request->attached_document_four[$count]->storeAs('docs/', 'file_'.$point->id.'_'.$new_date.'_'.$n.'.pdf', 'uploads');
+                    $direction="file_".$point->id."_".$new_date."_".$n.".pdf";
+
+                    Document::create(
+                    [
+                      'point_id' => $point->id,
+                      'direction' => $direction
+                    ]);
+                }
+                $count++;
+            }
+            else
+            {
+                $point=Point::where("id",$dataPoints["point_id"][$key])->update(
+                [
+                  'description' => $description,
+                  'type' => $dataPoints["type"][$key],
+                  'agreement' => $dataPoints["agreement"][$key],
+                  'post_status' => $dataPoints["post_status"][$key],
+                ]);
+            }
+        }
+
+        return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la agenda"]);
     }
 }

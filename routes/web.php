@@ -96,6 +96,13 @@ Route::get('consejero/proponer_puntos', 'DiaryController@getConsejeroProposePoin
 Route::post('consejero/proponer_puntos', 'DiaryController@ConsejeroProposePoints')->middleware("logged")->middleware(['role:consejero'])->name('consejero_propose_points');
 Route::get('consejero/historial/puntos_propuestos', 'DiaryController@getHistoryPoints')->middleware("logged")->middleware(['role:consejero'])->name('consejero_history_points');
 
+//Adjunto
+Route::get('adjunto/inicio', 'ProfileController@getAdjuntoDashboard')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_dashboard');
+Route::get('adjunto/agendas', 'DiaryController@getAdjuntoIndex')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diaries');
+Route::get('adjunto/agendas/obtener', 'DiaryController@getListAdjunto')->middleware("logged")->middleware(['role:adjunto'])->name('get_adjunto_diaries');
+Route::get('adjunto/agendas/finalizar/{diary_id}', 'DiaryController@getDiaryAdjunto')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diaries_edit');
+Route::post('adjunto/agendas/finalizar', 'DiaryController@diaryUpdate')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diary_update');
+
 // Routes accessible to other roles
 Route::get('consejos', 'CouncilsController@getIndex')->middleware("logged")->name('councils');
 Route::get('consejos/obtener', 'CouncilsController@getList')->middleware("logged")->name('get_councils');

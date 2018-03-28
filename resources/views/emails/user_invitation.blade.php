@@ -15,7 +15,7 @@
 
 				<p>Hola {{$user->first_name}},</p>
 
-			    <p>Le notificamos que el presidente del <b>{{$council->name}}</b>, ha convocado una reunión para el día <b>{{$diary->event_date}}</b>, que se llevará a cabo en <b>{{$diary->place}}</b>, donde se tratará una nueva agenda con respecto a la siguiente temática:</p>
+			    <p>Le notificamos que el presidente del <b>{{$council->name}}</b>, ha convocado una reunión para el día <b>{{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}}</b>, que se llevará a cabo en <b>{{$diary->place}}</b>, donde se tratará una nueva agenda con respecto a la siguiente temática:</p>
 
 			    <p style="font-style:oblique;"><b>"{{$diary->description}}"</b></p>
 
