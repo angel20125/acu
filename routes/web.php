@@ -76,9 +76,17 @@ Route::get('admin/agendas/eliminar/{diary_id}', 'DiaryController@getTrash')->mid
 Route::post('admin/agendas/eliminar', 'DiaryController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries_delete');
 
 //Presidente
-Route::get('presidente/inicio', 'ProfileController@getPresidentDashboard')->middleware("logged")->middleware(['role:presidente'])->name('president_dashboard');
+Route::get('presidente/inicio', 'ProfileController@getPresidentDashboard')->middleware("logged")->middleware(['role:presidente'])->name('presidente_dashboard');
 Route::get('presidente/agendas/registrar', 'DiaryController@getCreate')->middleware("logged")->middleware(['role:presidente'])->name('presidente_diaries_create');
 Route::post('presidente/agendas/registrar', 'DiaryController@create')->middleware("logged")->middleware(['role:presidente'])->name('presidente_diaries_create');
+Route::get('presidente/puntos_propuestos', 'DiaryController@getPoints')->middleware("logged")->middleware(['role:presidente'])->name('get_presidente_points');
+Route::get('presidente/puntos_propuestos/evaluar/{point_id}/{evaluation}', 'DiaryController@evaluatePoint')->middleware("logged")->middleware(['role:presidente'])->name('evaluate_presidente_points');
+
+//Secretaria
+Route::get('secretaria/inicio', 'ProfileController@getSecretariaDashboard')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_dashboard');
+Route::get('secretaria/proponer_puntos', 'DiaryController@getSecretaryProposePoints')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_propose_points');
+Route::get('secretaria/proponer_puntos/obtener/{user_id}', 'DiaryController@getListSelectSecretary')->middleware("logged")->middleware(['role:secretaria'])->name('get_diary_select');
+Route::post('secretaria/proponer_puntos', 'DiaryController@SecretaryProposePoints')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_propose_points');
 
 // Routes accessible to other roles
 Route::get('consejos', 'CouncilsController@getIndex')->middleware("logged")->name('councils');

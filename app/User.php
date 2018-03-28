@@ -105,12 +105,12 @@ class User extends Authenticatable
 
     public function position()
     {
-        return $this->hasOne('App\Models\Position','position_id');
+        return $this->hasOne('App\Models\Position','id','position_id');
     }
 
     public function positionBoss()
     {
-        return $this->hasOne('App\Models\Position','position_boss_id');
+        return $this->hasOne('App\Models\Position','id','position_boss_id');
     }
 
     public function boss()

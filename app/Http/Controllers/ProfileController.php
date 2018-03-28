@@ -236,7 +236,7 @@ class ProfileController extends Controller
 
             if($rol->name=="presidente")
             {
-                return redirect()->route("president_dashboard");
+                return redirect()->route("presidente_dashboard");
             }
 
             if($rol->name=="consejero")
@@ -246,7 +246,7 @@ class ProfileController extends Controller
 
             if($rol->name=="secretaria")
             {
-                return "Aquí va el dashboard del secretaria";
+                return redirect()->route("secretaria_dashboard");
             }
 
             if($rol->name=="adjunto")
@@ -273,5 +273,24 @@ class ProfileController extends Controller
         }
 
         return view("main.presidente_dashboard",["diaries"=>$diaries,"calendar"=>$calendar]);
+    }
+
+    public function getSecretariaDashboard()
+    {
+        $date = new \DateTime();
+        $date->modify('first day of this month');
+
+        $new_date = new \DateTime();
+        $new_date->modify('first day of this month')->add(new \DateInterval("P1M"));
+
+        $diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
+
+        $calendar=[];
+        foreach($diaries as $key => $diary) 
+        {
+            $calendar[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d") => $diary->id];
+        }
+
+        return view("main.secretaria_dashboard",["diaries"=>$diaries,"calendar"=>$calendar]);
     }
 }

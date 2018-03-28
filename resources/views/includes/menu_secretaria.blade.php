@@ -47,13 +47,13 @@
 		</a>
 	</li>
 	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("presidente_diaries_create")}}">
-			Registrar Agenda
+		<a class="nav-link  " href="{{route("secretaria_propose_points")}}">
+			Presentar Puntos
 		</a>
 	</li>
 	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("get_presidente_points")}}">
-			Puntos Propuestos
+		<a class="nav-link  " href="{{route("secretaria_propose_points")}}">
+			Historial de Presentaciones
 		</a>
 	</li>
 </ul>

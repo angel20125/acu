@@ -23,7 +23,7 @@ class CouncilsController extends Controller
         $councils_list=[];
         foreach($councils as $council)
         {
-            $councils_list[]=[$council->name,$council->president==null?"NA":$council->president->last_name." ".$council->president->first_name,$council->adjunto==null?"NA":$council->adjunto->last_name." ".$council->adjunto->first_name,\DateTime::createFromFormat("Y-m-d H:i:s",$council->created_at)->format("d-m-Y"),'<a href="'.route("admin_councils_edit",["council_id"=>$council->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_councils_trash",["council_id"=>$council->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
+            $councils_list[]=[$council->name,$council->president==null?"NA":$council->president->last_name." ".$council->president->first_name,$council->adjunto==null?"NA":$council->adjunto->last_name." ".$council->adjunto->first_name,\DateTime::createFromFormat("Y-m-d H:i:s",$council->created_at)->format("d-m-Y"),'<a href="'.route("get_council",["council_id"=>$council->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a><a href="'.route("admin_councils_edit",["council_id"=>$council->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a><a href="'.route("admin_councils_trash",["council_id"=>$council->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
 
         return response()->json(['data' => $councils_list]);
