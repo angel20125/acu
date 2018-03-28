@@ -11,7 +11,8 @@
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/sticky.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/side.css') }}" rel="stylesheet">
-	
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/pace-theme-minimal.css') }}">
+	<script src="{{ asset('js/pace.min.js') }}"></script>
 	<link href="{{ asset('css/fa-svg-with-js.css') }}" rel="stylesheet">
 	@yield('links')
 </head>
@@ -22,14 +23,14 @@
 		<!-- SideBar -->
 <div class="container-fluid">
 	<div class="row flex-xl-nowrap">
-	<div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right sidebar-sticky bd-sidebar" > 
-		@include("includes.menu_".$user->getCurrentRol()->name)
-	</div>
+		<div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right sidebar-sticky bd-sidebar" > 
+			@include("includes.menu_".$user->getCurrentRol()->name)
+		</div>
 
-	<!-- Contenido de pagina  -->
-	<main  class="col-md-9 ml-sm-auto col-lg-10  py-md-3 bd-content" role="main">
-		@yield('content')
-	</main>
+		<!-- Contenido de pagina  -->
+		<main  class="col-md-9 ml-sm-auto col-lg-10  py-md-3 bd-content" role="main">
+			@yield('content')
+		</main>
 	</div>
 </div>
 
