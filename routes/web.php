@@ -92,3 +92,16 @@ Route::get('agendas/visualizar/{diary_id}', 'DiaryController@getDiary')->middlew
 
 Route::get('usuarios', 'UsersController@getIndex')->middleware("logged")->name('users');
 Route::get('usuarios/obtener', 'UsersController@getList')->middleware("logged")->name('get_users');
+
+//consejeros
+Route::group([
+    'prefix' => 'profile',
+], function() {
+
+    Route::get('mi-asistencia', ['uses' => 'UsersController@getMyAssistance']);
+    Route::get('agenda/asistencia', ['uses' => 'UsersController@getAssistance']);
+    Route::get('mis-puntos', ['uses' => 'UsersController@getMyPoints']);
+    Route::get('mi-cargo', ['uses' => 'UsersController@getMyPosition']);
+    Route::get('mis-consejos', ['uses' => 'UsersController@getMyCouncils']);
+
+});

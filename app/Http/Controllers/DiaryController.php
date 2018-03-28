@@ -89,7 +89,7 @@ class DiaryController extends Controller
             return redirect()->back()->withErrors(["No puede registrar o convocar una agenda en una fecha que ya pasó"]);
         }
 
-        $dataPoints=($request->only(["description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
+        $dataPoints=($request->only(["description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -98,7 +98,7 @@ class DiaryController extends Controller
         else
         {
             $data=($request->only(["council_id","description","place","event_date"]));
-            
+
             if($event_date==$date)
             {
                 $data["limit_date"]=$event_date;
@@ -201,9 +201,9 @@ class DiaryController extends Controller
 
             $users=$council->users;
 
-            foreach ($users as $user) 
+            foreach ($users as $user)
             {
-                if($user->status && $user->validate) 
+                if($user->status && $user->validate)
                 {
                     \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                     {
