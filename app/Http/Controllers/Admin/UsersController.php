@@ -129,15 +129,13 @@ class UsersController extends Controller
 
             foreach($users as $user) 
             {
-                $transaction=Transaction::where("type","create_user_".$last_roles[$key])->where("affected_id",$council->id)->where("end_date",null)->first();
-
-                if($user->hasRole("presidente") && $last_roles[$key]=="presidente" && $transaction) 
+                if($user->hasRole("presidente") && $last_roles[$key]=="presidente" && $council->president && $council->president->id==$user->id) 
                 {
                     $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado un presidente"];
                     $count_errors_councils++;
                 }
                 
-                if($user->hasRole("adjunto") && $last_roles[$key]=="adjunto" && $transaction) 
+                if($user->hasRole("adjunto") && $last_roles[$key]=="adjunto" && $council->adjunto && $council->adjunto->id==$user->id) 
                 {
                     $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado un presidente"];
                     $count_errors_councils++;

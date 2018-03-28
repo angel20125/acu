@@ -35,6 +35,9 @@
 					    				<h5 class="card-title">Punto <b>@if($point->post_status=="diferido_virtual") diferido virtual @elseif($point->post_status=="no_presentado") no presentado @else {{$point->post_status}}@endif</b></h5>
 					    			@else
 				    					<h5 class="card-title">Punto {{$point->pre_status=="incluido"?"Incluido":($point->pre_status=="desglosado"?"Desglosado":"Propuesto")}}</h5>
+				    					@if($point->pre_status=="propuesto")
+				    						<a href="{{route("delete_point",["point_id"=>$point->id])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+				    					@endif
 				    				@endif
 					  			</div>
 						  		<div class="card-body">

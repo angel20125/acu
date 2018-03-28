@@ -725,4 +725,23 @@ class DiaryController extends Controller
 
         return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la agenda"]);
     }
+
+    public function deletePoint($point_id)
+    {
+        $point=Point::where("id",$point_id)->first();
+
+        if(!$point) 
+        {
+            return redirect()->route("consejero_history_points")->withErrors(["El punto que trata de eliminar no existe"]);
+        }
+
+        if($point->pre_status!="propuesto" || $point->post_status)
+        {
+            return redirect()->route("consejero_history_points")->withErrors(["No puede eliminar el punto, ya que no posee el pre-status de propuesto"]);
+        }
+
+        $point=Point::where("id",$point_id)->delete();
+
+        return redirect()->route("consejero_history_points")->with(["message_info"=>"Se ha cancelado exitosamente el punto propuesto"]);
+    }
 }
