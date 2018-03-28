@@ -28,13 +28,13 @@
 	  				<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} - <b>{{$council->name}}</b></a></h5>
 	  				<p style="font-style: oblique;">"{{$diary->description}}"</p>
 	  			@endif
-    			@foreach($diary->points->where("pre_status","propuesto") as $key => $point)
+    			@foreach($diary->points->where("pre_status","propuesto")->sortByDesc("created_at") as $key => $point)
 			    	<div class="card">
 			  			<div class="card-header">
 			    			<h5 class="card-title">Punto Propuesto</h5>
 			  			</div>
 				  		<div class="card-body">
-				  			<h5 class="card-title">Presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}"</h5>
+				  			<h5 class="card-title">Presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h5>
 				    		<h6 class="card-title">Descripción del punto</h6>
 				    		<p class="card-text">{{$point->description}}</p>
 				    		<p>(Punto de {{$point->type=="info"?"información":"decisión"}})</p>

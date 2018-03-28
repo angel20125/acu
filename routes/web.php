@@ -88,6 +88,12 @@ Route::get('secretaria/proponer_puntos', 'DiaryController@getSecretaryProposePoi
 Route::get('secretaria/proponer_puntos/obtener/{user_id}', 'DiaryController@getListSelectSecretary')->middleware("logged")->middleware(['role:secretaria'])->name('get_diary_select');
 Route::post('secretaria/proponer_puntos', 'DiaryController@SecretaryProposePoints')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_propose_points');
 
+//Consejero
+Route::get('consejero/inicio', 'ProfileController@getConsejeroDashboard')->middleware("logged")->middleware(['role:consejero'])->name('consejero_dashboard');
+Route::get('consejero/proponer_puntos', 'DiaryController@getConsejeroProposePoints')->middleware("logged")->middleware(['role:consejero'])->name('consejero_propose_points');
+Route::post('consejero/proponer_puntos', 'DiaryController@ConsejeroProposePoints')->middleware("logged")->middleware(['role:consejero'])->name('consejero_propose_points');
+Route::get('consejero/historial/puntos_propuestos', 'DiaryController@getHistoryPoints')->middleware("logged")->middleware(['role:consejero'])->name('consejero_history_points');
+
 // Routes accessible to other roles
 Route::get('consejos', 'CouncilsController@getIndex')->middleware("logged")->name('councils');
 Route::get('consejos/obtener', 'CouncilsController@getList')->middleware("logged")->name('get_councils');

@@ -51,11 +51,6 @@
 			Presentar Puntos
 		</a>
 	</li>
-	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("secretaria_propose_points")}}">
-			Historial de Presentaciones
-		</a>
-	</li>
 </ul>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">

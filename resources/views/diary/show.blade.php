@@ -13,13 +13,13 @@
     	
     	<br><br>
 
-    	@foreach($diary->points->where("pre_status","incluido") as $key => $point)
+    	@foreach($diary->points->where("pre_status","incluido")->sortByDesc("created_at") as $key => $point)
 	    	<div class="card">
 	  			<div class="card-header">
 	    			<h5 class="card-title">Punto Incluido</h5>
 	  			</div>
 		  		<div class="card-body">
-		  			<h5 class="card-title">Presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}"</h5>
+		  			<h5 class="card-title">Presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h5>
 		    		<h6 class="card-title">Descripción del punto</h6>
 		    		<p class="card-text">{{$point->description}}</p>
 		    		<p>(Punto de {{$point->type=="info"?"información":"decisión"}})</p>
