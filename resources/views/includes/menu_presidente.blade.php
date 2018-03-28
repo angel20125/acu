@@ -52,6 +52,11 @@
 		</a>
 	</li>
 	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("president_history_points")}}">
+			Historial de Puntos Incluidos
+		</a>
+	</li>
+	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("get_presidente_points")}}">
 			Puntos Propuestos
 		</a>

@@ -66,15 +66,30 @@ class DiaryController extends Controller
         }
         else
         {
+            $new_councils=[];
             $councils=$user->councils;
+            foreach($councils as $key => $council) 
+            {
+                if($council->president && $council->president->id==$user->id) 
+                {
+                    $new_councils[]=$council;
+                }
+            }
         }
 
-        if(count($councils)==0)
+        if(count($councils)==0 && $user->hasRole("admin"))
         {
-            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar una agenda"]);
+            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar o convocar una nueva agenda"]);
         }
 
-        return view("diary.create",["councils"=>$councils]);
+        if($user->hasRole("admin")) 
+        {
+            return view("diary.create",["councils"=>$councils]);
+        }
+        else
+        {
+            return view("diary.create",["councils"=>$new_councils]);
+        }
     }
 
     public function create(CreateDiaryRequest $request)
@@ -506,5 +521,10 @@ class DiaryController extends Controller
     public function getHistoryPoints()
     {
         return view("point.consejero_propose_points");
+    }
+
+    public function getPresidentHistoryPoints()
+    {
+        return view("point.president_added_points");
     }
 }

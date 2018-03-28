@@ -81,6 +81,7 @@ Route::get('presidente/agendas/registrar', 'DiaryController@getCreate')->middlew
 Route::post('presidente/agendas/registrar', 'DiaryController@create')->middleware("logged")->middleware(['role:presidente'])->name('presidente_diaries_create');
 Route::get('presidente/puntos_propuestos', 'DiaryController@getPoints')->middleware("logged")->middleware(['role:presidente'])->name('get_presidente_points');
 Route::get('presidente/puntos_propuestos/evaluar/{point_id}/{evaluation}', 'DiaryController@evaluatePoint')->middleware("logged")->middleware(['role:presidente'])->name('evaluate_presidente_points');
+Route::get('presidente/historial/puntos_incluidos', 'DiaryController@getPresidentHistoryPoints')->middleware("logged")->middleware(['role:presidente'])->name('president_history_points');
 
 //Secretaria
 Route::get('secretaria/inicio', 'ProfileController@getSecretariaDashboard')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_dashboard');

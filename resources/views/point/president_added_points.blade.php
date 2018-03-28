@@ -17,8 +17,8 @@
 
 <div class="card">
 	<div class="card-body" style="text-align: center;">
-    	<h2 class="card-title">Puntos</h2>
-    	<p class="card-subtitle mb-2 text-muted">En esta sección se presentarán los diversos puntos que has presentado en el pasado en los diversos consejos que participas.</p>
+    	<h2 class="card-title">Puntos Incluidos</h2>
+    	<p class="card-subtitle mb-2 text-muted">En esta sección se presentarán los diversos puntos que has incluido en el pasado en los diversos consejos que presides.</p>
 
     	<br><br>
 
