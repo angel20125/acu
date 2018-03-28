@@ -47,6 +47,21 @@
 		</a>
 	</li>
 	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("adjunto_diaries_create")}}">
+			Registrar Agenda
+		</a>
+	</li>
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("adjunto_propose_points")}}">
+			Agregar Puntos
+		</a>
+	</li>
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("adjunto_history_points")}}">
+			Historial de mis Puntos
+		</a>
+	</li>
+	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("adjunto_diaries")}}">
 			Agendas Pendientes
 		</a>

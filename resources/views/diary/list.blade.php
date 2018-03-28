@@ -33,7 +33,7 @@
         <tr>
             <th>Consejo involucrado</th>
             <th>Presidente</th>
-            <th>Fecha a tratar</th>
+            <th>Fecha</th>
             <th></th>
         </tr>
     </thead>

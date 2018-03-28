@@ -1,6 +1,11 @@
 @extends('layouts.home')
 
-@section('title' , "Presentar Puntos")
+@if($user->getCurrentRol()->name=="consejero") 
+    @section('title' , "Presentar Puntos")
+@else 
+    @section('title' , "Agregar Puntos")
+@endif 
+
 
 @section('links')
 <link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -9,7 +14,7 @@
 @section('content')
 
 <div class="row justify-content-center">
-	<form class="form-signin col-lg-10 col-md-12 col-sm-12" action="{{route("consejero_propose_points")}}" method="post" enctype="multipart/form-data">
+	<form class="form-signin col-lg-10 col-md-12 col-sm-12" @if($user->getCurrentRol()->name=="consejero") action="{{route("consejero_propose_points")}}" @elseif($user->getCurrentRol()->name=="presidente") action="{{route("presidente_propose_points")}}" @else action="{{route("adjunto_propose_points")}}" @endif method="post" enctype="multipart/form-data">
         @if($errors->any())
             <div style="text-align:center;" class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}
@@ -21,7 +26,7 @@
 			</div>
 		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Presentar Puntos</h1>
+		<h1 class="text-center font-weight-normal">@if($user->getCurrentRol()->name=="consejero") Presentar Puntos @else Agregar Puntos @endif</h1>
 		<br>
   		
         <div class="form-row">
@@ -50,7 +55,7 @@
         <br>
        
 		<div class="justify-content-center text-center">
-	  		<button type="submit" class="btn btn-primary" id="presentar">Presentar</button>
+	  		<button type="submit" class="btn btn-primary" id="presentar">@if($user->getCurrentRol()->name=="consejero") Presentar @else Agregar @endif</button>
 	  	</div>
 
 	  	

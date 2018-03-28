@@ -52,13 +52,18 @@
 		</a>
 	</li>
 	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("presidente_propose_points")}}">
+			Agregar Puntos
+		</a>
+	</li>
+	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("president_history_points")}}">
 			Historial de mis Puntos
 		</a>
 	</li>
 	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("get_presidente_points")}}">
-			Puntos Propuestos
+			Evaluar Puntos Propuestos
 		</a>
 	</li>
 </ul>

@@ -119,7 +119,7 @@ class DiaryController extends Controller
             $councils=$user->councils;
             foreach($councils as $key => $council) 
             {
-                if($council->president && $council->president->id==$user->id) 
+                if(($council->president && $council->president->id==$user->id) || ($council->adjunto && $council->adjunto->id==$user->id)) 
                 {
                     $new_councils[]=$council;
                 }
@@ -459,7 +459,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("consejero_dashboard")->withErrors(["No se ha registrado ninguna agenda para proponer nuevos puntos"]);
+            return redirect()->route("consejero_dashboard")->withErrors(["No existen próximas agendas a tratar por estos momentos"]);
         }
 
         return view("point.consejero_points");
@@ -468,6 +468,17 @@ class DiaryController extends Controller
     public function ConsejeroProposePoints(Request $request)
     {
         $user=User::getCurrent();
+        $pre_status="";
+
+        if($user->getCurrentRol()->name=="consejero") 
+        {
+            $pre_status="propuesto";
+        }
+        else
+        {
+            $pre_status="incluido";
+        } 
+
 
         $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
 
@@ -488,7 +499,7 @@ class DiaryController extends Controller
                   'title' => "punto_".$key,
                   'description' => $description,
                   'type' => $dataPoints["type"][$key],
-                  'pre_status' => "propuesto"
+                  'pre_status' => $pre_status
                 ]);
 
                 $new_date=gmdate("d_m_Y");
@@ -566,7 +577,18 @@ class DiaryController extends Controller
                 }
             }
             
-            return redirect()->route("consejero_history_points")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
+            if($user->getCurrentRol()->name=="consejero") 
+            {
+                return redirect()->route("consejero_history_points")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
+            }
+            elseif($user->getCurrentRol()->name=="presidente") 
+            {
+                return redirect()->route("president_history_points")->with(["message_info"=>"Se han agregado exitosamente los puntos"]);
+            }
+            else
+            {
+                return redirect()->route("adjunto_history_points")->with(["message_info"=>"Se han agregado exitosamente los puntos"]);
+            }
         }
     }
 

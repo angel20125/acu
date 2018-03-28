@@ -24,7 +24,7 @@
 
     	@foreach($user->councils as $council)
     		@if($user->getCurrentRol()->id===$council->pivot->role_id)
-	    		@foreach($council->diaries as $diary)
+	    		@foreach($council->diaries->sortByDesc("event_date") as $diary)
 	    			@if(count($diary->points->where("pre_status","propuesto"))>0)
 		  				<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} - <b>{{$council->name}}</b></a></h5>
 		  				<p style="font-style: oblique;">"{{$diary->description}}"</p>
@@ -36,10 +36,14 @@
 				  			</div>
 					  		<div class="card-body">
 					  			<h5 class="card-title">Presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h5>
-					    		<h6 class="card-title">Descripción del punto</h6>
+					    		<h5 class="card-subtitle mb-2 text-muted">Descripción del punto</h5>
 					    		<p class="card-text">{{$point->description}}</p>
 					    		<p>(Punto de {{$point->type=="info"?"información":"decisión"}})</p>
 
+					    		@if(count($point->documents)>0)
+					    			<br>
+				    				<h5 class="card-subtitle mb-2 text-muted">Documentos de soporte</h5>
+					    		@endif
 					    		@foreach($point->documents as $k => $document)
 					    			@if(file_exists("docs/".$document->direction))
 					    				<a href="{{asset("docs/".$document->direction)}}" class="btn btn-success">Documento {{$k+1}}</a>
@@ -53,6 +57,7 @@
 					  		</div>
 						</div>
 	    			@endforeach
+    			<br><br>
 	    		@endforeach
     		@endif
     	@endforeach
