@@ -1000,23 +1000,67 @@ class DiaryController extends Controller
         return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la agenda"]);
     }
 
+    public function getEditPoint($point_id)
+    {
+        $point=Point::where("id",$point_id)->first();
+
+        return response()->json($point->toArray());
+    }
+
+    public function updatePoint(Request $request)
+    {
+        $point_id=$request->get("id");
+        $description=$request->get("description");
+        $type=$request->get("type");
+
+        $point=Point::where("id",$point_id)->update(["description"=>$description,"type"=>$type]);
+        
+        $point_edit=Point::where("id",$point_id)->first();
+
+        return response()->json(['update'=>$point_edit]);
+    }
+
     public function deletePoint($point_id)
     {
+        $user=User::getCurrent();
+
         $point=Point::where("id",$point_id)->first();
 
         if(!$point) 
         {
-            return redirect()->route("consejero_history_points")->withErrors(["El punto que trata de eliminar no existe"]);
+            if($user->getCurrentRol()->name=="consejero")
+            {
+                return redirect()->route("consejero_history_points")->with(["message_info"=>"El punto que trata de eliminar no existe"]);
+            }
+            elseif($user->getCurrentRol()->name=="presidente")
+            {
+                return redirect()->route("president_history_points")->with(["message_info"=>"El punto que trata de eliminar no existe"]);
+            }
+            elseif($user->getCurrentRol()->name=="adjunto")
+            {
+                return redirect()->route("adjunto_history_points")->with(["message_info"=>"El punto que trata de eliminar no existe"]);
+            }
         }
 
-        if($point->pre_status!="propuesto" || $point->post_status)
+        if($user->getCurrentRol()->name=="consejero" && $point->pre_status!="propuesto" || $point->post_status)
         {
             return redirect()->route("consejero_history_points")->withErrors(["No puede eliminar el punto, ya que no posee el pre-status de propuesto"]);
         }
 
         $point=Point::where("id",$point_id)->delete();
 
-        return redirect()->route("consejero_history_points")->with(["message_info"=>"Se ha cancelado exitosamente el punto propuesto"]);
+        if($user->getCurrentRol()->name=="consejero")
+        {
+            return redirect()->route("consejero_history_points")->with(["message_info"=>"Se ha eliminado exitosamente el punto propuesto"]);
+        }
+        elseif($user->getCurrentRol()->name=="presidente")
+        {
+            return redirect()->route("president_history_points")->with(["message_info"=>"Se ha eliminado exitosamente el punto propuesto"]);
+        }
+        elseif($user->getCurrentRol()->name=="adjunto")
+        {
+            return redirect()->route("adjunto_history_points")->with(["message_info"=>"Se ha eliminado exitosamente el punto propuesto"]);
+        }
     }
 
     public function getTrash($diary_id)
