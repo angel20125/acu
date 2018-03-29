@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Presentar Puntos")
+@section('title' , "Agregar/Presentar Puntos")
 
 @section('links')
 	<link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -21,13 +21,13 @@
 			</div>
 		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Presentar Puntos</h1>
+		<h1 class="text-center font-weight-normal">Agregar/Presentar Puntos</h1>
         <h6 style="font-style: oblique;" class="text-center font-weight-normal">Cargo Institucional Autorizante - <b>{{$user->positionBoss->name}}</b></h6>
 		<br><br>
   		
         <div class="form-row">
             <div class="form-group col-md-6 col-sm-12">
-                <label for="user_id">Presentador</label>
+                <label for="user_id">Consejero</label>
                 <select name="user_id" class="form-control" id="user_id" required>
                     <option value="none">Seleccione un consejero</option>
 				    @foreach($members as $member)
@@ -54,7 +54,7 @@
         <br>
        
 		<div class="justify-content-center text-center">
-	  		<button type="submit" class="btn btn-primary" id="presentar" disabled>Presentar</button>
+	  		<button type="submit" class="btn btn-primary" id="presentar" disabled>Agregar/Presentar</button>
 	  	</div>
 
 	  	

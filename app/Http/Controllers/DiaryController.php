@@ -344,7 +344,23 @@ class DiaryController extends Controller
 
     public function SecretaryProposePoints(Request $request)
     {
-        $dataPoints=($request->only(["user_id","diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
+        $dataPoints=($request->only(["user_id","diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
+
+        $user=User::where("id",$dataPoints["user_id"])->first();
+        $diary=Diary::where("id",$dataPoints["diary_id"])->first();
+        
+        $council=$user->councils()->where("id",$diary->council->id)->first();
+
+        $rol=Role::where("id",$council->pivot->role_id)->first();
+
+        if($rol->name=="presidente" || $rol->name=="adjunto") 
+        {
+            $pre_status="incluido";
+        }
+        else
+        {
+            $pre_status="propuesto";
+        }  
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -352,8 +368,6 @@ class DiaryController extends Controller
         }
         else
         {
-            $diary=Diary::where("id",$dataPoints["diary_id"])->first();
-
             foreach($dataPoints["description_point"] as $key => $description)
             {
                 $point=Point::create(
@@ -363,7 +377,7 @@ class DiaryController extends Controller
                   'title' => "punto_".$key,
                   'description' => $description,
                   'type' => $dataPoints["type"][$key],
-                  'pre_status' => "propuesto"
+                  'pre_status' => $pre_status
                 ]);
 
                 $new_date=gmdate("d_m_Y");
@@ -441,7 +455,7 @@ class DiaryController extends Controller
                 }
             }
             
-            return redirect()->route("diaries")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
+            return redirect()->route("diaries")->with(["message_info"=>"Se han agregado/presentado exitosamente los puntos"]);
         }
     }
 

@@ -64,7 +64,7 @@
 	</li>
 	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("secretaria_propose_points")}}">
-			Presentar Puntos
+			Agregar/Presentar Puntos
 		</a>
 	</li>
 </ul>
