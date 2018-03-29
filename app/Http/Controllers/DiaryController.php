@@ -301,7 +301,7 @@ class DiaryController extends Controller
                 }
             }
 
-            if($user->hasRole("admin"))
+            if($user->getCurrentRol()->name=="admin")
             {
                 return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
             }
