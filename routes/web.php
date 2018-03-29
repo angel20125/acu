@@ -83,8 +83,8 @@ Route::post('presidente/agendas/registrar', 'DiaryController@create')->middlewar
 Route::get('presidente/puntos_propuestos', 'DiaryController@getPoints')->middleware("logged")->middleware(['role:presidente'])->name('get_presidente_points');
 Route::get('presidente/puntos_propuestos/evaluar/{point_id}/{evaluation}', 'DiaryController@evaluatePoint')->middleware("logged")->middleware(['role:presidente'])->name('evaluate_presidente_points');
 Route::get('presidente/historial/puntos_incluidos', 'DiaryController@getPresidentHistoryPoints')->middleware("logged")->middleware(['role:presidente'])->name('president_history_points');
-Route::get('presidente/agregar_puntos', 'DiaryController@getConsejeroProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
-Route::post('presidente/agregar_puntos', 'DiaryController@ConsejeroProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
+Route::get('presidente/agregar_puntos', 'DiaryController@getPresidenteProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
+Route::post('presidente/agregar_puntos', 'DiaryController@PresidenteProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
 
 //Secretaria
 Route::get('secretaria/inicio', 'ProfileController@getSecretariaDashboard')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_dashboard');
@@ -104,8 +104,8 @@ Route::get('adjunto/agendas', 'DiaryController@getAdjuntoIndex')->middleware("lo
 Route::get('adjunto/agendas/obtener', 'DiaryController@getListAdjunto')->middleware("logged")->middleware(['role:adjunto'])->name('get_adjunto_diaries');
 Route::get('adjunto/agendas/finalizar/{diary_id}', 'DiaryController@getDiaryAdjunto')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diaries_edit');
 Route::post('adjunto/agendas/finalizar', 'DiaryController@diaryUpdate')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diary_update');
-Route::get('adjunto/agregar_puntos', 'DiaryController@getConsejeroProposePoints')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_propose_points');
-Route::post('adjunto/agregar_puntos', 'DiaryController@ConsejeroProposePoints')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_propose_points');
+Route::get('adjunto/agregar_puntos', 'DiaryController@getAdjuntoProposePoints')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_propose_points');
+Route::post('adjunto/agregar_puntos', 'DiaryController@AdjuntoProposePoints')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_propose_points');
 Route::get('adjunto/historial/puntos_incluidos', 'DiaryController@getPresidentHistoryPoints')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_history_points');
 Route::get('adjunto/agendas/registrar', 'DiaryController@getCreate')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diaries_create');
 Route::post('adjunto/agendas/registrar', 'DiaryController@create')->middleware("logged")->middleware(['role:adjunto'])->name('adjunto_diaries_create');

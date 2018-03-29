@@ -25,8 +25,10 @@
     	@foreach($user->councils as $council)
     		@if($user->getCurrentRol()->id===$council->pivot->role_id)
 	    		@foreach($council->diaries->sortByDesc("event_date") as $diary)
-	  				<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} - <b>{{$council->name}}</b></a></h5>
+	    			@if(count($diary->points->where("user_id",$user->id))>0)
+		  				<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} - <b>{{$council->name}}</b></a></h5>
 		  				<p style="font-style: oblique;">"{{$diary->description}}"</p>
+	  				@endif
 	    			@foreach($diary->points->sortByDesc("created_at") as $key => $point)
 	    				@if($point->user_id==$user->id)
 					    	<div class="card">
@@ -34,7 +36,7 @@
 					  				@if($point->post_status)
 					    				<h5 class="card-title">Punto <b>@if($point->post_status=="diferido_virtual") diferido virtual @elseif($point->post_status=="no_presentado") no presentado @else {{$point->post_status}}@endif</b></h5>
 					    			@else
-				    					<h5 class="card-title">Punto {{$point->pre_status=="incluido"?"Incluido":($point->pre_status=="desglosado"?"Desglosado":"Propuesto")}}</h5>
+				    					<h5 class="card-title">Punto <b>{{$point->pre_status}}</b></h5>
 				    				@endif
 					  			</div>
 						  		<div class="card-body">

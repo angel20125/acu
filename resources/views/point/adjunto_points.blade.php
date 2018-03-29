@@ -1,7 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Presentar Puntos")
-
+@section('title' , "Agregar Puntos")
 
 @section('links')
 <link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -10,7 +9,7 @@
 @section('content')
 
 <div class="row justify-content-center">
-	<form class="form-signin col-lg-10 col-md-12 col-sm-12" action="{{route("consejero_propose_points")}}" method="post" enctype="multipart/form-data">
+	<form class="form-signin col-lg-10 col-md-12 col-sm-12" action="{{route("adjunto_propose_points")}}" method="post" enctype="multipart/form-data">
         @if($errors->any())
             <div style="text-align:center;" class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}
@@ -22,7 +21,7 @@
 			</div>
 		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Presentar Puntos</h1>
+		<h1 class="text-center font-weight-normal">Agregar Puntos</h1>
 		<br>
   		
         <div class="form-row">
@@ -51,7 +50,7 @@
         <br>
        
 		<div class="justify-content-center text-center">
-	  		<button type="submit" class="btn btn-primary" id="presentar">Presentar</button>
+	  		<button type="submit" class="btn btn-primary" id="presentar">Agregar</button>
 	  	</div>
 
 	  	

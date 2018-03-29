@@ -19,7 +19,7 @@
 	  				@if($point->post_status)
 	    				<h5 class="card-title">Punto <b>@if($point->post_status=="diferido_virtual") diferido virtual @elseif($point->post_status=="no_presentado") no presentado @else {{$point->post_status}}@endif</b></h5>
 	    			@else
-	    				<h5 class="card-title">Punto Incluido</h5>
+	    				<h5 class="card-title">Punto <b>{{$point->pre_status}}</b></h5>
     				@endif
 	  			</div>
 		  		<div class="card-body">
