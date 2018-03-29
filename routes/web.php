@@ -127,3 +127,6 @@ Route::get('usuarios/obtener', 'UsersController@getList')->middleware("logged")-
 Route::get('punto/borrar/{point_id}', 'DiaryController@deletePoint')->middleware("logged")->name('delete_point');
 Route::get('punto/editar/{point_id}', 'DiaryController@getEditPoint')->middleware("logged")->name('edit_point');
 Route::post('punto/editar', 'DiaryController@updatePoint')->middleware("logged")->name('update_point');
+Route::get('agenda/editar/{diary_id}', 'DiaryController@getEditDiary')->middleware("logged")->name('edit_diary');
+Route::post('agenda/editar', 'DiaryController@updateDiary')->middleware("logged")->name('update_diary');
+Route::get('agenda/borrar/{diary_id}', 'DiaryController@deleteDiary')->middleware("logged")->name('delete_diary');

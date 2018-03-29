@@ -8,8 +8,13 @@
 	<div class="card-body" style="text-align: center;">
     	<h2 class="card-title">{{$diary->council->name}}</h2>
     	<h5 class="card-subtitle mb-2 text-muted">Descripción de la agenda</h5>
-    	<p style="font-style: oblique;" class="card-text">{{$diary->description}}</p>
-    	<p class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> {{$diary->status=="0"?"En espera de la reunión":"Finalizada"}}</p>
+    	<p id="diary-description" style="font-style: oblique;" class="card-text">{{$diary->description}}</p>
+    	<p id="diary-info"class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> {{$diary->status=="0"?"En espera de la reunión":"Finalizada"}}</p>
+
+    	@if(($diary->status==0 && $diary->council->president && $diary->council->president->id==$user->id) || ($diary->status==0 && $diary->council->adjunto && $diary->council->adjunto->id==$user->id) || ($user->getCurrentRol()->name=="admin"))
+			<button data-toggle="modal" data-target="#edit-diary" id="get-data" type="button" value="{{$diary->id}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
+			<a class="btn btn-danger" href="{{route("delete_diary",["diary_id"=>$diary->id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+		@endif
     	
     	<br>
 
@@ -56,4 +61,90 @@
 </div>
 <br>
 
+<div id="edit-diary" class="modal fade" tabindex="-1" role="dialog">
+  	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	        	<h5 class="modal-title">Editar Agenda</h5>
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          	<span aria-hidden="true">&times;</span>
+	        	</button>
+	      	</div>
+	      	<div class="modal-body">
+	      		<input type="hidden" id="id">
+				<div class="form-row">
+					<div class="form-group col-md-12 col-sm-12">
+			   			<label for="description">Descripción</label>
+			    		<textarea name="description" class="form-control" id="description" rows="3" placeholder="Resúmen general de la temática a tratar en la agenda" required></textarea>
+			    	</div>
+			    </div>
+			    <div class="form-row">
+		            <div class="form-group col-md-5 col-sm-12">
+			    		<label for="event_date">Fecha a tratar</label>
+			    		<input name="event_date" type="date" class="form-control" id="event_date" required>
+		            </div>
+		            <div class="form-group col-md-7 col-sm-12">
+		                <label>Lugar</label>
+            			<input name="place" type="text" class="form-control" placeholder="Lugar donde se tratará la agenda" id="place" required>
+		            </div>
+	            </div>
+	      	</div>
+	      	<div class="modal-footer">
+	        	<button data-dismiss="modal" id="update" type="button" class="btn btn-info">Actualizar</button>
+	        	<button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
+	      	</div>
+	    </div>
+  	</div>
+</div>
+@endsection
+
+@section('script')
+	<script>
+	    $(document).ready(function() 
+	    {
+    		$("#get-data").click(function() 
+	    	{
+	    		var route = "/agenda/editar/"+$(this).val();
+
+                $.get(route,{"_token":"{{csrf_token()}}"},function (data) 
+                {
+                    $("#id").val(data.id);
+                    $("#description").val(data.description);
+                    $("#event_date").val(data.event_date);
+                    $("#place").val(data.place);
+                });
+			});
+
+	    	$("#update").click(function() 
+	    	{
+                $.post("{{route("update_diary")}}", 
+                {
+                    "_token": "{{csrf_token()}}",
+                    "id": $("#id").val(),
+                    "description": $("#description").val(),
+                    "event_date": $("#event_date").val(),
+                    "place": $("#place").val(),
+                }, 
+                function (data) 
+                {
+                	if(data.update==0) 
+                	{
+                		alert("No puede cambiar la fecha de la agenda a una fecha pasada");
+                	}
+                	else if(data.update==1)
+                	{
+                		alert("El presidente o adjunto del {{$diary->council->name}} ya registró una nueva agenda para el día seleccionado por usted, por favor seleccione otro día");
+                	}
+                	else
+                	{
+	                    $("#diary-description").text(data.update.description);
+	                    $("#diary-info").empty();
+
+	                    $("#diary-info").append("<b>Lugar:</b> "+data.update.place+" <b>Fecha:</b> "+data.update.event_date+" <b>Estado:</b> En espera de la reunión");
+                	}
+                });
+			});
+	    });
+	</script>
+<br>
 @endsection

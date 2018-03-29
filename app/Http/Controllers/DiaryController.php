@@ -1000,6 +1000,47 @@ class DiaryController extends Controller
         return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la agenda"]);
     }
 
+    public function getEditDiary($diary_id)
+    {
+        $diary=Diary::where("id",$diary_id)->first();
+
+        return response()->json($diary->toArray());
+    }
+
+    public function updateDiary(Request $request)
+    {
+        $diary_id=$request->get("id");
+        $description=$request->get("description");
+        $event_date=$request->get("event_date");
+        $place=$request->get("place");
+
+        $date=gmdate("Y-m-d");
+
+        if($event_date<$date)
+        {
+            return response()->json(['update'=>'0']);
+        }
+
+        $diary=Diary::where("id",$diary_id)->first();
+
+        if($diary) 
+        {
+            $current_agenda=Diary::where("council_id",$diary->council->id)->where("event_date",$event_date)->first();
+
+            if($current_agenda && $current_agenda->id!=$diary->id)
+            {
+                return response()->json(['update'=>'1']);
+            }  
+        } 
+
+        $diary=Diary::where("id",$diary_id)->update(["description"=>$description,"event_date"=>$event_date,"place"=>$place]);
+        
+        $diary_edit=Diary::where("id",$diary_id)->first();
+        $diary_edit["event_date"]=\DateTime::createFromFormat("Y-m-d",$diary_edit->event_date)->format("d/m/Y");
+
+        return response()->json(['update'=>$diary_edit]);
+    }
+
     public function getEditPoint($point_id)
     {
         $point=Point::where("id",$point_id)->first();
@@ -1076,5 +1117,11 @@ class DiaryController extends Controller
 
         Diary::where("id",$diary_id)->delete();
         return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha eliminado la agenda exitosamente"]);
+    }
+
+    public function deleteDiary($diary_id)
+    {
+        Diary::where("id",$diary_id)->delete();
+        return redirect()->route("diaries")->with(["message_info"=>"Se ha eliminado la agenda exitosamente"]);
     }
 }
