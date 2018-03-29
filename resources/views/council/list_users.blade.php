@@ -11,11 +11,13 @@
 @section('content')
 
 @if($errors->any())
+<br>
     <div style="text-align:center;" class="alert alert-danger" role="alert">
         {{$errors->first()}}
     </div>
 @endif
 @if(session('message_info'))
+<br>
     <div style="text-align:center;" class="alert alert-success" role="alert">
         {{session('message_info')}}
     </div>
@@ -25,20 +27,20 @@
 <br>
 
 <div class="table-responsive">
-<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>Usuario </th>
-            <th>Cédula</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>Rol</th>
-            <th>Consejo</th>
-        </tr>
-    </thead>
-</table>
+    <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Usuario </th>
+                <th>Cédula</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Consejo</th>
+            </tr>
+        </thead>
+    </table>
 </div>
-
+<br>
 @endsection
 
 @section('script')

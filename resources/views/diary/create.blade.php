@@ -22,7 +22,7 @@
 		@endif
 		@csrf
 		<h1 class="text-center font-weight-normal">Registrar Agenda</h1>
-		<br><br>
+		<br>
   		
         <div class="form-row">
             <div class="form-group col-md-6 col-sm-12">

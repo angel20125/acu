@@ -5,11 +5,14 @@
 @section('content')
 
 @if($errors->any())
+	<br>
+
     <div style="text-align:center;" class="alert alert-danger" role="alert">
 	  	{{$errors->first()}}
 	</div>
 @endif
 @if(session('message_info'))
+	<br>
 	<div style="text-align:center;" class="alert alert-success" role="alert">
 			{{session('message_info')}}
 	</div>
@@ -20,7 +23,7 @@
     	<h2 class="card-title">Puntos Propuestos</h2>
     	<p class="card-subtitle mb-2 text-muted">En esta sección se presentarán los diversos puntos que han propuesto los miembros de los consejos que usted preside y tiene como deber incluirlos o desglosarlos en sus agendas correspondientes.</p>
 
-    	<br><br>
+    	<br>
 
     	@foreach($user->councils as $council)
     		@if($user->getCurrentRol()->id===$council->pivot->role_id)
@@ -63,6 +66,7 @@
 	    		@endforeach
     		@endif
     	@endforeach
-
+	</div>
 </div>
+<br>
 @endsection

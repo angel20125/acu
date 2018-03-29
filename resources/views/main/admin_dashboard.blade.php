@@ -9,11 +9,13 @@
 @section('content')
 
 @if($errors->any())
+<br>
     <div  class="alert alert-danger text-center" role="alert">
         {{$errors->first()}}
     </div>
 @endif
 @if(session('message_info'))
+<br>
     <div class="alert alert-success text-center" role="alert">
         {{session('message_info')}}
     </div>
@@ -49,98 +51,98 @@
 <br>
 
 <!-- Calendar -->
-<div class="container-fluid">
-<div class="row"> 
-	@php $startDate = DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('first day of this month')->format("w"); @endphp
- 	
- 	@php 
- 	$mes =	array(
-    "01"  => "Enero",
-    "02" => "Febrero",
-    "03" => "Marzo",
-    "04"  => "Abril",
-    "05" => "Mayo",
-    "06" => "Junio",
-    "07"  => "Julio",
-    "08" => "Agosto",
-    "09" => "Septiembre",
-    "10"  => "Octubre",
-    "11" => "Noviembre",
-    "12" => "Diciembre",
- 	);
-    $var = gmdate("m");
-    @endphp
- 	
- 	<h3 class="font-weight-normal col-12 text-center">{{ $mes[$var] }}</h3>
- 	<br><br>
-	<div class="table-responsive  col-lg-10 offset-lg-1 col-md-12">
-		<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-		    <thead>
-		        <tr style="text-align:center;">
-		        	<th>Domingo</th>
-		        	<th>Lunes</th>
-		        	<th>Martes</th>
-		        	<th>Miércoles</th>
-		        	<th>Jueves</th>
-		        	<th>Viernes</th>
-		        	<th>Sábado</th>
-		        </tr>
-		    </thead>
-		    </tbody>
-		    	@php $count=0; $countDay=1; $last_month=7-(7-$startDate); $future_month=1; @endphp
-		    	@for($i=1; $i <= 5; $i++)
-		        <tr style="text-align:center;">
-		        	@for($j=1; $j <= 7; $j++)
+<div class="container-fluid pdd">
+	<div class="row"> 
+		@php $startDate = DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('first day of this month')->format("w"); @endphp
+	 	
+	 	@php 
+	 	$mes =	array(
+	    "01"  => "Enero",
+	    "02" => "Febrero",
+	    "03" => "Marzo",
+	    "04"  => "Abril",
+	    "05" => "Mayo",
+	    "06" => "Junio",
+	    "07"  => "Julio",
+	    "08" => "Agosto",
+	    "09" => "Septiembre",
+	    "10"  => "Octubre",
+	    "11" => "Noviembre",
+	    "12" => "Diciembre",
+	 	);
+	    $var = gmdate("m");
+	    @endphp
+	 	
+	 	<h3 class="font-weight-normal col-12 text-center">{{ $mes[$var] }}</h3>
+	 	<br><br>
+		<div class="table-responsive  col-lg-10 offset-lg-1 col-md-12">
+			<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			    <thead>
+			        <tr style="text-align:center;">
+			        	<th>Domingo</th>
+			        	<th>Lunes</th>
+			        	<th>Martes</th>
+			        	<th>Miércoles</th>
+			        	<th>Jueves</th>
+			        	<th>Viernes</th>
+			        	<th>Sábado</th>
+			        </tr>
+			    </thead>
+			    </tbody>
+			    	@php $count=0; $countDay=1; $last_month=7-(7-$startDate); $future_month=1; @endphp
+			    	@for($i=1; $i <= 5; $i++)
+			        <tr style="text-align:center;">
+			        	@for($j=1; $j <= 7; $j++)
 
-		        		@if($count < $startDate)
-		        			<td style="color: #BDBDBD">
-		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->sub(new DateInterval("P".$last_month."D"))->format("d")}}
-		        			</td>
-		        			@php $last_month--; @endphp
-
-		        		@elseif($count >= $startDate && $countDay <= DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
-	        				@if($countDay==gmdate("d"))
-			        			<td style="background:#28a745; color:white; font-weight: bold;">
-			        				{{$countDay}}
-			        				<br>
-			        				@foreach($calendar as $cal)
-										@foreach($cal as $key => $c)
-											@if($key==$countDay)
-												<a style="color:white;" href="{{route("get_diary",["diary_id"=>$c])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-											@endif
-										@endforeach
-									@endforeach
+			        		@if($count < $startDate)
+			        			<td style="color: #BDBDBD">
+			        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->sub(new DateInterval("P".$last_month."D"))->format("d")}}
 			        			</td>
-		        			@else
-			        			<td style="font-weight: bold; ">
-			        				{{$countDay}}
-			        				<br>
-			        				@foreach($calendar as $cal)
-										@foreach($cal as $key => $c)
-											@if($key==$countDay)
-												<a href="{{route("get_diary",["diary_id"=>$c])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-											@endif
-										@endforeach
-									@endforeach
-			        			</td>
-		        			@endif
-		        			@php $countDay++; @endphp
+			        			@php $last_month--; @endphp
 
-		        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
-		        			<td style="color: #BDBDBD">
-		        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
-		        			</td>
-		        			@php $future_month++; @endphp
-		        		@endif
-		        		
-		        		@php $count++; @endphp
-		        	@endfor
-		        </tr>
-		        @endfor
-		    </tbody>
-		</table>
+			        		@elseif($count >= $startDate && $countDay <= DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
+		        				@if($countDay==gmdate("d"))
+				        			<td style="background:#28a745; color:white; font-weight: bold;">
+				        				{{$countDay}}
+				        				<br>
+				        				@foreach($calendar as $cal)
+											@foreach($cal as $key => $c)
+												@if($key==$countDay)
+													<a style="color:white;" href="{{route("get_diary",["diary_id"=>$c])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+												@endif
+											@endforeach
+										@endforeach
+				        			</td>
+			        			@else
+				        			<td style="font-weight: bold; ">
+				        				{{$countDay}}
+				        				<br>
+				        				@foreach($calendar as $cal)
+											@foreach($cal as $key => $c)
+												@if($key==$countDay)
+													<a href="{{route("get_diary",["diary_id"=>$c])}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+												@endif
+											@endforeach
+										@endforeach
+				        			</td>
+			        			@endif
+			        			@php $countDay++; @endphp
+
+			        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
+			        			<td style="color: #BDBDBD">
+			        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
+			        			</td>
+			        			@php $future_month++; @endphp
+			        		@endif
+			        		
+			        		@php $count++; @endphp
+			        	@endfor
+			        </tr>
+			        @endfor
+			    </tbody>
+			</table>
+		</div>
 	</div>
-</div>
 </div>
 
 @endsection

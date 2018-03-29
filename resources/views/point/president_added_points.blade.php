@@ -5,13 +5,15 @@
 @section('content')
 
 @if($errors->any())
+	<br>
     <div style="text-align:center;" class="alert alert-danger" role="alert">
 	  	{{$errors->first()}}
 	</div>
 @endif
 @if(session('message_info'))
+	<br>
 	<div style="text-align:center;" class="alert alert-success" role="alert">
-			{{session('message_info')}}
+		{{session('message_info')}}
 	</div>
 @endif
 
@@ -20,7 +22,7 @@
     	<h2 class="card-title">Puntos Incluidos</h2>
     	<p class="card-subtitle mb-2 text-muted">En esta sección se presentarán los diversos puntos que has incluido en el pasado en los consejos que presides o eres adjunto.</p>
 
-    	<br><br>
+    	<br>
 
     	@foreach($user->councils as $council)
     		@if($user->getCurrentRol()->id===$council->pivot->role_id)
@@ -71,7 +73,7 @@
 	    		@endforeach
     		@endif
     	@endforeach
-
+    </div>
 </div>
 
 <div id="edit-point" class="modal fade" tabindex="-1" role="dialog">
@@ -179,4 +181,5 @@
 			});
 	    });
 	</script>
+<br>
 @endsection
