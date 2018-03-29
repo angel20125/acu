@@ -95,7 +95,7 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -994,5 +994,20 @@ class DiaryController extends Controller
         $point=Point::where("id",$point_id)->delete();
 
         return redirect()->route("consejero_history_points")->with(["message_info"=>"Se ha cancelado exitosamente el punto propuesto"]);
+    }
+
+    public function getTrash($diary_id)
+    {
+        $diary=Diary::where("id",$diary_id)->first();
+
+        return view("diary.trash",["diary"=>$diary]);
+    }
+
+    public function delete(Request $request)
+    {
+        $diary_id=$request->get("diary_id");
+
+        Diary::where("id",$diary_id)->delete();
+        return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha eliminado la agenda exitosamente"]);
     }
 }

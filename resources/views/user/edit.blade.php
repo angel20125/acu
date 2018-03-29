@@ -23,6 +23,7 @@
             @csrf
             <h1 class="text-center font-weight-normal">Editar Perfil</h1>
             <h4 class="text-center font-weight-normal">Aquí puedes modificar tu información basica</h4>
+            <h6 style="font-style: oblique;" class="text-center font-weight-normal">Cargo Institucional - <b>{{$user->position->name}}</b></h6>
             <br><br>
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">

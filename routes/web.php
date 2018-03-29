@@ -65,6 +65,8 @@ Route::get('admin/usuarios/eliminar/{user_id}', 'Admin\UsersController@getTrash'
 Route::post('admin/usuarios/eliminar', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
 Route::get('admin/usuarios/registrar_secretaria', 'Admin\UsersController@getCreateSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
 Route::post('admin/usuarios/registrar_secretaria', 'Admin\UsersController@createSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
+Route::get('admin/usuarios/personificar/{user_id}', 'Admin\UsersController@impersonate')->middleware("logged")->middleware(['role:admin'])->name('user_impersonate');
+Route::get('admin/usuarios/regenerar', 'Admin\UsersController@regenerate')->middleware("logged")->name('user_regenerate');
 
 //Admin - Agenda
 Route::get('admin/agendas', 'DiaryController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries');

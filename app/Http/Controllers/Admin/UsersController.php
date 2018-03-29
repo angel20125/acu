@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateSecretaryRequest;
@@ -48,7 +50,7 @@ class UsersController extends Controller
 
             if(!$user->hasRole("admin"))
             {
-                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
+                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("user_impersonate",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Personificar" class="fas fa-street-view"></i></a> <a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 
@@ -246,21 +248,16 @@ class UsersController extends Controller
         foreach($councils as $key => $council)
         {
             $council=Council::where("id",$council)->first();
-            $users=$council->users;
 
-            foreach($users as $user) 
+            if($council->president && $council->president->id!=$edit_user->id && $last_roles[$key]=="presidente")
             {
-                if($user->hasRole("presidente") && $last_roles[$key]=="presidente" && $council->president_id!=$edit_user->id) 
-                {
-                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado el cargo de presidente"];
-                    $count_errors_councils++;
-                }
-                
-                if($user->hasRole("adjunto") && $last_roles[$key]=="adjunto" && $council->adjunto_id!=$edit_user->id) 
-                {
-                    $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado el cargo de adjunto"];
-                    $count_errors_councils++;
-                }  
+                $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado el cargo de presidente"];
+                $count_errors_councils++;
+            }
+            elseif($council->adjunto && $council->adjunto->id!=$edit_user->id && $last_roles[$key]=="adjunto")
+            {
+                $councils_errors[$count_errors_councils]=["El ".$council->name." ya tiene asignado el cargo de adjunto"];
+                $count_errors_councils++;
             }
         }
 
@@ -379,5 +376,28 @@ class UsersController extends Controller
         
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha eliminado el usuario"]);
+    }
+
+    public function impersonate($user_id)
+    {
+        $user = User::getCurrent();
+        session(["impersonated_by"=>$user->id]);
+        session(["current_rol"=>null]);
+        Auth::loginUsingId($user_id, true);
+
+        return redirect()->route("dashboard");
+    }
+
+    public function regenerate()
+    {
+        $impersontate_by=session("impersonated_by");
+        
+        if($impersontate_by)
+        {
+            Session::flush();
+            Auth::loginUsingId($impersontate_by, true);
+        }
+
+        return redirect()->route("home");
     }
 }
