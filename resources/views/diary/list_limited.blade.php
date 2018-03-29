@@ -27,9 +27,10 @@
 <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
+            <th>Fecha</th>
+            <th>Breve descripción</th>
             <th>Consejo involucrado</th>
             <th>Presidente</th>
-            <th>Fecha</th>
             <th></th>
         </tr>
     </thead>

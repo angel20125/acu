@@ -27,7 +27,7 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -49,7 +49,7 @@ class DiaryController extends Controller
             {
                 if($user->getCurrentRol()->id==$council->pivot->role_id)
                 {
-                    $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
+                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
                 }
             }
         }
@@ -95,7 +95,7 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            $diaries_list[]=[$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
