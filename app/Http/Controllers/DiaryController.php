@@ -497,7 +497,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("presidente_dashboard")->withErrors(["No existen agendas a tratar por estos momentos"]);
+            return redirect()->route("presidente_dashboard")->withErrors(["No existen agendas en las que eres presidente en estos momentos"]);
         }
 
         return view("point.president_points_propose");
@@ -626,7 +626,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("adjunto_dashboard")->withErrors(["No existen agendas a tratar por estos momentos"]);
+            return redirect()->route("adjunto_dashboard")->withErrors(["No existen agendas en las que eres adjunto en estos momentos"]);
         }
 
         return view("point.adjunto_points");
@@ -755,7 +755,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("consejero_dashboard")->withErrors(["No existen agendas a tratar por estos momentos"]);
+            return redirect()->route("consejero_dashboard")->withErrors(["No existen agendas en las que eres consejero en estos momentos"]);
         }
 
         return view("point.consejero_points");
