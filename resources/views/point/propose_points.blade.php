@@ -11,11 +11,13 @@
 <div class="row justify-content-center">
 	<form class="form-signin col-lg-10 col-md-12 col-sm-12" action="{{route("secretaria_propose_points")}}" method="post" enctype="multipart/form-data">
         @if($errors->any())
+        <br>
             <div style="text-align:center;" class="alert alert-danger" role="alert">
 			  	{{$errors->first()}}
 			</div>
         @endif
         @if(session('message_info'))
+        <br>
 			<div style="text-align:center;" class="alert alert-success" role="alert">
   				{{session('message_info')}}
 			</div>
@@ -23,7 +25,7 @@
 		@csrf
 		<h1 class="text-center font-weight-normal">Agregar/Presentar Puntos</h1>
         <h6 style="font-style: oblique;" class="text-center font-weight-normal">Cargo Institucional Autorizante - <b>{{$user->positionBoss->name}}</b></h6>
-		<br><br>
+		<br>
   		
         <div class="form-row">
             <div class="form-group col-md-6 col-sm-12">

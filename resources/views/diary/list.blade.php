@@ -8,39 +8,43 @@
 
 @section('content')
 
-
 @if($errors->any())
+<br>
     <div style="text-align:center;" class="alert alert-danger" role="alert">
         {{$errors->first()}}
     </div>
 @endif
 @if(session('message_info'))
+<br>
     <div style="text-align:center;" class="alert alert-success" role="alert">
         {{session('message_info')}}
     </div>
 @endif
- <h1 class="text-center mr1 font-weight-normal">Lista de Agendas</h1>
+
+<h1 class="text-center mr1 font-weight-normal">Lista de Agendas</h1>
+
 <div class="form-group">
     <div class="  text-right pdr">
         <a class="btn  mr1 btn-outline-dark  "  href="{{route("admin_diaries_create")}}" role="button">Registrar Agenda</a>
     </div>
+
 </div>
 <br>
 
 <div class="table-responsive">
-<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Breve descripción</th>
-            <th>Consejo involucrado</th>
-            <th>Presidente</th>
-            <th></th>
-        </tr>
-    </thead>
-</table>
+    <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Breve descripción</th>
+                <th>Consejo involucrado</th>
+                <th>Presidente</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
 </div>
-
+<br>
 @endsection
 
 @section('script')
