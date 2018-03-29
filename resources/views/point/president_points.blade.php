@@ -47,7 +47,7 @@
 						    		@endif
 						    		@foreach($point->documents as $k => $document)
 						    			@if(file_exists("docs/".$document->direction))
-						    				<a href="{{asset("docs/".$document->direction)}}" class="btn btn-success">Documento {{$k+1}}</a>
+						    				<a target="_blank" href="{{asset("docs/".$document->direction)}}" class="btn btn-success">Documento {{$k+1}}</a>
 						    			@endif
 						    		@endforeach
 

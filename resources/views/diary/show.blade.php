@@ -43,7 +43,7 @@
 		    			@if(file_exists("docs/".$document->direction))
 		    			
 		    				<div class="col-lg-2 col-md-5 col-sm-4 mra">
-		    				<a href="{{asset("docs/".$document->direction)}}" class="btn btn-success">Documento {{$k+1}}</a>
+		    				<a target="_blank" href="{{asset("docs/".$document->direction)}}" class="btn btn-success">Documento {{$k+1}}</a>
 		    				</div>
 	    				
 		    			@endif
