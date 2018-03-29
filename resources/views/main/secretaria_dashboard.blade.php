@@ -72,7 +72,7 @@
     @endphp
  	
  	<h3 class="font-weight-normal col-12 text-center">{{ $mes[$var] }}</h3>
- 	
+ 	<br><br>
 	<div class="table-responsive col-lg-10 offset-lg-1 col-md-12">
 		<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		    <thead>

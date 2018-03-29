@@ -9,12 +9,12 @@
 @section('content')
 
 @if($errors->any())
-    <div style="text-align:center;" class="alert alert-danger" role="alert">
+    <div  class="alert alert-danger text-center" role="alert">
         {{$errors->first()}}
     </div>
 @endif
 @if(session('message_info'))
-    <div style="text-align:center;" class="alert alert-success" role="alert">
+    <div class="alert alert-success text-center" role="alert">
         {{session('message_info')}}
     </div>
 @endif
@@ -23,7 +23,7 @@
 	<div class="row justify-content-center">
 		@foreach($diaries as $key => $diary)
 			@if($key < 3)
-				<div class="card text-center col-lg-3 col-md-5 col-sm-10">
+				<div class="card text-center col-lg-3 col-md-10 col-sm-10 pdd">
 					<div class="card-body">
 						<h5 class="card-title">{{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}}</h5>
 						<p class="card-text">{{$diary->council->name}}</p>
@@ -39,7 +39,7 @@
 @else
 	<div class="row justify-content-center">
 		<div class="card">
-			<div class="card-body" style="text-align: center;">
+			<div class="card-body text-center" >
 				<h4>¡No se ha registrado ninguna agenda por ahora!</h4>
 			</div>
 		</div>
@@ -72,8 +72,8 @@
     @endphp
  	
  	<h3 class="font-weight-normal col-12 text-center">{{ $mes[$var] }}</h3>
- 	
-	<div class="table-responsive col-lg-10 offset-lg-1 col-md-12">
+ 	<br><br>
+	<div class="table-responsive  col-lg-10 offset-lg-1 col-md-12">
 		<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		    <thead>
 		        <tr style="text-align:center;">
