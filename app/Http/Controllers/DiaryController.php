@@ -168,34 +168,34 @@ class DiaryController extends Controller
             return redirect()->back()->withErrors(["No puede registrar o convocar una agenda en una fecha que ya pasó"]);
         }
 
-        $dataPoints=($request->only(["description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
+        $dataPoints=($request->only(["description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
 
-        if(!isset($dataPoints["description_point"]))
+        $data=($request->only(["council_id","description","place","event_date"]));
+        
+        if($event_date==$date)
         {
-            return redirect()->back()->withErrors(["No puede registrar o convocar una agenda sin agregar un punto como mínimo"]);
+            $data["limit_date"]=$event_date;
         }
         else
         {
-            $data=($request->only(["council_id","description","place","event_date"]));
-            
-            if($event_date==$date)
-            {
-                $data["limit_date"]=$event_date;
-            }
-            else
-            {
-                $data["limit_date"]=\DateTime::createFromFormat("Y-m-d",$event_date)->sub(new \DateInterval("P1D"))->format("Y-m-d");
-            }
+            $data["limit_date"]=\DateTime::createFromFormat("Y-m-d",$event_date)->sub(new \DateInterval("P1D"))->format("Y-m-d");
+        }
 
-            $council=Council::where("id",$data["council_id"])->first();
+        $council=Council::where("id",$data["council_id"])->first();
 
-            $current_agenda=Diary::where("council_id",$data["council_id"])->where("event_date",$event_date)->first();
+        $current_agenda=Diary::where("council_id",$data["council_id"])->where("event_date",$event_date)->first();
 
-            if($current_agenda) 
-            {
-                return redirect()->back()->withErrors(["El presidente o adjunto del ".$council->name." ya registró una nueva agenda para el día ".\DateTime::createFromFormat("Y-m-d",$event_date)->format("d/m/Y")]);
-            }
+        if($current_agenda) 
+        {
+            return redirect()->back()->withErrors(["El presidente o adjunto del ".$council->name." ya registró una nueva agenda para el día ".\DateTime::createFromFormat("Y-m-d",$event_date)->format("d/m/Y")]);
+        }   
 
+        if(!isset($dataPoints["description_point"]))
+        {
+            $diary=Diary::create($data);
+        }
+        else
+        {
             $diary=Diary::create($data);
 
             foreach($dataPoints["description_point"] as $key => $description)
@@ -284,31 +284,31 @@ class DiaryController extends Controller
                     ]);
                 }
             }
+        }
 
-            $council=Council::where("id",$data["council_id"])->first();
+        foreach($council->users as $user) 
+        {
+            $council_user=$user->councils()->where("id",$diary->council->id)->first();
 
-            $users=$council->users;
+            $rol=Role::where("id",$council_user->pivot->role_id)->first();
 
-            foreach ($users as $user) 
+            if($rol->name=="consejero" && $user->status && $user->validate) 
             {
-                if($user->status && $user->validate && $user->hasRole("consejero")) 
+                \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                 {
-                    \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
-                    {
-                        $message->subject("Invitación del ".$council->name);
-                        $message->to($user->email,$user->first_name);
-                    });
-                }
+                    $message->subject("Invitación del ".$council->name);
+                    $message->to($user->email,$user->first_name);
+                });
             }
+        }
 
-            if($user->getCurrentRol()->name=="admin")
-            {
-                return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
-            }
-            else
-            {
-                return redirect()->route("diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente con sus puntos"]);
-            }
+        if($user->getCurrentRol()->name=="admin")
+        {
+            return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente"]);
+        }
+        else
+        {
+            return redirect()->route("diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente"]);
         }
     }
 
