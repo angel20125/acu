@@ -36,12 +36,19 @@
 		    		@if(count($point->documents)>0)
 		    			<br>
 	    				<h5 class="card-subtitle mb-2 text-muted">Documentos de soporte</h5>
+	    				<br>
 		    		@endif
+		    		<div class="row justify-content-center">
 		    		@foreach($point->documents as $k => $document)
 		    			@if(file_exists("docs/".$document->direction))
+		    			
+		    				<div class="col-lg-2 col-md-5 col-sm-4 mra">
 		    				<a href="{{asset("docs/".$document->direction)}}" class="btn btn-success">Documento {{$k+1}}</a>
+		    				</div>
+	    				
 		    			@endif
 		    		@endforeach
+		    		</div>
 		  		</div>
 			</div>
     	@endforeach

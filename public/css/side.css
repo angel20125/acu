@@ -89,7 +89,9 @@
 .pdr{
   padding-right: 15px !important;
 }
-
+.mra{
+  margin: 0.3rem 0.3rem !important;
+}
 /*
  * Utilities
  */
@@ -105,7 +107,7 @@
   content: "Elegir"  ;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767.98px) {
   .nav-link{
     color: floralwhite !important;
   }
@@ -113,4 +115,8 @@
     position: relative !important;
     top: none !important;
   }
+  .mra{
+    margin: 0.3rem 0.1rem !important;
+  }
+
 }
