@@ -187,6 +187,15 @@ class DiaryController extends Controller
                 $data["limit_date"]=\DateTime::createFromFormat("Y-m-d",$event_date)->sub(new \DateInterval("P1D"))->format("Y-m-d");
             }
 
+            $council=Council::where("id",$data["council_id"])->first();
+
+            $current_agenda=Diary::where("council_id",$data["council_id"])->where("event_date",$event_date)->first();
+
+            if($current_agenda) 
+            {
+                return redirect()->back()->withErrors(["El presidente o adjunto del ".$council->name." ya registró una nueva agenda para el día ".\DateTime::createFromFormat("Y-m-d",$event_date)->format("d/m/Y")]);
+            }
+
             $diary=Diary::create($data);
 
             foreach($dataPoints["description_point"] as $key => $description)
