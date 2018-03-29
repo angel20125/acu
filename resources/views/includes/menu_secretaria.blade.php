@@ -15,13 +15,23 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			{{$user->first_name}} {{$user->last_name}} <br> {{$user->councils()->wherePivot("role_id",$user->getCurrentRol()->id)->first()->name}}
+			{{$user->first_name}} {{$user->last_name}}
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("profile")}}">
 			Editar Perfil  
 		</a>
+	</li>
+</ul>
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="fas fa-handshake"></i> <span class="mr8">CARGO AUTORIZANTE</span>
+</h6>
+
+<ul class="nav flex-column">
+	<li class="nav-item">
+		<a class="nav-link" href="#">{{$user->positionBoss->name}}</a>
 	</li>
 </ul>
 

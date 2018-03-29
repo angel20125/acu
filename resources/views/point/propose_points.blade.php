@@ -22,7 +22,7 @@
 		@endif
 		@csrf
 		<h1 class="text-center font-weight-normal">Presentar Puntos</h1>
-        <h6 class="text-center font-weight-normal">Cargo institucional autorizante: <b>{{$user->positionBoss->name}}</b></h6>
+        <h6 style="font-style: oblique;" class="text-center font-weight-normal">Cargo Institucional Autorizante - <b>{{$user->positionBoss->name}}</b></h6>
 		<br><br>
   		
         <div class="form-row">
