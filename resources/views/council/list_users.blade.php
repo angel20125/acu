@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Usuarios")
+@section('title' , "Miembros")
 
 @section('links')
     
@@ -22,7 +22,7 @@
         {{session('message_info')}}
     </div>
 @endif
-<h1 class="text-center mr1 font-weight-normal">Lista de Usuarios</h1>
+<h1 class="text-center mr1 font-weight-normal">Lista de Miembros</h1>
 
 <br>
 
@@ -30,7 +30,7 @@
     <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Usuario </th>
+                <th>Miembro</th>
                 <th>Cédula</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
@@ -57,12 +57,12 @@
             "iDisplayLength": 10,
             "language": {
                 "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ usuarios",
+                "sLengthMenu":     "Mostrar _MENU_ miembros",
                 "sZeroRecords":    "No se encontraron resultados",
                 "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando de _START_ a _END_ usuarios de un total de _TOTAL_",
-                "sInfoEmpty":      "No se ha registrado ningún usuario",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ usuarios)",
+                "sInfo":           "Mostrando de _START_ a _END_ miembros de un total de _TOTAL_",
+                "sInfoEmpty":      "No se ha registrado ningún miembros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ miembros)",
                 "sInfoPostFix":    "",
                 "sSearch":         "Buscar:",
                 "sUrl":            "",

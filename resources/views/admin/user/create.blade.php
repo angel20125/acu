@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Registrar Usuario")
+@section('title' , "Registrar Miembro")
 
 @section('links')
 	<link href="{{ asset('css/create_user.css') }}" rel="stylesheet">
@@ -21,7 +21,7 @@
 			</div>
 		@endif
 		@csrf
-		<h1 class="text-center font-weight-normal">Registrar Usuario</h1>
+		<h1 class="text-center font-weight-normal">Registrar Miembro</h1>
 		<br><br>
 
 	  	<div class="form-row">

@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Editar Usuario")
+@section('title' , "Editar Miembro")
 
 @section('links')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/create_user.css') }}">
@@ -21,7 +21,7 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center font-weight-normal">Editar Usuario</h1>
+        <h1 class="text-center font-weight-normal">Editar Miembro</h1>
         <br>
         <input type="hidden" name="user_id" value="{{$edit_user->id}}"/>
         <div class="form-row">
@@ -111,11 +111,11 @@
 
                 @if($council->president_id==$edit_user->id)
                     <div style="text-align:center;" class="alert alert-primary" role="alert">
-                        <b>Nota:</b> Si deseas degradar el usuario de <b>Presidente</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
+                        <b>Nota:</b> Si deseas degradar el miembro de <b>Presidente</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
                     </div>
                 @elseif($council->adjunto_id==$edit_user->id)
                     <div style="text-align:center;" class="alert alert-primary" role="alert">
-                        <b>Nota:</b> Si deseas degradar el usuario de <b>Adjunto</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
+                        <b>Nota:</b> Si deseas degradar el miembro de <b>Adjunto</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
                     </div>
                 @endif
 
@@ -135,7 +135,7 @@
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Actualizar</button>
             <br>
-            <a href="{{route("admin_users")}}"><br>Ver Usuarios</a>
+            <a href="{{route("admin_users")}}"><br>Ver Miembros</a>
         </div>
     </form>
 </div>

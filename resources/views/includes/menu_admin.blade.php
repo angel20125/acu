@@ -34,7 +34,6 @@
 			Registrar Cargo
 		</a>
 	</li>
-
 </ul>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
@@ -52,14 +51,21 @@
 			Registrar Consejo  
 		</a>
 	</li>
+</ul>
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="fas fa-users"></i><span class="mr8">MIEMBROS</span>
+</h6>
+
+<ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("admin_users")}}">
-			Ver Usuarios
+			Ver Miembros
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("admin_users_create")}}">
-			Registrar Usuario  
+			Registrar Miembro  
 		</a>
 	</li>
 </ul>

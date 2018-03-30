@@ -1033,7 +1033,7 @@ class DiaryController extends Controller
             }  
         } 
 
-        $diary=Diary::where("id",$diary_id)->update(["description"=>$description,"event_date"=>$event_date,"place"=>$place]);
+        $diary=Diary::where("id",$diary_id)->update(["description"=>$description,"event_date"=>$event_date,"place"=>$place,"limit_date"=>\DateTime::createFromFormat("Y-m-d",$event_date)->sub(new \DateInterval("P1D"))]);
         
         $diary_edit=Diary::where("id",$diary_id)->first();
         $diary_edit["event_date"]=\DateTime::createFromFormat("Y-m-d",$diary_edit->event_date)->format("d/m/Y");

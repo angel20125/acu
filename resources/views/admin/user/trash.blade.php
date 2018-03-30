@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Eliminar Usuario")
+@section('title' , "Eliminar Miembro")
 
 @section('links')
     <link href="{{ asset('css/create_user.css') }}" rel="stylesheet"> 
@@ -22,9 +22,9 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center mr1 font-weight-normal">Eliminar Usuario</h1>
+        <h1 class="text-center mr1 font-weight-normal">Eliminar Miembro</h1>
         <br>
-        <h5 class="text-center mr1 font-weight-normal">¿Esta seguro que desea eliminar el usuario "{{$edit_user->first_name}} {{$edit_user->last_name}}"?</h5>
+        <h5 class="text-center mr1 font-weight-normal">¿Esta seguro que desea eliminar el miembro "{{$edit_user->first_name}} {{$edit_user->last_name}}"?</h5>
         
         <div class="form-group col-10 offset-1">
             <label for="firstname_input">Escriba Eliminar en el campo para confirmar</label>
