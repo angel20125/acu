@@ -39,7 +39,7 @@
 					    				<h5 class="card-title">Punto <b>@if($point->post_status=="diferido_virtual") diferido virtual @elseif($point->post_status=="no_presentado") no presentado @else {{$point->post_status}}@endif</b></h5>
 					    			@else
 				    					<h5 class="card-title">Punto <b>{{$point->pre_status}}</b></h5>
-				    					@if($point->pre_status=="propuesto")
+				    					@if($point->pre_status=="propuesto" && gmdate("Y-m-d") <= $diary->event_date)
 				    						<a href="{{route("delete_point",["point_id"=>$point->id])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
 				    						<button data-toggle="modal" data-target="#edit-point" value="{{$point->id}}" id="get-data-{{$point->id}}" type="button" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
 				    					@endif
