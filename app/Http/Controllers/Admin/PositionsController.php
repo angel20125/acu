@@ -68,7 +68,7 @@ class PositionsController extends Controller
 
         Position::where("id",$position_id)->update($data);
 
-        return redirect()->route("admin_positions_edit",["position_id"=>$position_id])->with(["message_info"=>"Se ha actualizado el cargo"]);
+        return redirect()->route("admin_positions")->with(["message_info"=>"Se ha actualizado el cargo"]);
     }
 
     public function getTrash($position_id)

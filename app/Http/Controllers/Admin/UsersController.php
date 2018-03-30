@@ -96,12 +96,12 @@ class UsersController extends Controller
 
         if(count($positions)==0)
         {
-            return redirect()->route("admin_positions_create")->withErrors(["Primero debes registrar un cargo como mínimo, para poder registrar un usuario"]);
+            return redirect()->route("admin_positions_create")->withErrors(["Primero debes registrar un cargo como mínimo, para poder registrar un miembro"]);
         }
 
         if(count($councils)==0)
         {
-            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un usuario"]);
+            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un miembro"]);
         }
 
     	$roles=Role::orderBy("name","asc")->get();
@@ -115,7 +115,7 @@ class UsersController extends Controller
 
         if(count($last_councils)!=count($councils)) 
         {
-            return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
+            return redirect()->back()->withErrors(["Un miembro no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
         $last_roles=$request->get("roles");
@@ -186,7 +186,7 @@ class UsersController extends Controller
             $message->to($user->email,$user->first_name);
         });
 
-        return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el usuario exitosamente"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el miembro exitosamente"]);
     }
 
     public function getEdit($user_id)
@@ -211,32 +211,32 @@ class UsersController extends Controller
             $check_user=User::where("identity_card",$data["identity_card"])->first();
             if($check_user && $check_user->id!=$edit_user->id)
             {
-                return redirect()->back()->withErrors(["Ya existe un usuario con esa cédula de identidad"]);
+                return redirect()->back()->withErrors(["Ya existe un miembro con esa cédula de identidad"]);
             }
 
             $check_user=User::where("email",$data["email"])->first();
             if($check_user && $check_user->id!=$edit_user->id)
             {
-                return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
+                return redirect()->back()->withErrors(["Ya existe un miembro con ese correo electrónico"]);
             }
 
             User::where("id",$user_id)->update($data);
 
-            return redirect()->route("admin_users_edit",["user_id"=>$user_id])->with(["message_info"=>"Se ha actualizado el usuario"]); 
+            return redirect()->route("admin_users")->with(["message_info"=>"Se ha actualizado la secretaria"]); 
         }
 
         $last_councils=$request->get("council_id");
 
         if(!isset($last_councils)) 
         {
-            return redirect()->back()->withErrors(["Un usuario debe pertenecer como mínimo a un consejo y tener un rol dentro del sistema"]);
+            return redirect()->back()->withErrors(["Un miembro debe pertenecer como mínimo a un consejo y tener un rol dentro del sistema"]);
         }
 
         $councils=array_unique($last_councils);
 
         if(count($last_councils)!=count($councils)) 
         {
-            return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
+            return redirect()->back()->withErrors(["Un miembro no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
         $last_roles=$request->get("roles");
@@ -340,18 +340,18 @@ class UsersController extends Controller
         $check_user=User::where("identity_card",$data["identity_card"])->first();
         if($check_user && $check_user->id!=$edit_user->id)
         {
-            return redirect()->back()->withErrors(["Ya existe un usuario con esa cédula de identidad"]);
+            return redirect()->back()->withErrors(["Ya existe un miembro con esa cédula de identidad"]);
         }
 
         $check_user=User::where("email",$data["email"])->first();
         if($check_user && $check_user->id!=$edit_user->id)
         {
-            return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
+            return redirect()->back()->withErrors(["Ya existe un miembro con ese correo electrónico"]);
         }
 
         User::where("id",$user_id)->update($data);
 
-        return redirect()->route("admin_users_edit",["user_id"=>$user_id])->with(["message_info"=>"Se ha actualizado el usuario"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha actualizado el miembro"]);
     }
 
     public function getTrash($user_id)
@@ -371,11 +371,11 @@ class UsersController extends Controller
         } 
         catch (\Illuminate\Database\QueryException $e) 
         {
-            return redirect()->back()->withErrors(["No puede eliminar un usuario del cual dependen funcionalidades del sistema"]);
+            return redirect()->back()->withErrors(["No puede eliminar un miembro del cual dependen funcionalidades del sistema"]);
         }
         
 
-        return redirect()->route("admin_users")->with(["message_info"=>"Se ha eliminado el usuario"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha eliminado el miembro"]);
     }
 
     public function impersonate($user_id)

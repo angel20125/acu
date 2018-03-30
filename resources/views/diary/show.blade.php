@@ -9,7 +9,7 @@
     	<h2 class="card-title">{{$diary->council->name}}</h2>
     	<h5 class="card-subtitle mb-2 text-muted">Descripción de la agenda</h5>
     	<p id="diary-description" style="font-style: oblique;" class="card-text">{{$diary->description}}</p>
-    	<p id="diary-info"class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> @if(gmdate("Y-m-d") <= $diary->event_date) {{$diary->status=="0"?"En espera de la reunión":"Finalizada"}} @elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0) Por finalizar y cerrar puntos @else Finalizada @endif</p>
+    	<p id="diary-info"class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> @if(gmdate("Y-m-d") <= $diary->event_date) {{$diary->status=="0"?"Pre-Agenda":"Post-Agenda"}} @elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0) Pre-Agenda (En espera de que el adjunto la finalice) @else Post-Agenda @endif</p>
 
     	@if((($diary->status==0 && $diary->council->president && $diary->council->president->id==$user->id) || ($diary->status==0 && $diary->council->adjunto && $diary->council->adjunto->id==$user->id) || ($user->getCurrentRol()->name=="admin")) && gmdate("Y-m-d") <= $diary->event_date)
 			<button data-toggle="modal" data-target="#edit-diary" id="get-data" type="button" value="{{$diary->id}}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
@@ -140,7 +140,7 @@
 	                    $("#diary-description").text(data.update.description);
 	                    $("#diary-info").empty();
 
-	                    $("#diary-info").append("<b>Lugar:</b> "+data.update.place+" <b>Fecha:</b> "+data.update.event_date+" <b>Estado:</b> En espera de la reunión");
+	                    $("#diary-info").append("<b>Lugar:</b> "+data.update.place+" <b>Fecha:</b> "+data.update.event_date+" <b>Estado:</b> Pre-Agenda");
                 	}
                 });
 			});

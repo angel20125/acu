@@ -218,7 +218,7 @@ class CouncilsController extends Controller
 
         Council::where("id",$council_id)->update($data);
 
-        return redirect()->route("admin_councils_edit",["council_id"=>$council_id])->with(["message_info"=>"Se ha actualizado el consejo"]);
+        return redirect()->route("admin_councils")->with(["message_info"=>"Se ha actualizado el consejo"]);
     }
 
     public function getTrash($council_id)

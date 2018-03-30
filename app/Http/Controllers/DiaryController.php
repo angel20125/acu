@@ -27,7 +27,19 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            if(gmdate("Y-m-d") <= $diary->event_date)
+            {
+                $status="Pre-Agenda"; 
+            }
+            elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0)
+            {
+                $status="Pre-Agenda (Por finalizar)";
+            }  
+            else
+            {
+                $status="Post-Agenda";
+            }
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -49,7 +61,20 @@ class DiaryController extends Controller
             {
                 if($user->getCurrentRol()->id==$council->pivot->role_id)
                 {
-                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
+                    if(gmdate("Y-m-d") <= $diary->event_date)
+                    {
+                        $status="Pre-Agenda"; 
+                    }
+                    elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0)
+                    {
+                        $status="Pre-Agenda (Por finalizar)";
+                    }  
+                    else
+                    {
+                        $status="Post-Agenda";
+                    }
+
+                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
                 }
             }
         }
@@ -65,19 +90,19 @@ class DiaryController extends Controller
 
         if(!$diary) 
         {
-            return redirect()->route("adjunto_dashboard")->withErrors(["La agenda que trata de finalizar no existe"]);
+            return redirect()->route("adjunto_dashboard")->withErrors(["La pre-agenda que trata de finalizar no existe"]);
         }
 
         $user_council=$user->councils()->wherePivot("council_id",$diary->council->id)->first();
 
         if(($diary && $user_council && $diary->council->id!=$user_council->id) || !$user_council) 
         {
-            return redirect()->route("adjunto_dashboard")->withErrors(["No tiene permisos de finalizar esa determinada agenda"]);
+            return redirect()->route("adjunto_dashboard")->withErrors(["No tiene permisos de finalizar esa determinada pre-agenda"]);
         }
         
         if($diary->event_date > gmdate("Y-m-d")) 
         {
-            return redirect()->route("adjunto_dashboard")->withErrors(["La agenda que trata de finalizar aún no se ha tratado"]);
+            return redirect()->route("adjunto_dashboard")->withErrors(["La pre-agenda que trata de finalizar aún no se ha llevado a cabo"]);
         }
 
         return view("diary.end",["diary"=>$diary]);
@@ -95,7 +120,20 @@ class DiaryController extends Controller
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+            if(gmdate("Y-m-d") <= $diary->event_date)
+            {
+                $status="Pre-Agenda"; 
+            }
+            elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0)
+            {
+                $status="Pre-Agenda (Por finalizar)";
+            }  
+            else
+            {
+                $status="Post-Agenda";
+            }
+
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -143,7 +181,7 @@ class DiaryController extends Controller
 
         if(count($councils)==0 && $user->hasRole("admin"))
         {
-            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar o convocar una nueva agenda"]);
+            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar o convocar una nueva pre-agenda"]);
         }
 
         if($user->hasRole("admin")) 
@@ -165,7 +203,7 @@ class DiaryController extends Controller
 
         if($event_date<$date)
         {
-            return redirect()->back()->withErrors(["No puede registrar o convocar una agenda en una fecha que ya pasó"]);
+            return redirect()->back()->withErrors(["No puede registrar o convocar una nueva pre-agenda en una fecha que ya pasó"]);
         }
 
         $dataPoints=($request->only(["description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
@@ -187,7 +225,7 @@ class DiaryController extends Controller
 
         if($current_agenda) 
         {
-            return redirect()->back()->withErrors(["El presidente o adjunto del ".$council->name." ya registró una nueva agenda para el día ".\DateTime::createFromFormat("Y-m-d",$event_date)->format("d/m/Y")]);
+            return redirect()->back()->withErrors(["El presidente o adjunto del ".$council->name." ya registró una nueva pre-agenda para el día ".\DateTime::createFromFormat("Y-m-d",$event_date)->format("d/m/Y")]);
         }   
 
         if(!isset($dataPoints["description_point"]))
@@ -304,11 +342,11 @@ class DiaryController extends Controller
 
         if($user->getCurrentRol()->name=="admin")
         {
-            return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente"]);
+            return redirect()->route("admin_diaries")->with(["message_info"=>"Se ha registrado la pre-agenda exitosamente"]);
         }
         else
         {
-            return redirect()->route("diaries")->with(["message_info"=>"Se ha registrado la agenda exitosamente"]);
+            return redirect()->route("diaries")->with(["message_info"=>"Se ha registrado la pre-agenda exitosamente"]);
         }
     }
 
@@ -470,11 +508,11 @@ class DiaryController extends Controller
 
         if($evaluation=="incluido") 
         {
-            return redirect()->route("get_presidente_points")->with(["message_info"=>"Punto incluído exitosamente en la agenda"]);
+            return redirect()->route("get_presidente_points")->with(["message_info"=>"Punto incluído exitosamente en la pre-agenda"]);
         }
         else
         {
-            return redirect()->route("get_presidente_points")->withErrors(["Punto desglosado exitosamente de la agenda"]);
+            return redirect()->route("get_presidente_points")->withErrors(["Punto desglosado exitosamente de la pre-agenda"]);
         }
 
     }
@@ -497,7 +535,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("presidente_dashboard")->withErrors(["No existen agendas en las que eres presidente en estos momentos"]);
+            return redirect()->route("presidente_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como presidente, te invitamos a que registres una nueva en 'Registrar Agenda', para que posteriormente puedas 'Agregar puntos'"]);
         }
 
         return view("point.president_points_propose");
@@ -626,7 +664,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("adjunto_dashboard")->withErrors(["No existen agendas en las que eres adjunto en estos momentos"]);
+            return redirect()->route("adjunto_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como adjunto, te invitamos a que registres una nueva en 'Registrar Agenda', para que posteriormente puedas 'Agregar puntos'"]);
         }
 
         return view("point.adjunto_points");
@@ -755,7 +793,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("consejero_dashboard")->withErrors(["No existen agendas en las que eres consejero en estos momentos"]);
+            return redirect()->route("consejero_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como consejero, te invitamos a esperar a que el presidente o adjunto del consejo donde participas, registre una nueva pre-agenda para que puedas 'Presentar Puntos'"]);
         }
 
         return view("point.consejero_points");
@@ -997,7 +1035,7 @@ class DiaryController extends Controller
             }
         }
 
-        return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la agenda"]);
+        return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la pre-agenda"]);
     }
 
     public function getEditDiary($diary_id)

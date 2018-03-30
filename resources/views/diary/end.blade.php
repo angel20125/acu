@@ -49,7 +49,7 @@
         </div>
 
         <br>
-        <h3 class="text-center font-weight-normal">Puntos Tratados</h3>
+        <h3 class="text-center font-weight-normal">Puntos Presentados</h3>
         <br>
 
         @foreach($diary->points->where("pre_status","incluido")->sortByDesc("created_at") as $point)
@@ -57,7 +57,7 @@
             <div style="margin-bottom:50px; background:#f8f9fa; border-radius: 10px;">
                 <div class="container-fluid">
                     <div class="row justify-content-between" style="padding-left: 12px; padding-right: 2px">
-                        <h3 class="text-center font-weight-normal">Punto</h3>
+                        <p class="text-center font-weight-normal"><b>Punto presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</b></p>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-9">

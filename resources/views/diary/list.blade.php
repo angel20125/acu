@@ -37,6 +37,7 @@
             <tr>
                 <th>Fecha</th>
                 <th>Breve descripción</th>
+                <th>Estado</th>
                 <th>Consejo involucrado</th>
                 <th>Presidente</th>
                 <th></th>
