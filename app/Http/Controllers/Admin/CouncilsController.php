@@ -74,6 +74,8 @@ class CouncilsController extends Controller
         {
             $last_president=$council->president;
 
+            $last_president->detachRoles($last_president->roles);
+
             //Agregar fecha final del período del presidente actual
             Transaction::where("type","create_user_presidente")->where("user_id",$last_president->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
 
@@ -90,8 +92,23 @@ class CouncilsController extends Controller
             $rol=Role::where("name","consejero")->first();
             $last_president->councils()->attach($council_id,["role_id"=>$rol->id]);
 
+            $roles=[];
+            foreach($last_president->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $last_president->attachRole(Role::where("id",$rol)->first());
+            }
+
             //Nuevo presidente
             $new_president=User::where("id",$president_id)->first();
+
+            $new_president->detachRoles($new_president->roles);
 
             //Agregar fecha final del período del consejero que ahora será presidente
             Transaction::where("type","create_user_consejero")->where("user_id",$president_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
@@ -108,11 +125,26 @@ class CouncilsController extends Controller
             //El consejero actual ahora será presidente
             $rol=Role::where("name","presidente")->first();
             $new_president->councils()->attach($council_id,["role_id"=>$rol->id]);
+
+            $roles=[];
+            foreach($new_president->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $new_president->attachRole(Role::where("id",$rol)->first());
+            }
         }
 
         if($council->adjunto && $adjunto_id && $adjunto_id!=$council->adjunto->id)
         {
             $last_adjunto=$council->adjunto;
+            
+            $last_adjunto->detachRoles($last_adjunto->roles);
 
             //Agregar fecha final del período del adjunto actual
             Transaction::where("type","create_user_adjunto")->where("user_id",$last_adjunto->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
@@ -130,8 +162,23 @@ class CouncilsController extends Controller
             $rol=Role::where("name","consejero")->first();
             $last_adjunto->councils()->attach($council_id,["role_id"=>$rol->id]);
 
+            $roles=[];
+            foreach($last_adjunto->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $last_adjunto->attachRole(Role::where("id",$rol)->first());
+            }
+
             //Nuevo adjunto
             $new_adjunto=User::where("id",$adjunto_id)->first();
+
+            $new_adjunto->detachRoles($new_adjunto->roles);
 
             //Agregar fecha final del período del consejero que ahora será adjunto
             Transaction::where("type","create_user_consejero")->where("user_id",$adjunto_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
@@ -148,6 +195,19 @@ class CouncilsController extends Controller
             //El consejero actual ahora será adjunto
             $rol=Role::where("name","adjunto")->first();
             $new_adjunto->councils()->attach($council_id,["role_id"=>$rol->id]);
+
+            $roles=[];
+            foreach($new_adjunto->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $new_adjunto->attachRole(Role::where("id",$rol)->first());
+            }
         }
 
         $checkCouncil=Council::where("name",$data["name"])->first();
