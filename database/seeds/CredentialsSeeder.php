@@ -22,6 +22,7 @@ use App\Models\Point;
 use App\Models\Council;
 use App\Models\Position;
 use App\Models\Role;
+use App\Models\Transaction;
 use App\User;
 
 
@@ -132,30 +133,30 @@ class CredentialsSeeder extends Seeder
 
         $admin = Position::where('name','Administrador')->first();
 
-		$data = ['credentials' => [
+    $data = ['credentials' => [
 
-			//Súper Admin
-			['identity_card' 	=> 'admin',
-			 'first_name' 		=> 'Administrador', 
-			 'last_name' 		=> 'ACU', 
-			 'phone_number' 	=> 'admin', 
-			 'email' 			=> 'acu.uneg@gmail.com', 
-			 'password' 		=> 'admin1234',
+      //Súper Admin
+      ['identity_card'  => 'admin',
+       'first_name'     => 'Administrador', 
+       'last_name'    => 'ACU', 
+       'phone_number'   => 'admin', 
+       'email'      => 'acu.uneg@gmail.com', 
+       'password'     => 'admin1234',
              'validate'         => 1,
              'position_id'      => $admin->id],
-		]];
+    ]];
 
-		// Insertar datos en la BD
-	
+    // Insertar datos en la BD
+  
         foreach($data['credentials'] as $user) 
         {
-         	// Inserta los roles en la BD
+          // Inserta los roles en la BD
 
-         	DB::table('users')->insert(['identity_card' => $user['identity_card'], 
-         								'first_name'    => $user['first_name'],
-         								'last_name'     => $user['last_name'],
-         								'phone_number'  => $user['phone_number'],
-         								'email'         => $user['email'],
+          DB::table('users')->insert(['identity_card' => $user['identity_card'], 
+                        'first_name'    => $user['first_name'],
+                        'last_name'     => $user['last_name'],
+                        'phone_number'  => $user['phone_number'],
+                        'email'         => $user['email'],
                                         'password'      => \Hash::make($user['password']),
                                         'validate'      => $user['validate'],
                                         'position_id'   => $user['position_id']]);
@@ -201,10 +202,13 @@ class CredentialsSeeder extends Seeder
         $jose->attachRole($presidente);
         $jose->councils()->attach($universitario->id,["role_id"=>$presidente->id]);
         Council::where("id",$universitario->id)->update(["president_id"=>$jose->id]);
+        Transaction::create(["type"=>"create_user_presidente","user_id"=>$jose->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
 
         $jose->attachRole($adjunto);
         $jose->councils()->attach($academico->id,["role_id"=>$adjunto->id]);
         Council::where("id",$academico->id)->update(["adjunto_id"=>$jose->id]);
+        Transaction::create(["type"=>"create_user_adjunto","user_id"=>$jose->id,"affected_id"=>$academico->id,"start_date"=>gmdate("Y-m-d")]);
+
 
         //Cesar
         $cesar= new User();
@@ -221,10 +225,12 @@ class CredentialsSeeder extends Seeder
         $cesar->attachRole($presidente);
         $cesar->councils()->attach($academico->id,["role_id"=>$presidente->id]);
         Council::where("id",$academico->id)->update(["president_id"=>$cesar->id]);
+        Transaction::create(["type"=>"create_user_presidente","user_id"=>$cesar->id,"affected_id"=>$academico->id,"start_date"=>gmdate("Y-m-d")]);
 
         $cesar->attachRole($adjunto);
         $cesar->councils()->attach($universitario->id,["role_id"=>$adjunto->id]);
         Council::where("id",$universitario->id)->update(["adjunto_id"=>$cesar->id]);
+        Transaction::create(["type"=>"create_user_adjunto","user_id"=>$cesar->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
 
         //Victor
         $victor= new User();
@@ -241,9 +247,11 @@ class CredentialsSeeder extends Seeder
         $victor->attachRole($presidente);
         $victor->councils()->attach($administrativo->id,["role_id"=>$presidente->id]);
         Council::where("id",$administrativo->id)->update(["president_id"=>$victor->id]);
+        Transaction::create(["type"=>"create_user_presidente","user_id"=>$victor->id,"affected_id"=>$administrativo->id,"start_date"=>gmdate("Y-m-d")]);
 
         $victor->attachRole($consejero);
         $victor->councils()->attach($universitario->id,["role_id"=>$consejero->id]);
+        Transaction::create(["type"=>"create_user_consejero","user_id"=>$victor->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
 
         //Jessele
         $jessele= new User();
@@ -260,10 +268,12 @@ class CredentialsSeeder extends Seeder
         $jessele->attachRole($presidente);
         $jessele->councils()->attach($departamental->id,["role_id"=>$presidente->id]);
         Council::where("id",$departamental->id)->update(["president_id"=>$jessele->id]);
+        Transaction::create(["type"=>"create_user_presidente","user_id"=>$jessele->id,"affected_id"=>$departamental->id,"start_date"=>gmdate("Y-m-d")]);
 
         $jessele->attachRole($adjunto);
         $jessele->councils()->attach($administrativo->id,["role_id"=>$adjunto->id]);
         Council::where("id",$administrativo->id)->update(["adjunto_id"=>$jessele->id]);
+        Transaction::create(["type"=>"create_user_adjunto","user_id"=>$jessele->id,"affected_id"=>$administrativo->id,"start_date"=>gmdate("Y-m-d")]);
 
         //Leonardo
         $leonardo= new User();
@@ -280,10 +290,12 @@ class CredentialsSeeder extends Seeder
         $leonardo->attachRole($presidente);
         $leonardo->councils()->attach($investigacion_post->id,["role_id"=>$presidente->id]);
         Council::where("id",$investigacion_post->id)->update(["president_id"=>$leonardo->id]);
+        Transaction::create(["type"=>"create_user_presidente","user_id"=>$leonardo->id,"affected_id"=>$investigacion_post->id,"start_date"=>gmdate("Y-m-d")]);
 
         $leonardo->attachRole($adjunto);
         $leonardo->councils()->attach($departamental->id,["role_id"=>$adjunto->id]);
         Council::where("id",$departamental->id)->update(["adjunto_id"=>$leonardo->id]);
+        Transaction::create(["type"=>"create_user_adjunto","user_id"=>$leonardo->id,"affected_id"=>$departamental->id,"start_date"=>gmdate("Y-m-d")]);
 
         //Ángel
         $angel= new User();
@@ -299,10 +311,12 @@ class CredentialsSeeder extends Seeder
 
         $angel->attachRole($consejero);
         $angel->councils()->attach($universitario->id,["role_id"=>$consejero->id]);
+        Transaction::create(["type"=>"create_user_consejero","user_id"=>$angel->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
 
         $angel->attachRole($adjunto);
         $angel->councils()->attach($investigacion_post->id,["role_id"=>$adjunto->id]);
         Council::where("id",$investigacion_post->id)->update(["adjunto_id"=>$angel->id]);
+        Transaction::create(["type"=>"create_user_adjunto","user_id"=>$angel->id,"affected_id"=>$investigacion_post->id,"start_date"=>gmdate("Y-m-d")]);
 
         //Gerardo
         $gerardo= new User();
@@ -318,6 +332,7 @@ class CredentialsSeeder extends Seeder
 
         $gerardo->attachRole($consejero);
         $gerardo->councils()->attach($universitario->id,["role_id"=>$consejero->id]);
+        Transaction::create(["type"=>"create_user_consejero","user_id"=>$gerardo->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
 
 
 
