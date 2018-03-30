@@ -1,12 +1,12 @@
-<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted "  >
-	<i class="fas fa-home"></i> <a class=" nav-link" href="{{route("dashboard")}}">Inicio</a>
-</h6>
-
 @if(Session::has('impersonated_by'))
 	<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted "  >
 		<i class="fa fa-arrow-circle-left"></i> <a class="nav-link active" href="{{route("user_regenerate")}}">Volver a admin</a>
 	</h6>
 @endif
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted "  >
+	<i class="fas fa-home"></i> <a class=" nav-link" href="{{route("dashboard")}}">Inicio</a>
+</h6>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
 	<i class="far fa-user"></i> <span class="mr8">SESIÓN {{$user->getCurrentRol()->display_name}}</span>
