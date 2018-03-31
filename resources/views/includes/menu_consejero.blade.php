@@ -14,7 +14,7 @@
 
 <ul class="nav flex-column">
 	<li class="nav-item">
-		<a class="nav-link  " href="#">
+		<a style="outline: none;" data-toggle="modal" data-target="#my-statistics" class="nav-link active" href="#">
 			{{$user->first_name}} {{$user->last_name}}
 		</a>
 	</li>

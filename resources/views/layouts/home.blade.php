@@ -34,6 +34,75 @@
 	</div>
 </div>
 
+@if($user->getCurrentRol()->name!="admin" || $user->getCurrentRol()->name!="secretaria")
+<div id="my-statistics" class="modal fade" tabindex="-1" role="dialog">
+  	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header" style="background:#eceff1;">
+	        	<h5 class="modal-title">Mi Perfil</h5>
+	      	</div>
+	      	<div class="modal-body">
+				<div class="form-row">
+					<div class="form-group col-md-12 col-sm-12">
+		   				<h6 class="card-subtitle mb-2 text-muted" style="text-align: center;">Hola {{$user->first_name}}, aquí encontrarás información relevante, desde que formas parte de nuestra familia ACU...</h6>
+			    	</div>
+					<div class="form-group col-md-6 col-sm-12">
+						<div class="card">
+						  	<ul class="list-group list-group-flush">
+						    	<li style="background:#5c6bc0; color: white;" class="list-group-item">Puntos incluidos: {{$user->points->where("pre_status","incluido")->count()}}</li>
+						    	<li style="background:#ffd54f; color: black;" class="list-group-item">Puntos desglosados: {{$user->points->where("pre_status","desglosado")->count()}}</li>
+						    	<li style="background:#66bb6a; color: black;" class="list-group-item">Puntos aprobados:{{$user->points->where("post_status","aprobado")->count()}}</li>
+						    	<li style="background:#ef5350; color: white;" class="list-group-item">Puntos rechazados: {{$user->points->where("post_status","rechazado")->count()}}</li>
+						  	</ul>
+						</div>
+			    	</div>
+					<div class="form-group col-md-6 col-sm-12">
+						<div class="card">
+						  	<ul class="list-group list-group-flush">
+						    	<li style="background:#78909c; color: white;" class="list-group-item">Puntos diferidos: {{$user->points->where("post_status","diferido")->count()}}</li>
+						    	<li style="background:#78909c; color: white;" class="list-group-item">Puntos retirados: {{$user->points->where("post_status","retirado")->count()}}</li>
+						    	<li style="background:#78909c; color: white;" class="list-group-item">Puntos presentados: {{$user->points->where("post_status","presentado")->count()}}</li>
+						    	<li style="background:#78909c; color: white;" class="list-group-item">Pts no presentados: {{$user->points->where("post_status","no_presentado")->count()}}</li>
+						  	</ul>
+						</div>
+			    	</div>
+					<div class="form-group col-md-12 col-sm-12">
+						<div class="card">
+						  	<ul class="list-group list-group-flush">
+						    	<li style="background:#eceff1; color: black;" class="list-group-item">Historial de Roles</li>
+						  		@foreach($user->transactions->sortByDesc("start_date") as $trans)
+						  			@if($trans->type=="create_user_consejero")
+						  				@if($trans->end_date)
+						    				<li class="list-group-item"><b>Consejero</b> del {{$user->councils()->where("id",$trans->affected_id)->first()->name}} desde el {{DateTime::createFromFormat("Y-m-d",$trans->start_date)->format("d/m/Y")}} hasta el {{DateTime::createFromFormat("Y-m-d",$trans->end_date)->format("d/m/Y")}}.</li>
+						    			@else
+						    				<li class="list-group-item"><b>Consejero</b> del {{$user->councils()->where("id",$trans->affected_id)->first()->name}} desde el {{DateTime::createFromFormat("Y-m-d",$trans->start_date)->format("d/m/Y")}} hasta la actualidad.</li>
+						    			@endif
+						    		@elseif($trans->type=="create_user_adjunto")
+					  					@if($trans->end_date)
+						    				<li class="list-group-item"><b>Adjunto</b> del {{$user->councils()->where("id",$trans->affected_id)->first()->name}} desde el {{DateTime::createFromFormat("Y-m-d",$trans->start_date)->format("d/m/Y")}} hasta el {{DateTime::createFromFormat("Y-m-d",$trans->end_date)->format("d/m/Y")}}.</li>
+						    			@else
+						    				<li class="list-group-item"><b>Adjunto</b> del {{$user->councils()->where("id",$trans->affected_id)->first()->name}} desde el {{DateTime::createFromFormat("Y-m-d",$trans->start_date)->format("d/m/Y")}} hasta la actualidad.</li>
+						    			@endif
+						    		@elseif($trans->type=="create_user_presidente")
+					  					@if($trans->end_date)
+						    				<li class="list-group-item"><b>Presidente</b> del {{$user->councils()->where("id",$trans->affected_id)->first()->name}} desde el {{DateTime::createFromFormat("Y-m-d",$trans->start_date)->format("d/m/Y")}} hasta el {{DateTime::createFromFormat("Y-m-d",$trans->end_date)->format("d/m/Y")}}.</li>
+						    			@else
+						    				<li class="list-group-item"><b>Presidente</b> del {{$user->councils()->where("id",$trans->affected_id)->first()->name}} desde el {{DateTime::createFromFormat("Y-m-d",$trans->start_date)->format("d/m/Y")}} hasta la actualidad.</li>
+						    			@endif
+						    		@endif
+						    	@endforeach
+						  	</ul>
+						</div>
+			    	</div>
+			    </div>
+	      	</div>
+	      	<div class="modal-footer">
+	        	<button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+	      	</div>
+	    </div>
+  	</div>
+</div>
+
 <div id="my-councils" class="modal fade" tabindex="-1" role="dialog">
   	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -43,13 +112,17 @@
 	      	<div class="modal-body">
 				<div class="form-row">
 					<div class="form-group col-md-12 col-sm-12">
-			   			<h6 class="card-subtitle mb-2 text-muted" style="text-align: center;">Aquí puedes visualizar los consejos donde participas y tienes los privilegios de poder presentar o agregar puntos a las pre-agendas, registrar pre-agendas, entre otras funciones más, según el rol que tengas dentro del consejo.</h6>
+			   			<h6 class="card-subtitle mb-2 text-muted" style="text-align: center;">Hola {{$user->first_name}}, aquí encontrarás los consejos donde participas actualmente con su respectivo rol.</h6>
 			    	</div>
-	    	    	@foreach($user->councils->sortBy("name") as $council)
 					<div class="form-group col-md-12 col-sm-12">
-		   				<p style="text-align: center;">{{$council->name}} - {{$user->roles()->where("id",$council->pivot->role_id)->first()->display_name}}</p>
+						<div class="card">
+						  	<ul class="list-group list-group-flush">
+	  			    	    	@foreach($user->councils->sortBy("name") as $council)
+						    		<li style="text-align: center;" class="list-group-item">{{$council->name}} - <b>{{$user->roles()->where("id",$council->pivot->role_id)->first()->display_name}}</b></li>
+					    	   	@endforeach
+						  	</ul>
+						</div>
 			    	</div>
-	    	    	@endforeach
 			    </div>
 	      	</div>
 	      	<div class="modal-footer">
@@ -58,6 +131,7 @@
 	    </div>
   	</div>
 </div>
+@endif
 
 <!-- Bootstrap core JavaScript
 	================================================== -->
