@@ -44,7 +44,7 @@
 		    					<div style="background:#66bb6a; color: white;" class="card-header">
 			    				@elseif($point->post_status=="rechazado" && $point->pre_status=="incluido")
 		    					<div style="background:#ef5350; color: white;" class="card-header">
-			    				@elseif(($point->post_status=="diferido" || $point->post_status=="diferido_virtual" || $point->post_status=="retirado") && $point->pre_status=="incluido")
+								@elseif(($point->post_status=="diferido" || $point->post_status=="diferido_virtual" || $point->post_status=="retirado" || $point->post_status=="presentado" || $point->post_status=="no_presentado") && $point->pre_status=="incluido")
 		    					<div style="background:#78909c; color: white;" class="card-header">
 	    						@endif
 					  				@if($point->post_status)
