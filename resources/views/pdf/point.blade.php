@@ -24,14 +24,14 @@
 				@endif
   			</div>
 	  		<div class="card-body">
-	  			<h5 class="card-title">Presentado por el/la {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h5>
-	    		<h5 class="card-subtitle mb-2 text-muted">Descripción del punto</h5>
+	  			<h3 class="card-title">Presentado por el/la {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h3>
+	    		<h3 class="card-subtitle mb-2 text-muted">Descripción del punto</h3>
 	    		<p id="description-{{$point->id}}" class="card-text">{{$point->description}}</p>
 	    		<p id="type-{{$point->id}}">(Punto de {{$point->type=="info"?"información":"decisión"}})</p>
 
 	    		@if($point->agreement)
-	    			<h5 class="card-subtitle mb-2 text-muted">Acuerdo</h5>
-	    			<h6 class="card-title">{{$point->agreement}}</h6>
+	    			<h3 class="card-subtitle mb-2 text-muted">Acuerdo</h3>
+	    			<p class="card-title">{{$point->agreement}}</p>
 	    		@endif
 	  		</div>
 		</div>
