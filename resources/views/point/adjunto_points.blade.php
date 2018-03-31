@@ -30,7 +30,7 @@
                 <select name="diary_id" class="form-control" id="diary_id" required>
                     @foreach($user->councils as $council)
                         @if($user->getCurrentRol()->id===$council->pivot->role_id)
-                            @foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+                            @foreach($council->diaries->where("limit_date",">=",$current_date) as $diary)
                                 <option value="{{$diary->id}}">{{$council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}}</option>
                             @endforeach
                         @endif

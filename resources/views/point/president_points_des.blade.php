@@ -28,7 +28,7 @@
     	@foreach($user->councils as $council)
     		@if($user->getCurrentRol()->id===$council->pivot->role_id)
 	    		@foreach($council->diaries->sortByDesc("event_date") as $diary)
-		    		@if($diary->limit_date >= gmdate("Y-m-d"))
+		    		@if($diary->limit_date >= $current_date)
 		    			@if(count($diary->points->where("pre_status","desglosado"))>0)
 			  				<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} - <b>{{$council->name}}</b></a></h5>
 			  				<p style="font-style: oblique;">"{{$diary->description}}"</p>

@@ -54,7 +54,7 @@
 				    				@endif
 					  			</div>
 						  		<div class="card-body">
-			    					@if($point->pre_status=="propuesto" && gmdate("Y-m-d") <= $diary->event_date)
+			    					@if($point->pre_status=="propuesto" && $current_date <= $diary->event_date)
 			    						<a href="{{route("delete_point",["point_id"=>$point->id])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
 			    						<button data-toggle="modal" data-target="#edit-point" value="{{$point->id}}" id="get-data-{{$point->id}}" type="button" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
 			    					@endif

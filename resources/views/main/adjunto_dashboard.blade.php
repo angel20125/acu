@@ -53,7 +53,7 @@
 <!-- Calendar -->
 <div class="container-fluid pdd">
 	<div class="row"> 
-		@php $startDate = DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('first day of this month')->format("w"); @endphp
+		@php $startDate = DateTime::createFromFormat("Y-m-d",$current_date)->modify('first day of this month')->format("w"); @endphp
 	 	
 	 	@php 
 	 	$mes =	array(
@@ -70,7 +70,7 @@
 	    "11" => "Noviembre",
 	    "12" => "Diciembre",
 	 	);
-	    $var = gmdate("m");
+	    $var = DateTime::createFromFormat("Y-m-d",$current_date)->format("m");
 	    @endphp
 	 	
 	 	<h3 class="font-weight-normal col-12 text-center">{{ $mes[$var] }}</h3>
@@ -96,12 +96,12 @@
 
 			        		@if($count < $startDate)
 			        			<td style="color: #BDBDBD">
-			        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->sub(new DateInterval("P".$last_month."D"))->format("d")}}
+			        				{{DateTime::createFromFormat("d/m/Y",$current_date_format)->modify('first day of this month')->sub(new DateInterval("P".$last_month."D"))->format("d")}}
 			        			</td>
 			        			@php $last_month--; @endphp
 
-			        		@elseif($count >= $startDate && $countDay <= DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
-		        				@if($countDay==gmdate("d"))
+			        		@elseif($count >= $startDate && $countDay <= DateTime::createFromFormat("Y-m-d",$current_date)->modify('last day of this month')->format("d"))
+		        				@if($countDay==DateTime::createFromFormat("Y-m-d",$current_date)->format("d"))
 				        			<td style="background:#28a745; color:white; font-weight: bold;">
 				        				{{$countDay}}
 				        				<br>
@@ -128,9 +128,9 @@
 			        			@endif
 			        			@php $countDay++; @endphp
 
-			        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",gmdate("Y-m-d"))->modify('last day of this month')->format("d"))
+			        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",$current_date)->modify('last day of this month')->format("d"))
 			        			<td style="color: #BDBDBD">
-			        				{{DateTime::createFromFormat("d/m/Y",gmdate("d/m/Y"))->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
+			        				{{DateTime::createFromFormat("d/m/Y",$current_date_format)->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
 			        			</td>
 			        			@php $future_month++; @endphp
 			        		@endif

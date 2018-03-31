@@ -25,14 +25,17 @@ class DiaryController extends Controller
     {
         $diaries=Diary::get();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            if(gmdate("Y-m-d") <= $diary->event_date)
+            if($current_date <= $diary->event_date)
             {
                 $status="Pre-Agenda"; 
             }
-            elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0)
+            elseif($current_date > $diary->event_date && $diary->status==0)
             {
                 $status="Pre-Agenda (Por finalizar)";
             }  
@@ -54,19 +57,21 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
-        
         foreach($user->councils as $council) 
         {
-            foreach($council->diaries->where("event_date","<=",gmdate("Y-m-d"))->where("status",0) as $diary) 
+            foreach($council->diaries->where("event_date","<=",$current_date)->where("status",0) as $diary) 
             {
                 if($user->getCurrentRol()->id==$council->pivot->role_id)
                 {
-                    if(gmdate("Y-m-d") <= $diary->event_date)
+                    if($current_date <= $diary->event_date)
                     {
                         $status="Pre-Agenda"; 
                     }
-                    elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0)
+                    elseif($current_date > $diary->event_date && $diary->status==0)
                     {
                         $status="Pre-Agenda (Por finalizar)";
                     }  
@@ -87,6 +92,9 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diary=Diary::where("id",$diary_id)->first();
 
         if(!$diary) 
@@ -101,7 +109,7 @@ class DiaryController extends Controller
             return redirect()->route("adjunto_dashboard")->withErrors(["No tiene permisos de finalizar esa determinada pre-agenda"]);
         }
         
-        if($diary->event_date > gmdate("Y-m-d")) 
+        if($diary->event_date > $current_date) 
         {
             return redirect()->route("adjunto_dashboard")->withErrors(["La pre-agenda que trata de finalizar aún no se ha llevado a cabo"]);
         }
@@ -118,14 +126,17 @@ class DiaryController extends Controller
     {
         $diaries=Diary::get();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
         foreach($diaries as $diary)
         {
-            if(gmdate("Y-m-d") <= $diary->event_date)
+            if($current_date <= $diary->event_date)
             {
                 $status="Pre-Agenda"; 
             }
-            elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0)
+            elseif($current_date > $diary->event_date && $diary->status==0)
             {
                 $status="Pre-Agenda (Por finalizar)";
             }  
@@ -200,7 +211,9 @@ class DiaryController extends Controller
         $user=User::getCurrent();
 
         $event_date=$request->event_date;
-        $date=gmdate("Y-m-d");
+
+        $date = new \DateTime("now");
+        $date = $date->format("Y-m-d");
 
         if($event_date<$date)
         {
@@ -249,7 +262,8 @@ class DiaryController extends Controller
                   'pre_status' => "incluido"
                 ]);
 
-                $new_date=gmdate("d_m_Y");
+                $new_date = new \DateTime("now");
+                $new_date = $new_date->format("d_m_Y");
 
                 $n=0;
                 while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
@@ -369,10 +383,13 @@ class DiaryController extends Controller
     {
         $user=User::where("id",$user_id)->first();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
         foreach($user->councils as $council) 
         {
-            foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+            foreach($council->diaries->where("limit_date",">=",$current_date) as $diary)
             {
                 $diaries_list[]=[$diary->id, $council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")];
             }
@@ -419,7 +436,8 @@ class DiaryController extends Controller
                   'pre_status' => $pre_status
                 ]);
 
-                $new_date=gmdate("d_m_Y");
+                $new_date = new \DateTime("now");
+                $new_date = $new_date->format("d_m_Y");
 
                 $n=0;
                 while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
@@ -534,12 +552,15 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
         foreach($user->councils as $council) 
         {
             if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
-                foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+                foreach($council->diaries->where("limit_date",">=",$current_date) as $diary)
                 {
                     $diaries_list[]=[$diary->id, $council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")];
                 }
@@ -580,7 +601,8 @@ class DiaryController extends Controller
                   'pre_status' => 'incluido'
                 ]);
 
-                $new_date=gmdate("d_m_Y");
+                $new_date = new \DateTime("now");
+                $new_date = $new_date->format("d_m_Y");
 
                 $n=0;
                 while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
@@ -663,12 +685,15 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
         foreach($user->councils as $council) 
         {
             if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
-                foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+                foreach($council->diaries->where("limit_date",">=",$current_date) as $diary)
                 {
                     $diaries_list[]=[$diary->id, $council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")];
                 }
@@ -709,7 +734,8 @@ class DiaryController extends Controller
                   'pre_status' => 'incluido'
                 ]);
 
-                $new_date=gmdate("d_m_Y");
+                $new_date = new \DateTime("now");
+                $new_date = $new_date->format("d_m_Y");
 
                 $n=0;
                 while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
@@ -792,12 +818,15 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         $diaries_list=[];
         foreach($user->councils as $council) 
         {
             if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
-                foreach($council->diaries->where("limit_date",">=",gmdate("Y-m-d")) as $diary)
+                foreach($council->diaries->where("limit_date",">=",$current_date) as $diary)
                 {
                     $diaries_list[]=[$diary->id, $council->name." - ".\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")];
                 }
@@ -838,7 +867,8 @@ class DiaryController extends Controller
                   'pre_status' => 'propuesto'
                 ]);
 
-                $new_date=gmdate("d_m_Y");
+                $new_date = new \DateTime("now");
+                $new_date = $new_date->format("d_m_Y");
 
                 $n=0;
                 while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
@@ -961,7 +991,8 @@ class DiaryController extends Controller
                     'post_status' => $dataPoints["post_status"][$key]
                 ]);
 
-                $new_date=gmdate("d_m_Y");
+                $new_date = new \DateTime("now");
+                $new_date = $new_date->format("d_m_Y");
 
                 $n=0;
                 while(file_exists("docs/file_".$point->id."_".$new_date."_".$n.".pdf"))
@@ -1065,7 +1096,8 @@ class DiaryController extends Controller
         $event_date=$request->get("event_date");
         $place=$request->get("place");
 
-        $date=gmdate("Y-m-d");
+        $date = new \DateTime("now");
+        $date = $date->format("Y-m-d");
 
         if($event_date<$date)
         {

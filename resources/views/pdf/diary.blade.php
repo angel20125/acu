@@ -3,7 +3,7 @@
     	<h2 class="card-title">{{$diary->council->name}}</h2>
     	<h5 class="card-subtitle mb-2 text-muted">Descripción de la agenda</h5>
     	<p id="diary-description" style="font-style: oblique;" class="card-text">{{$diary->description}}</p>
-    	<p id="diary-info"class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> @if(gmdate("Y-m-d") <= $diary->event_date) {{$diary->status=="0"?"Pre-Agenda":"Post-Agenda"}} @elseif(gmdate("Y-m-d") > $diary->event_date && $diary->status==0) Pre-Agenda (En espera de que el adjunto la finalice) @else Post-Agenda @endif</p>
+    	<p id="diary-info"class="card-text"><b>Lugar:</b> {{$diary->place}} <b>Fecha:</b> {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} <b>Estado:</b> @if($current_date <= $diary->event_date) {{$diary->status=="0"?"Pre-Agenda":"Post-Agenda"}} @elseif($current_date > $diary->event_date && $diary->status==0) Pre-Agenda (En espera de que el adjunto la finalice) @else Post-Agenda @endif</p>
     	
     	<br>
 
