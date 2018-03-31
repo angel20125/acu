@@ -334,6 +334,25 @@ class CredentialsSeeder extends Seeder
         $gerardo->councils()->attach($universitario->id,["role_id"=>$consejero->id]);
         Transaction::create(["type"=>"create_user_consejero","user_id"=>$gerardo->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
 
+        //Alejandro
+        $alejandro= new User();
+        $alejandro->identity_card= '12345678';
+        $alejandro->first_name= 'Alejandro';
+        $alejandro->last_name= 'Marcus';
+        $alejandro->phone_number= '04141234567';
+        $alejandro->email= 'amarcus.tareas@yahoo.com.ve';
+        $alejandro->password= '12345';
+        $alejandro->validate= 1;
+        $alejandro->position_id= $profesor->id;
+        $alejandro->save();
+
+        $alejandro->attachRole($consejero);
+        $alejandro->councils()->attach($universitario->id,["role_id"=>$consejero->id]);
+        Transaction::create(["type"=>"create_user_consejero","user_id"=>$alejandro->id,"affected_id"=>$universitario->id,"start_date"=>gmdate("Y-m-d")]);
+
+        $alejandro->councils()->attach($academico->id,["role_id"=>$consejero->id]);
+        Transaction::create(["type"=>"create_user_consejero","user_id"=>$alejandro->id,"affected_id"=>$academico->id,"start_date"=>gmdate("Y-m-d")]);
+
 
 
 
