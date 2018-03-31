@@ -131,6 +131,26 @@
         </div>
 
         <br>
+
+        <h3 class="text-center font-weight-normal">Control de Asistencias</h3>
+        @foreach($diary->council->users as $user)
+            <div class="form-row">
+                <div class="form-group col-md-6 col-sm-12">
+                    <label>@if($user->id==$diary->council->president_id) Presidente @elseif($user->id==$diary->council->adjunto_id) Adjunto @else Consejero @endif</label>
+                    <input type="text" class="form-control" value="{{$user->last_name}} {{$user->first_name}}" disabled>
+                    <input type="hidden" value="{{$user->id}}" name="member_id[]">
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="assistance">Asistencia</label>
+                    <select name="assistance[]" class="form-control" id="assistance" required>
+                        <option value="1">Si asistió</option>
+                        <option value="0">No asistió</option>
+                    </select>
+                </div>
+            </div>
+        @endforeach
+
+        <br>
        
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Actualizar</button>

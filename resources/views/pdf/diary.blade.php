@@ -41,5 +41,36 @@
 		  		</div>
 			</div>
     	@endforeach
+
+    	<br>
+    	@if($diary->status==1)
+	    	<h3 class="card-subtitle mb-2 text-muted">Control de Asistencias</h3>
+	    	<div class="table-responsive">
+				<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				    <thead>
+				        <tr>
+				            <th>Miembro</th>
+				            <th>Cédula</th>
+				            <th>Asistencia</th>
+				            <th>Cargo</th>
+				            <th>Teléfono</th>
+				            <th>Rol</th>
+				        </tr>
+				    </thead>
+			        <tbody>
+			        	@foreach($users_list as $user)
+					        <tr>
+					            <td>{{$user[0]}}</td>
+					            <td>{{$user[1]}}</td>
+					            <td>{{$user[2]}}</td>
+					            <td>{{$user[3]}}</td>
+					            <td>{{$user[4]}}</td>
+					            <td>{{$user[5]}}</td>				            				            
+					        </tr>
+				        @endforeach
+				    </tbody>
+				</table>
+			</div>
+		@endif
  	</div>
 </div>

@@ -137,3 +137,4 @@ Route::get('puntos/obtener', 'DiaryController@getListPoints')->middleware("logge
 Route::get('puntos/visualizar/{point_id}', 'DiaryController@getPoint')->middleware("logged")->name('get_point');
 Route::get('agenda/pdf/{diary_id}', 'DiaryController@pdfDiary')->middleware("logged")->name('diary_pdf');
 Route::get('punto/pdf/{point_id}', 'DiaryController@pdfPoint')->middleware("logged")->name('point_pdf');
+Route::get('agenda/asistencia/{diary_id}', 'DiaryController@getListAssistanceMembers')->middleware("logged")->name('get_list_assistance_members');

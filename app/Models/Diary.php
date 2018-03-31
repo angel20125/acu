@@ -26,7 +26,7 @@ class Diary extends Model
         return $this->hasMany('App\Models\Point');
     }
 
-    public function diaries()
+    public function users()
     {
         return $this->belongsToMany('App\User','diary_user');
     }

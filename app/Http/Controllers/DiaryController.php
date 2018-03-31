@@ -1079,6 +1079,18 @@ class DiaryController extends Controller
             }
         }
 
+        $dataAssistance=($request->only(["member_id","assistance"]));
+
+        foreach($dataAssistance["member_id"] as $key => $user_id)
+        {
+            $user=User::find($user_id);
+
+            if($dataAssistance["assistance"][$key]==1) 
+            {
+                $user->diaries()->attach($diary_id);
+            }
+        }
+
         return redirect()->route("get_diary",["diary_id"=>$diary_id])->with(["message_info"=>"Se ha finalizado exitosamente la pre-agenda"]);
     }
 
@@ -1284,11 +1296,51 @@ class DiaryController extends Controller
 
     public function pdfDiary($diary_id)
     {        
-        $diary=Diary::where("id",$diary_id)->first(); 
+        $diary=Diary::where("id",$diary_id)->first();
 
-        $pdf = PDF::loadView('pdf.diary', compact('diary'));
+        if($diary->status==0) 
+        {
+            $pdf = PDF::loadView('pdf.diary', compact('diary'));
 
-        return $pdf->download('Agenda '.$diary->council->name.' '.$diary->event_date.'.pdf');
+            return $pdf->download('Pre-Agenda '.$diary->council->name.' '.$diary->event_date.'.pdf');
+        }
+        else
+        {
+            $users=$diary->council->users;
+
+            $users_list=[];
+            foreach($users as $user)
+            {
+                $roles="";
+                foreach($user->councils as $council)
+                {
+                    if($council->id==$diary->council->id) 
+                    {
+                        $roles.=Role::where("id",$council->pivot->role_id)->first()->display_name;
+                    }
+                }
+
+                $assistance=$user->diaries()->where("id",$diary->id)->first();
+
+                if($assistance) 
+                {
+                    $assistance="Si asistió";
+                }
+                else
+                {
+                    $assistance="No asistió";
+                }
+
+                if(!$user->hasRole("admin"))
+                {
+                    $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$assistance,$user->position->name,$user->phone_number,$roles];
+                }
+            }
+
+            $pdf = PDF::loadView('pdf.diary', compact('diary','users_list'));
+
+            return $pdf->download('Post-Agenda '.$diary->council->name.' '.$diary->event_date.'.pdf'); 
+        }
     }
 
     public function pdfPoint($point_id)
@@ -1298,5 +1350,43 @@ class DiaryController extends Controller
         $pdf = PDF::loadView('pdf.point', compact('point'));
 
         return $pdf->download('Punto '.$point->id.' '.$point->diary->council->name.' '.$point->diary->event_date.'.pdf');
+    }
+
+    public function getListAssistanceMembers($diary_id)
+    {
+        $diary=Diary::find($diary_id);
+
+        $users=$diary->council->users;
+
+        $users_list=[];
+        foreach($users as $user)
+        {
+            $roles="";
+            foreach($user->councils as $council)
+            {
+                if($council->id==$diary->council->id) 
+                {
+                    $roles.=Role::where("id",$council->pivot->role_id)->first()->display_name;
+                }
+            }
+
+            $assistance=$user->diaries()->where("id",$diary->id)->first();
+
+            if($assistance) 
+            {
+                $assistance='<i style="color:green;" class="fa fa-check" aria-hidden="true"></i> Si';
+            }
+            else
+            {
+                $assistance='<i style="color:red;" class="fa fa-times" aria-hidden="true"></i> No';
+            }
+
+            if(!$user->hasRole("admin"))
+            {
+                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$assistance,$user->position->name,$user->phone_number,$roles];
+            }
+        }
+
+        return response()->json(['data' => $users_list]);
     }
 }
