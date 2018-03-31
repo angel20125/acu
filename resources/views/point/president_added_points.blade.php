@@ -51,14 +51,15 @@
 					    				<h5 class="card-title">Punto <b>@if($point->post_status=="diferido_virtual") diferido virtual @elseif($point->post_status=="no_presentado") no presentado @else {{$point->post_status}}@endif</b></h5>
 					    			@else
 				    					<h5 class="card-title">Punto <b>{{$point->pre_status}}</b></h5>
-				    					@if($point->pre_status=="incluido" && gmdate("Y-m-d") <= $diary->event_date)
-				    						<a href="{{route("delete_point",["point_id"=>$point->id])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-				    						<button data-toggle="modal" data-target="#edit-point" value="{{$point->id}}" id="get-data-{{$point->id}}" type="button" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
-				    					@endif
 				    				@endif
-	    						<a class="btn btn-info" href="{{route("point_pdf",["point_id"=>$point->id])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
 					  			</div>
 						  		<div class="card-body">
+			    					@if($point->pre_status=="incluido" && gmdate("Y-m-d") <= $diary->event_date)
+			    						<a href="{{route("delete_point",["point_id"=>$point->id])}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+			    						<button data-toggle="modal" data-target="#edit-point" value="{{$point->id}}" id="get-data-{{$point->id}}" type="button" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></button>
+			    					@endif
+		    						<a class="btn btn-info" href="{{route("point_pdf",["point_id"=>$point->id])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
+		    						<br><br>
 						  			<h5 class="card-title">Presentado por usted {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h5>
 						    		<h5 class="card-subtitle mb-2 text-muted">Descripción del punto</h5>
 						    		<p id="description-{{$point->id}}" class="card-text">{{$point->description}}</p>

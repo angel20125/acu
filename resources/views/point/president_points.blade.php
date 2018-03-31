@@ -49,9 +49,10 @@
 		    					<div style="background:#78909c; color: white;" class="card-header">
 	    						@endif
 					    			<h5 class="card-title">Punto <b>{{$point->pre_status}}</b></h5>
-		    					<a class="btn btn-info" href="{{route("point_pdf",["point_id"=>$point->id])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
 					  			</div>
 						  		<div class="card-body">
+			    					<a class="btn btn-info" href="{{route("point_pdf",["point_id"=>$point->id])}}"><i class="fa fa-print" aria-hidden="true"></i></a>
+			    					<br><br>
 						  			<h5 class="card-title">Presentado por el/la {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</h5>
 						    		<h5 class="card-subtitle mb-2 text-muted">Descripción del punto</h5>
 						    		<p class="card-text">{{$point->description}}</p>
