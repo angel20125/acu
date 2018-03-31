@@ -51,6 +51,7 @@
 <script>
     $(document).ready(function() {
         $('#table').DataTable( {
+            "order": [[ 0, "desc" ]],
             "ajax": '{{route("get_adjunto_diaries")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
             "iDisplayLength": 10,
