@@ -70,12 +70,17 @@ class CouncilsController extends Controller
             return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         if($council->president && $president_id && $president_id!=$council->president->id)
         {
             $last_president=$council->president;
 
+            $last_president->detachRoles($last_president->roles);
+
             //Agregar fecha final del período del presidente actual
-            Transaction::where("type","create_user_presidente")->where("user_id",$last_president->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
+            Transaction::where("type","create_user_presidente")->where("user_id",$last_president->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>$current_date]);
 
             //Eliminar el presidente actual del consejo
             Council::where("id",$council_id)->update(["president_id"=>null]);
@@ -84,23 +89,38 @@ class CouncilsController extends Controller
             $last_president->councils()->detach($council_id);
 
             //El presidente actual ahora pasa a ser un consejero
-            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_president->id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
+            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_president->id,"affected_id"=>$council_id,"start_date"=>$current_date]);
 
             //El presidente actual ahora es degredado a consejero
             $rol=Role::where("name","consejero")->first();
             $last_president->councils()->attach($council_id,["role_id"=>$rol->id]);
 
+            $roles=[];
+            foreach($last_president->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $last_president->attachRole(Role::where("id",$rol)->first());
+            }
+
             //Nuevo presidente
             $new_president=User::where("id",$president_id)->first();
 
+            $new_president->detachRoles($new_president->roles);
+
             //Agregar fecha final del período del consejero que ahora será presidente
-            Transaction::where("type","create_user_consejero")->where("user_id",$president_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
+            Transaction::where("type","create_user_consejero")->where("user_id",$president_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>$current_date]);
 
             //Desvincular el presidente actual del consejo
             $new_president->councils()->detach($council_id);
 
             //Agregar fecha inicial del período del presidente nuevo
-            Transaction::create(["type"=>"create_user_presidente","user_id"=>$president_id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
+            Transaction::create(["type"=>"create_user_presidente","user_id"=>$president_id,"affected_id"=>$council_id,"start_date"=>$current_date]);
 
             //Agregar el presidente nuevo al consejo
             Council::where("id",$council_id)->update(["president_id"=>$president_id]);
@@ -108,14 +128,29 @@ class CouncilsController extends Controller
             //El consejero actual ahora será presidente
             $rol=Role::where("name","presidente")->first();
             $new_president->councils()->attach($council_id,["role_id"=>$rol->id]);
+
+            $roles=[];
+            foreach($new_president->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $new_president->attachRole(Role::where("id",$rol)->first());
+            }
         }
 
         if($council->adjunto && $adjunto_id && $adjunto_id!=$council->adjunto->id)
         {
             $last_adjunto=$council->adjunto;
+            
+            $last_adjunto->detachRoles($last_adjunto->roles);
 
             //Agregar fecha final del período del adjunto actual
-            Transaction::where("type","create_user_adjunto")->where("user_id",$last_adjunto->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
+            Transaction::where("type","create_user_adjunto")->where("user_id",$last_adjunto->id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>$current_date]);
 
             //Eliminar el adjunto actual del consejo
             Council::where("id",$council_id)->update(["adjunto_id"=>null]);
@@ -124,23 +159,38 @@ class CouncilsController extends Controller
             $last_adjunto->councils()->detach($council_id);
 
             //El adjunto actual ahora pasa a ser un consejero
-            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_adjunto->id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
+            Transaction::create(["type"=>"create_user_consejero","user_id"=>$last_adjunto->id,"affected_id"=>$council_id,"start_date"=>$current_date]);
 
             //El adjunto actual ahora es degredado a consejero
             $rol=Role::where("name","consejero")->first();
             $last_adjunto->councils()->attach($council_id,["role_id"=>$rol->id]);
 
+            $roles=[];
+            foreach($last_adjunto->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $last_adjunto->attachRole(Role::where("id",$rol)->first());
+            }
+
             //Nuevo adjunto
             $new_adjunto=User::where("id",$adjunto_id)->first();
 
+            $new_adjunto->detachRoles($new_adjunto->roles);
+
             //Agregar fecha final del período del consejero que ahora será adjunto
-            Transaction::where("type","create_user_consejero")->where("user_id",$adjunto_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>gmdate("Y-m-d")]);
+            Transaction::where("type","create_user_consejero")->where("user_id",$adjunto_id)->where("affected_id",$council_id)->where("end_date",null)->update(["end_date"=>$current_date]);
 
             //Desvincular el adjunto actual del consejo
             $new_adjunto->councils()->detach($council_id);
 
             //Agregar fecha inicial del período del adjunto nuevo
-            Transaction::create(["type"=>"create_user_adjunto","user_id"=>$adjunto_id,"affected_id"=>$council_id,"start_date"=>gmdate("Y-m-d")]);
+            Transaction::create(["type"=>"create_user_adjunto","user_id"=>$adjunto_id,"affected_id"=>$council_id,"start_date"=>$current_date]);
 
             //Agregar el adjunto nuevo al consejo
             Council::where("id",$council_id)->update(["adjunto_id"=>$adjunto_id]);
@@ -148,6 +198,19 @@ class CouncilsController extends Controller
             //El consejero actual ahora será adjunto
             $rol=Role::where("name","adjunto")->first();
             $new_adjunto->councils()->attach($council_id,["role_id"=>$rol->id]);
+
+            $roles=[];
+            foreach($new_adjunto->councils as $council) 
+            {
+                $roles[]=$council->pivot->role_id;
+            }
+
+            $new_roles=array_unique($roles);
+
+            foreach($new_roles as $rol)
+            {
+                $new_adjunto->attachRole(Role::where("id",$rol)->first());
+            }
         }
 
         $checkCouncil=Council::where("name",$data["name"])->first();
@@ -158,7 +221,7 @@ class CouncilsController extends Controller
 
         Council::where("id",$council_id)->update($data);
 
-        return redirect()->route("admin_councils_edit",["council_id"=>$council_id])->with(["message_info"=>"Se ha actualizado el consejo"]);
+        return redirect()->route("admin_councils")->with(["message_info"=>"Se ha actualizado el consejo"]);
     }
 
     public function getTrash($council_id)

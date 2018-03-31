@@ -55,18 +55,18 @@ Route::get('admin/consejos/eliminar/{council_id}', 'Admin\CouncilsController@get
 Route::post('admin/consejos/eliminar', 'Admin\CouncilsController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_councils_delete');
 
 //Admin - Users
-Route::get('admin/usuarios', 'Admin\UsersController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_users');
-Route::get('admin/usuarios/obtener', 'Admin\UsersController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_users');
-Route::get('admin/usuarios/registrar', 'Admin\UsersController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
-Route::post('admin/usuarios/registrar', 'Admin\UsersController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
-Route::get('admin/usuarios/editar/{user_id}', 'Admin\UsersController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_users_edit');
-Route::post('admin/usuarios/editar', 'Admin\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_users_update');
-Route::get('admin/usuarios/eliminar/{user_id}', 'Admin\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_users_trash');
-Route::post('admin/usuarios/eliminar', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
-Route::get('admin/usuarios/registrar_secretaria', 'Admin\UsersController@getCreateSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
-Route::post('admin/usuarios/registrar_secretaria', 'Admin\UsersController@createSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
-Route::get('admin/usuarios/personificar/{user_id}', 'Admin\UsersController@impersonate')->middleware("logged")->middleware(['role:admin'])->name('user_impersonate');
-Route::get('admin/usuarios/regenerar', 'Admin\UsersController@regenerate')->middleware("logged")->name('user_regenerate');
+Route::get('admin/miembros', 'Admin\UsersController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_users');
+Route::get('admin/miembros/obtener', 'Admin\UsersController@getList')->middleware("logged")->middleware(['role:admin'])->name('get_admin_users');
+Route::get('admin/miembros/registrar', 'Admin\UsersController@getCreate')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
+Route::post('admin/miembros/registrar', 'Admin\UsersController@create')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create');
+Route::get('admin/miembros/editar/{user_id}', 'Admin\UsersController@getEdit')->middleware("logged")->middleware(['role:admin'])->name('admin_users_edit');
+Route::post('admin/miembros/editar', 'Admin\UsersController@update')->middleware("logged")->middleware(['role:admin'])->name('admin_users_update');
+Route::get('admin/miembros/eliminar/{user_id}', 'Admin\UsersController@getTrash')->middleware("logged")->middleware(['role:admin'])->name('admin_users_trash');
+Route::post('admin/miembros/eliminar', 'Admin\UsersController@delete')->middleware("logged")->middleware(['role:admin'])->name('admin_users_delete');
+Route::get('admin/miembros/registrar_secretaria', 'Admin\UsersController@getCreateSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
+Route::post('admin/miembros/registrar_secretaria', 'Admin\UsersController@createSecretary')->middleware("logged")->middleware(['role:admin'])->name('admin_users_create_secretary');
+Route::get('admin/miembros/personificar/{user_id}', 'Admin\UsersController@impersonate')->middleware("logged")->middleware(['role:admin'])->name('user_impersonate');
+Route::get('admin/miembros/regenerar', 'Admin\UsersController@regenerate')->middleware("logged")->name('user_regenerate');
 
 //Admin - Agenda
 Route::get('admin/agendas', 'DiaryController@getIndex')->middleware("logged")->middleware(['role:admin'])->name('admin_diaries');
@@ -87,6 +87,8 @@ Route::get('presidente/puntos_propuestos/evaluar/{point_id}/{evaluation}', 'Diar
 Route::get('presidente/historial/puntos_incluidos', 'DiaryController@getPresidentHistoryPoints')->middleware("logged")->middleware(['role:presidente'])->name('president_history_points');
 Route::get('presidente/agregar_puntos', 'DiaryController@getPresidenteProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
 Route::post('presidente/agregar_puntos', 'DiaryController@PresidenteProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
+Route::get('presidente/puntos_desglosados', 'DiaryController@getPointsDes')->middleware("logged")->middleware(['role:presidente'])->name('get_presidente_points_des');
+Route::get('presidente/puntos_desglosados/evaluar/{point_id}/{evaluation}', 'DiaryController@evaluatePointDes')->middleware("logged")->middleware(['role:presidente'])->name('evaluate_presidente_points_des');
 
 //Secretaria
 Route::get('secretaria/inicio', 'ProfileController@getSecretariaDashboard')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_dashboard');
@@ -116,12 +118,23 @@ Route::post('adjunto/agendas/registrar', 'DiaryController@create')->middleware("
 Route::get('consejos', 'CouncilsController@getIndex')->middleware("logged")->name('councils');
 Route::get('consejos/obtener', 'CouncilsController@getList')->middleware("logged")->name('get_councils');
 Route::get('consejos/visualizar/{council_id}', 'CouncilsController@getCouncil')->middleware("logged")->name('get_council');
-Route::get('consejos/visualizar/{council_id}/usuarios/', 'CouncilsController@getListMembers')->middleware("logged")->name('get_list_members');
+Route::get('consejos/visualizar/{council_id}/miembros/', 'CouncilsController@getListMembers')->middleware("logged")->name('get_list_members');
 
 Route::get('agendas', 'DiaryController@getLimitedIndex')->middleware("logged")->name('diaries');
 Route::get('agendas/obtener', 'DiaryController@getListLimited')->middleware("logged")->name('get_diaries');
 Route::get('agendas/visualizar/{diary_id}', 'DiaryController@getDiary')->middleware("logged")->name('get_diary');
 
-Route::get('usuarios', 'UsersController@getIndex')->middleware("logged")->name('users');
-Route::get('usuarios/obtener', 'UsersController@getList')->middleware("logged")->name('get_users');
+Route::get('miembros', 'UsersController@getIndex')->middleware("logged")->name('users');
+Route::get('miembros/obtener', 'UsersController@getList')->middleware("logged")->name('get_users');
 Route::get('punto/borrar/{point_id}', 'DiaryController@deletePoint')->middleware("logged")->name('delete_point');
+Route::get('punto/editar/{point_id}', 'DiaryController@getEditPoint')->middleware("logged")->name('edit_point');
+Route::post('punto/editar', 'DiaryController@updatePoint')->middleware("logged")->name('update_point');
+Route::get('agenda/editar/{diary_id}', 'DiaryController@getEditDiary')->middleware("logged")->name('edit_diary');
+Route::post('agenda/editar', 'DiaryController@updateDiary')->middleware("logged")->name('update_diary');
+Route::get('agenda/borrar/{diary_id}', 'DiaryController@deleteDiary')->middleware("logged")->name('delete_diary');
+Route::get('puntos', 'DiaryController@getIndexPoints')->middleware("logged")->name('points');
+Route::get('puntos/obtener', 'DiaryController@getListPoints')->middleware("logged")->name('get_points');
+Route::get('puntos/visualizar/{point_id}', 'DiaryController@getPoint')->middleware("logged")->name('get_point');
+Route::get('agenda/pdf/{diary_id}', 'DiaryController@pdfDiary')->middleware("logged")->name('diary_pdf');
+Route::get('punto/pdf/{point_id}', 'DiaryController@pdfPoint')->middleware("logged")->name('point_pdf');
+Route::get('agenda/asistencia/{diary_id}', 'DiaryController@getListAssistanceMembers')->middleware("logged")->name('get_list_assistance_members');

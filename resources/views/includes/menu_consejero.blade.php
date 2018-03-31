@@ -1,12 +1,12 @@
-<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted "  >
-	<i class="fas fa-home"></i> <a class=" nav-link" href="{{route("dashboard")}}">Inicio</a>
-</h6>
-
 @if(Session::has('impersonated_by'))
 	<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted "  >
 		<i class="fa fa-arrow-circle-left"></i> <a class="nav-link active" href="{{route("user_regenerate")}}">Volver a admin</a>
 	</h6>
 @endif
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted "  >
+	<i class="fas fa-home"></i> <a class=" nav-link" href="{{route("dashboard")}}">Inicio</a>
+</h6>
 
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
 	<i class="far fa-user"></i> <span class="mr8">SESIÓN {{$user->getCurrentRol()->display_name}}</span>
@@ -15,12 +15,17 @@
 <ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="#">
-			{{$user->first_name}} {{$user->last_name}} <br> {{$user->councils()->wherePivot("role_id",$user->getCurrentRol()->id)->first()->name}} 
+			{{$user->first_name}} {{$user->last_name}}
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("profile")}}">
 			Editar Perfil  
+		</a>
+	</li>
+	<li class="nav-item">
+		<a style="outline: none;" data-toggle="modal" data-target="#my-councils" class="nav-link  " href="#">
+			Mis Consejos 
 		</a>
 	</li>
 </ul>
@@ -35,9 +40,16 @@
 			Ver Consejos
 		</a>
 	</li>
+</ul>
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="fas fa-users"></i><span class="mr8">MIEMBROS</span>
+</h6>
+
+<ul class="nav flex-column">
 	<li class="nav-item">
 		<a class="nav-link  " href="{{route("users")}}">
-			Ver Usuarios
+			Ver Miembros
 		</a>
 	</li>
 </ul>
@@ -50,6 +62,18 @@
 	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("diaries")}}">
 			Ver Agendas
+		</a>
+	</li>
+</ul>
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="far fa-file-powerpoint"></i><span class="mr8">PUNTOS</span> 
+</h6>
+
+<ul class="nav flex-column">
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("points")}}">
+			Buscador de Puntos
 		</a>
 	</li>
 	<li class="nav-item-active">

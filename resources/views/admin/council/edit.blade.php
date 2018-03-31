@@ -66,17 +66,17 @@
         @if(count($council->users)>0 && !$council->president)
             <br>
             <div style="text-align:center;" class="alert alert-primary" role="alert">
-                <b>Nota:</b> Necesita registrar o asignar un usuario <b>Presidente</b> para poder cambiar los cargos
+                <b>Nota:</b> Necesita registrar o asignar un miembro <b>Presidente</b> para poder cambiar los cargos
             </div>
         @elseif(count($council->users)>0 && !$council->adjunto)
             <br>
             <div style="text-align:center;" class="alert alert-primary" role="alert">
-                <b>Nota:</b> Necesita registrar o asignar un usuario <b>Adjunto</b> para poder cambiar los cargos
+                <b>Nota:</b> Necesita registrar o asignar un miembro <b>Adjunto</b> para poder cambiar los cargos
             </div> 
         @elseif(count($council->users)>0 && !$council->president && !$council->adjunto) 
             <br>
             <div style="text-align:center;" class="alert alert-primary" role="alert">
-                <b>Nota:</b> Recuerde registrar o asignar un usuario <b>Presidente</b> y un <b>Adjunto</b> para el {{$council->name}}
+                <b>Nota:</b> Recuerde registrar o asignar un miembro <b>Presidente</b> y un <b>Adjunto</b> para el {{$council->name}}
             </div> 
         @endif
 	</form>

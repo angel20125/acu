@@ -15,15 +15,15 @@
 
 				<p>Hola {{$user->first_name}},</p>
 
-			    <p>Le damos una cordial bienvenida a la Agenda de Consejos Unegista (ACU), por favor debe confirmar su email para poder iniciar sesión en nuestra plataforma.</p>
-			    <p>Para ello, simplemente debe hacer clic en el siguiente enlace:</p>
+			    <p>Le damos una cordial bienvenida a la Agenda de Consejos Unegista (ACU), por favor debe confirmar su correo electrónico para poder iniciar sesión en nuestra plataforma.</p>
+			    <p>Para ello, simplemente debe dar clic en el siguiente enlace:</p>
 
 			    <a href="{{url('/verify/'.$confirmation_code)}}">
-			        Clic aquí para confirmar su email
+			        Clic aquí para confirmar su correo electrónico
 			    </a>
 
 			    <p>Una vez confirmada su cuenta, utilice la siguiente información para poder iniciar sesión por primera vez:</p>
-				<p>Usuario: {{ $user->email }}</p>
+				<p>Correo Electrónico: {{ $user->email }}</p>
 				<p>Contraseña: 12345 (Cámbiala una vez ingreses) </p>
 
 				<div style="width: 100%; background: #007bff; padding: 10px; box-sizing: border-box; color: #fff; text-align: center">ACU Team</div>

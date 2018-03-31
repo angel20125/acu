@@ -40,7 +40,10 @@ class UsersController extends Controller
 
             if($roles=="") 
             {
-                $roles="Secretaria";
+                if($user->positionBoss) 
+                {
+                    $roles="Secretaria de ".$user->positionBoss->name;
+                }
             }
 
             if($councils=="") 
@@ -48,9 +51,16 @@ class UsersController extends Controller
                 $councils="NA";
             }
 
+            $position=$user->position->name;
+
+            if($user->hasRole("secretaria"))
+            {
+                $position="NA";
+            }
+
             if(!$user->hasRole("admin"))
             {
-                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("user_impersonate",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Personificar" class="fas fa-street-view"></i></a> <a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
+                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$position,$councils,$roles,'<a href="'.route("user_impersonate",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Personificar" class="fas fa-street-view"></i></a> <a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 
@@ -96,12 +106,12 @@ class UsersController extends Controller
 
         if(count($positions)==0)
         {
-            return redirect()->route("admin_positions_create")->withErrors(["Primero debes registrar un cargo como mínimo, para poder registrar un usuario"]);
+            return redirect()->route("admin_positions_create")->withErrors(["Primero debes registrar un cargo como mínimo, para poder registrar un miembro"]);
         }
 
         if(count($councils)==0)
         {
-            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un usuario"]);
+            return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar un miembro"]);
         }
 
     	$roles=Role::orderBy("name","asc")->get();
@@ -113,9 +123,12 @@ class UsersController extends Controller
         $last_councils=$request->get("council_id");
         $councils=array_unique($last_councils);
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         if(count($last_councils)!=count($councils)) 
         {
-            return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
+            return redirect()->back()->withErrors(["Un miembro no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
         $last_roles=$request->get("roles");
@@ -161,7 +174,7 @@ class UsersController extends Controller
             $rol=Role::where("name",$last_roles[$key])->first();
 
             $user->councils()->attach($council,["role_id"=>$rol->id]);
-            Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$user->id,"affected_id"=>$council,"start_date"=>gmdate("Y-m-d")]);
+            Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$user->id,"affected_id"=>$council,"start_date"=>$current_date]);
 
             if($last_roles[$key]=="presidente") 
             {
@@ -186,7 +199,7 @@ class UsersController extends Controller
             $message->to($user->email,$user->first_name);
         });
 
-        return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el usuario exitosamente"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el miembro exitosamente"]);
     }
 
     public function getEdit($user_id)
@@ -204,39 +217,43 @@ class UsersController extends Controller
         $user_id=$request->get("user_id");
         $edit_user=User::where("id",$user_id)->first();
 
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
         if($edit_user->hasRole("secretaria"))
         {
             $data=($request->only(["identity_card","first_name","last_name","phone_number","email","status"]));
+            $data["position_boss_id"]=$request->get("position_boss_id");
 
             $check_user=User::where("identity_card",$data["identity_card"])->first();
             if($check_user && $check_user->id!=$edit_user->id)
             {
-                return redirect()->back()->withErrors(["Ya existe un usuario con esa cédula de identidad"]);
+                return redirect()->back()->withErrors(["Ya existe un miembro con esa cédula de identidad"]);
             }
 
             $check_user=User::where("email",$data["email"])->first();
             if($check_user && $check_user->id!=$edit_user->id)
             {
-                return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
+                return redirect()->back()->withErrors(["Ya existe un miembro con ese correo electrónico"]);
             }
 
             User::where("id",$user_id)->update($data);
 
-            return redirect()->route("admin_users_edit",["user_id"=>$user_id])->with(["message_info"=>"Se ha actualizado el usuario"]); 
+            return redirect()->route("admin_users")->with(["message_info"=>"Se ha actualizado la secretaria"]); 
         }
 
         $last_councils=$request->get("council_id");
 
         if(!isset($last_councils)) 
         {
-            return redirect()->back()->withErrors(["Un usuario debe pertenecer como mínimo a un consejo y tener un rol dentro del sistema"]);
+            return redirect()->back()->withErrors(["Un miembro debe pertenecer como mínimo a un consejo y tener un rol dentro del sistema"]);
         }
 
         $councils=array_unique($last_councils);
 
         if(count($last_councils)!=count($councils)) 
         {
-            return redirect()->back()->withErrors(["Un usuario no puede puede tener dos cargos dentro de un mismo consejo"]);
+            return redirect()->back()->withErrors(["Un miembro no puede puede tener dos cargos dentro de un mismo consejo"]);
         }
 
         $last_roles=$request->get("roles");
@@ -293,7 +310,7 @@ class UsersController extends Controller
 
             if(!$transaction)
             {
-                Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$edit_user->id,"affected_id"=>$council,"start_date"=>gmdate("Y-m-d")]);
+                Transaction::create(["type"=>"create_user_".$rol->name,"user_id"=>$edit_user->id,"affected_id"=>$council,"start_date"=>$current_date]);
             }
 
             if($last_roles[$key]=="presidente") 
@@ -311,7 +328,7 @@ class UsersController extends Controller
         {
             if(array_search($council, $councils_new)===false)
             {
-                Transaction::where("user_id",$edit_user->id)->where("affected_id",$council)->update(["end_date"=>gmdate("Y-m-d")]);
+                Transaction::where("user_id",$edit_user->id)->where("affected_id",$council)->update(["end_date"=>$current_date]);
             }
             else
             {
@@ -323,7 +340,7 @@ class UsersController extends Controller
 
                 if($transaction && $council_user->pivot->role_id!=$rol->id)
                 {
-                    Transaction::where("id",$transaction->id)->update(["end_date" => gmdate("Y-m-d")]);
+                    Transaction::where("id",$transaction->id)->update(["end_date" => $current_date]);
                 }
             }
         }
@@ -340,18 +357,18 @@ class UsersController extends Controller
         $check_user=User::where("identity_card",$data["identity_card"])->first();
         if($check_user && $check_user->id!=$edit_user->id)
         {
-            return redirect()->back()->withErrors(["Ya existe un usuario con esa cédula de identidad"]);
+            return redirect()->back()->withErrors(["Ya existe un miembro con esa cédula de identidad"]);
         }
 
         $check_user=User::where("email",$data["email"])->first();
         if($check_user && $check_user->id!=$edit_user->id)
         {
-            return redirect()->back()->withErrors(["Ya existe un usuario con ese correo electrónico"]);
+            return redirect()->back()->withErrors(["Ya existe un miembro con ese correo electrónico"]);
         }
 
         User::where("id",$user_id)->update($data);
 
-        return redirect()->route("admin_users_edit",["user_id"=>$user_id])->with(["message_info"=>"Se ha actualizado el usuario"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha actualizado el miembro"]);
     }
 
     public function getTrash($user_id)
@@ -371,11 +388,11 @@ class UsersController extends Controller
         } 
         catch (\Illuminate\Database\QueryException $e) 
         {
-            return redirect()->back()->withErrors(["No puede eliminar un usuario del cual dependen funcionalidades del sistema"]);
+            return redirect()->back()->withErrors(["No puede eliminar un miembro del cual dependen funcionalidades del sistema"]);
         }
         
 
-        return redirect()->route("admin_users")->with(["message_info"=>"Se ha eliminado el usuario"]);
+        return redirect()->route("admin_users")->with(["message_info"=>"Se ha eliminado el miembro"]);
     }
 
     public function impersonate($user_id)

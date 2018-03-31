@@ -37,6 +37,7 @@
             <tr>
                 <th>Fecha</th>
                 <th>Breve descripción</th>
+                <th>Estado</th>
                 <th>Consejo involucrado</th>
                 <th>Presidente</th>
                 <th></th>
@@ -55,6 +56,7 @@
 <script>
     $(document).ready(function() {
         $('#table').DataTable( {
+            "order": [[ 0, "desc" ]],
             "ajax": '{{route("get_admin_diaries")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
             "iDisplayLength": 10,

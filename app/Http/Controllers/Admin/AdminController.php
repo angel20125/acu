@@ -16,7 +16,7 @@ class AdminController extends Controller
         $new_date = new \DateTime();
         $new_date->modify('first day of this month')->add(new \DateInterval("P1M"));
 
-    	$diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
+    	$diaries=Diary::orderBy("event_date","desc")->where("event_date",">=",$date->format("Y-m-d"))->where("event_date","<",$new_date->format("Y-m-d"))->get();
 
     	$calendar=[];
     	foreach($diaries as $key => $diary) 

@@ -49,7 +49,7 @@
         </div>
 
         <br>
-        <h3 class="text-center font-weight-normal">Puntos Tratados</h3>
+        <h3 class="text-center font-weight-normal">Puntos Presentados</h3>
         <br>
 
         @foreach($diary->points->where("pre_status","incluido")->sortByDesc("created_at") as $point)
@@ -57,7 +57,7 @@
             <div style="margin-bottom:50px; background:#f8f9fa; border-radius: 10px;">
                 <div class="container-fluid">
                     <div class="row justify-content-between" style="padding-left: 12px; padding-right: 2px">
-                        <h3 class="text-center font-weight-normal">Punto</h3>
+                        <p class="text-center font-weight-normal"><b>Punto presentado por el {{$point->user->position->name}} "{{$point->user->first_name}} {{$point->user->last_name}}" el día {{DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y")}}</b></p>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-9">
@@ -131,6 +131,26 @@
         </div>
 
         <br>
+
+        <h3 class="text-center font-weight-normal">Control de Asistencias</h3>
+        @foreach($diary->council->users as $user)
+            <div class="form-row">
+                <div class="form-group col-md-6 col-sm-12">
+                    <label>@if($user->id==$diary->council->president_id) Presidente @elseif($user->id==$diary->council->adjunto_id) Adjunto @else Consejero @endif</label>
+                    <input type="text" class="form-control" value="{{$user->last_name}} {{$user->first_name}}" disabled>
+                    <input type="hidden" value="{{$user->id}}" name="member_id[]">
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="assistance">Asistencia</label>
+                    <select name="assistance[]" class="form-control" id="assistance" required>
+                        <option value="1">Si asistió</option>
+                        <option value="0">No asistió</option>
+                    </select>
+                </div>
+            </div>
+        @endforeach
+
+        <br>
        
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Actualizar</button>
@@ -154,7 +174,7 @@
             });
 
             function addNew() {
-                inputPoints.append('<div style="margin-bottom:50px; background:#f8f9fa; border-radius: 10px;" class="point-'+i+'"><div class="container-fluid"><div class="row justify-content-between" style="padding-left: 12px; padding-right: 2px"><h3 class="text-center font-weight-normal" >Punto</h3><button value="'+i+'" type="button" id="remove-point-'+i+'" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Eliminar Punto"><i class="fa fa-trash text-right" aria-hidden="true" ></i></div><div class="row"><div class="col-xs-12 col-sm-6"><label>Descripción del Punto</label><textarea name="description_point[]" class="form-control" id="description" rows="3" required></textarea></div>          <div class="col-xs-12 col-sm-3"><label>Presentador</label><select name="user_id[]" class="form-control" required>        @foreach($diary->council->users as $user)<option value="{{$user->id}}">{{$user->last_name}} {{$user->first_name}}</option>@endforeach</select></div>          <div class="col-xs-12 col-sm-3"><label>Tipo</label><select name="type[]" class="form-control" required><option value="info">Información</option><option value="decision">Decisión</option></select></div></div></div><br><div class="container-fluid"><div class="row"><div class="col-xs-12 col-sm-9"><label>Acuerdo</label><textarea name="agreement[]" class="form-control" id="agreement" rows="3" required></textarea></div><div class="col-xs-12 col-sm-3"><label>Estatus</label><select name="post_status[]" class="form-control" required><option value="presentado">Presentado</option><option value="no_presentado">No Presentado</option><option value="aprobado">Aprobado</option><option value="rechazado">Rechazado</option><option value="diferido">Diferido</option><option value="diferido_virtual">Diferido Virtual</option><option value="retirado">Retirado</option></select></div></div></div><div class="container-fluid"><div class="row"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6"><br><div class="custom-file"><input name="attached_document_one[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file" >Documento de soporte 1 .pdf</label></div></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6"><br><div class="custom-file"><input name="attached_document_two[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file">Documento de soporte 2 .pdf</label></div></div></div></div><div class="container-fluid"><div class="row"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6"><br><div class="custom-file"><input name="attached_document_three[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file">Documento de soporte 3 .pdf</label></div></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" style="margin-bottom:25px;"><br><div class="custom-file"><input name="attached_document_four[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file">Documento de soporte 4 .pdf</label></div></div></div></div></div>');
+                inputPoints.append('<div style="margin-bottom:50px; background:#f8f9fa; border-radius: 10px;" class="point-'+i+'"><div class="container-fluid"><div class="row justify-content-between" style="padding-left: 12px; padding-right: 2px"><h3 class="text-center font-weight-normal" >Punto</h3><button value="'+i+'" type="button" id="remove-point-'+i+'" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Eliminar Punto"><i class="fa fa-trash text-right" aria-hidden="true" ></i></div><div class="row"><div class="col-xs-12 col-sm-6"><label>Descripción del Punto</label><textarea name="description_point[]" class="form-control" id="description" rows="3" required></textarea></div>          <div class="col-xs-12 col-sm-3"><label>Presentador</label><select name="user_id[]" class="form-control" required>        @foreach($diary->council->users as $user)<option value="{{$user->id}}">{{$user->last_name}} {{$user->first_name}}</option>@endforeach</select></div>          <div class="col-xs-12 col-sm-3"><label>Tipo</label><select name="type[]" class="form-control" required><option value="info">Información</option><option value="decision">Decisión</option></select></div></div></div><br><div class="container-fluid"><div class="row"><div class="col-xs-12 col-sm-9"><label>Acuerdo</label><textarea name="agreement[]" class="form-control" id="agreement" rows="3"></textarea></div><div class="col-xs-12 col-sm-3"><label>Estatus</label><select name="post_status[]" class="form-control" required><option value="presentado">Presentado</option><option value="no_presentado">No Presentado</option><option value="aprobado">Aprobado</option><option value="rechazado">Rechazado</option><option value="diferido">Diferido</option><option value="diferido_virtual">Diferido Virtual</option><option value="retirado">Retirado</option></select></div></div></div><div class="container-fluid"><div class="row"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6"><br><div class="custom-file"><input name="attached_document_one[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file" >Documento de soporte 1 .pdf</label></div></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6"><br><div class="custom-file"><input name="attached_document_two[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file">Documento de soporte 2 .pdf</label></div></div></div></div><div class="container-fluid"><div class="row"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6"><br><div class="custom-file"><input name="attached_document_three[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file">Documento de soporte 3 .pdf</label></div></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-6" style="margin-bottom:25px;"><br><div class="custom-file"><input name="attached_document_four[]" type="file" class="custom-file-input" id="load_file" lang="es"><label class="custom-file-label" for="load_file">Documento de soporte 4 .pdf</label></div></div></div></div></div>');
 
                 $(function () {
                      $('[data-toggle="tooltip"]').tooltip()

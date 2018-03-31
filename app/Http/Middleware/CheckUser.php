@@ -24,6 +24,16 @@ class CheckUser
         }
 
         View::share('user', $user);
+        
+        $current_date = new \DateTime("now");
+        $current_date = $current_date->format("Y-m-d");
+
+        View::share('current_date', $current_date);
+
+        $current_date_format = new \DateTime("now");
+        $current_date_format = $current_date_format->format("d/m/Y");
+        
+        View::share('current_date_format', $current_date_format);
 
         return $next($request);
     }

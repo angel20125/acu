@@ -32,7 +32,10 @@ class UsersController extends Controller
 
             if($roles=="") 
             {
-                $roles="Secretaria";
+                if($user->positionBoss) 
+                {
+                    $roles="Secretaria de ".$user->positionBoss->name;
+                }
             }
 
             if($councils=="") 
@@ -40,9 +43,16 @@ class UsersController extends Controller
                 $councils="NA";
             }
 
+            $position=$user->position->name;
+
+            if($user->hasRole("secretaria"))
+            {
+                $position="NA";
+            }
+
             if(!$user->hasRole("admin"))
             {
-                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils];
+                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$position,$councils,$roles];
             }
         }
 

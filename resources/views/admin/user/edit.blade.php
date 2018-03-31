@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Editar Usuario")
+@section('title' , "Editar Miembro")
 
 @section('links')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/create_user.css') }}">
@@ -21,7 +21,10 @@
             </div>
         @endif
         @csrf
-        <h1 class="text-center font-weight-normal">Editar Usuario</h1>
+        <h1 class="text-center font-weight-normal">Editar Miembro</h1>
+        @if($edit_user->hasRole("secretaria"))
+            <h6 style="font-style: oblique;" class="text-center font-weight-normal">Cargo Institucional Autorizante - <b>{{$edit_user->positionBoss->name}}</b></h6>
+        @endif
         <br>
         <input type="hidden" name="user_id" value="{{$edit_user->id}}"/>
         <div class="form-row">
@@ -64,6 +67,19 @@
                 </select>
             </div>
         </div>
+
+        @if($edit_user->hasRole("secretaria"))
+            <div class="form-row">
+                 <div class="form-group col-md-6  col-sm-12">
+                    <label for="position_boss_id">Cargo Autorizante</label>
+                    <select name="position_boss_id" class="form-control" id="position_boss_id" required>
+                        @foreach($positions as $position)
+                            <option {{$position->id==$edit_user->position_boss_id?"selected":""}} value="{{$position->id}}">{{$position->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
 
         @php $i=1; @endphp
         @foreach($edit_user->councils as $key => $council)
@@ -111,11 +127,11 @@
 
                 @if($council->president_id==$edit_user->id)
                     <div style="text-align:center;" class="alert alert-primary" role="alert">
-                        <b>Nota:</b> Si deseas degradar el usuario de <b>Presidente</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
+                        <b>Nota:</b> Si deseas degradar el miembro de <b>Presidente</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
                     </div>
                 @elseif($council->adjunto_id==$edit_user->id)
                     <div style="text-align:center;" class="alert alert-primary" role="alert">
-                        <b>Nota:</b> Si deseas degradar el usuario de <b>Adjunto</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
+                        <b>Nota:</b> Si deseas degradar el miembro de <b>Adjunto</b>, debes hacerlo desde el <a style="text-decoration-line: none;" href="{{route("admin_councils_edit",["council_id"=>$council->id])}}"><b>{{$council->name}} <i class="fa fa-edit" aria-hidden="true"></i></b></a>
                     </div>
                 @endif
 
@@ -135,7 +151,7 @@
         <div class="justify-content-center text-center">
             <button type="submit" class="btn btn-primary ">Actualizar</button>
             <br>
-            <a href="{{route("admin_users")}}"><br>Ver Usuarios</a>
+            <a href="{{route("admin_users")}}"><br>Ver Miembros</a>
         </div>
     </form>
 </div>
