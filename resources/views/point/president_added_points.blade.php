@@ -83,7 +83,6 @@
 							</div>
 						@endif
 	    			@endforeach
-	    			<br><br>
 	    		@endforeach
     		@endif
     	@endforeach

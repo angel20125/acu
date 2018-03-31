@@ -83,7 +83,7 @@
 							</div>
 						@endif
 	    			@endforeach
-	    			<br><br>
+	    			
 	    		@endforeach
     		@endif
     	@endforeach
@@ -194,5 +194,5 @@
 			});
 	    });
 	</script>
-<br>
+
 @endsection
