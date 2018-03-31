@@ -40,7 +40,10 @@ class UsersController extends Controller
 
             if($roles=="") 
             {
-                $roles="Secretaria";
+                if($user->positionBoss) 
+                {
+                    $roles="Secretaria de ".$user->positionBoss->name;
+                }
             }
 
             if($councils=="") 
@@ -48,9 +51,16 @@ class UsersController extends Controller
                 $councils="NA";
             }
 
+            $position=$user->position->name;
+
+            if($user->hasRole("secretaria"))
+            {
+                $position="NA";
+            }
+
             if(!$user->hasRole("admin"))
             {
-                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$roles,$councils,'<a href="'.route("user_impersonate",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Personificar" class="fas fa-street-view"></i></a> <a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
+                $users_list[]=[$user->last_name." ".$user->first_name,$user->identity_card,$user->email,$user->phone_number,$position,$councils,$roles,'<a href="'.route("user_impersonate",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Personificar" class="fas fa-street-view"></i></a> <a href="'.route("admin_users_edit",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Editar" class="fa fa-edit" aria-hidden="true"></i></a> <a href="'.route("admin_users_trash",["user_id"=>$user->id]).'"><i data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="fa fa-trash" aria-hidden="true"></i></a>'];
             }
         }
 
@@ -207,6 +217,7 @@ class UsersController extends Controller
         if($edit_user->hasRole("secretaria"))
         {
             $data=($request->only(["identity_card","first_name","last_name","phone_number","email","status"]));
+            $data["position_boss_id"]=$request->get("position_boss_id");
 
             $check_user=User::where("identity_card",$data["identity_card"])->first();
             if($check_user && $check_user->id!=$edit_user->id)

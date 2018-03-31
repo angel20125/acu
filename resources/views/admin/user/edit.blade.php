@@ -22,6 +22,9 @@
         @endif
         @csrf
         <h1 class="text-center font-weight-normal">Editar Miembro</h1>
+        @if($edit_user->hasRole("secretaria"))
+            <h6 style="font-style: oblique;" class="text-center font-weight-normal">Cargo Institucional Autorizante - <b>{{$edit_user->positionBoss->name}}</b></h6>
+        @endif
         <br>
         <input type="hidden" name="user_id" value="{{$edit_user->id}}"/>
         <div class="form-row">
@@ -64,6 +67,19 @@
                 </select>
             </div>
         </div>
+
+        @if($edit_user->hasRole("secretaria"))
+            <div class="form-row">
+                 <div class="form-group col-md-6  col-sm-12">
+                    <label for="position_boss_id">Cargo Autorizante</label>
+                    <select name="position_boss_id" class="form-control" id="position_boss_id" required>
+                        @foreach($positions as $position)
+                            <option {{$position->id==$edit_user->position_boss_id?"selected":""}} value="{{$position->id}}">{{$position->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
 
         @php $i=1; @endphp
         @foreach($edit_user->councils as $key => $council)

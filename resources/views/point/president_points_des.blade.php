@@ -1,6 +1,6 @@
 @extends('layouts.home')
 
-@section('title' , "Puntos Propuestos")
+@section('title' , "Puntos Desglosados")
 
 @section('content')
 
@@ -20,8 +20,8 @@
 
 <div class="card">
 	<div class="card-body" style="text-align: center;">
-    	<h2 class="card-title">Puntos Propuestos</h2>
-    	<p class="card-subtitle mb-2 text-muted">En esta sección se presentarán los diversos puntos que han propuesto los miembros de los consejos que usted preside y tiene como deber incluirlos o desglosarlos en sus agendas correspondientes.</p>
+    	<h2 class="card-title">Puntos Desglosados</h2>
+    	<p class="card-subtitle mb-2 text-muted">En esta sección se presentarán los diversos puntos que usted ha desglosado en el pasado y ahora tiene la opción de incluirlos en su agenda correspondiente.</p>
 
     	<br>
 
@@ -29,11 +29,11 @@
     		@if($user->getCurrentRol()->id===$council->pivot->role_id)
 	    		@foreach($council->diaries->sortByDesc("event_date") as $diary)
 		    		@if($diary->limit_date >= gmdate("Y-m-d"))
-		    			@if(count($diary->points->where("pre_status","propuesto"))>0)
+		    			@if(count($diary->points->where("pre_status","desglosado"))>0)
 			  				<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}} - <b>{{$council->name}}</b></a></h5>
 			  				<p style="font-style: oblique;">"{{$diary->description}}"</p>
 			  			@endif
-		    			@foreach($diary->points->where("pre_status","propuesto")->sortByDesc("created_at") as $key => $point)
+		    			@foreach($diary->points->where("pre_status","desglosado")->sortByDesc("created_at") as $key => $point)
 					    	<div class="card">
 					    		@if($point->pre_status=="propuesto" && !$point->post_status)
 		    					<div style="background:#e8eaf6; color: black;" class="card-header">
@@ -69,8 +69,7 @@
 
 						    		<br><br>
 
-						    		<a href="{{route("evaluate_presidente_points",["point_id"=>$point->id,"evaluation"=>"incluido"])}}" class="btn btn-primary">Incluir</a>
-						    		<a href="{{route("evaluate_presidente_points",["point_id"=>$point->id,"evaluation"=>"desglosado"])}}" class="btn btn-danger">Desglosar</a>
+						    		<a href="{{route("evaluate_presidente_points_des",["point_id"=>$point->id,"evaluation"=>"incluido"])}}" class="btn btn-primary">Incluir</a>
 						  		</div>
 							</div>
 		    			@endforeach

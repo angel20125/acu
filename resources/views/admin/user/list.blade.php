@@ -40,8 +40,9 @@
                 <th>Cédula</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
-                <th>Rol</th>
+                <th>Cargo</th>
                 <th>Consejo</th>
+                <th>Rol</th>
                 <th><i ></i></th>
             </tr>
         </thead>

@@ -1,10 +1,10 @@
 @extends('layouts.home')
 
-@section('title' , "Miembros")
+@section('title' , "Puntos")
 
 @section('links')
     
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
    
 @endsection
 
@@ -22,48 +22,51 @@
         {{session('message_info')}}
     </div>
 @endif
-<h1 class="text-center mr1 font-weight-normal">Lista de Miembros</h1>
+<h1 class="text-center mr1 font-weight-normal">Buscador de Puntos</h1>
 
 <br>
 
 <div class="table-responsive">
-    <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Miembro</th>
-                <th>Cédula</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Cargo</th>
-                <th>Consejo</th>
-                <th>Rol</th>
-            </tr>
-        </thead>
-    </table>
+	<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	    <thead>
+	        <tr>
+                <th  scope="col">Fecha</th>
+	            <th  scope="col">Presentador</th>
+                <th  scope="col">Breve descripción</th>
+                <th  scope="col">Tipo</th>
+                <th  scope="col">Pre-status</th>
+                <th  scope="col">Post-status</th>
+                <th  scope="col">Acuerdo</th>
+	            <th></th>
+	        </tr>
+	    </thead>
+	</table>
 </div>
 <br>
 @endsection
 
 @section('script')
 
+
 <script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
 <script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
 
+
 <script>
     $(document).ready(function() {
-
         $('#table').DataTable( {
-            "ajax": '{{route("get_users")}}',
+            "order": [[ 0, "desc" ]],
+            "ajax": '{{route("get_points")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
             "iDisplayLength": 10,
             "language": {
                 "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ miembros",
+                "sLengthMenu":     "Mostrar _MENU_ puntos",
                 "sZeroRecords":    "No se encontraron resultados",
                 "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando de _START_ a _END_ miembros de un total de _TOTAL_",
-                "sInfoEmpty":      "No se ha registrado ningún miembros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ miembros)",
+                "sInfo":           "Mostrando de _START_ a _END_ puntos de un total de _TOTAL_",
+                "sInfoEmpty":      "No se ha registrado ningún punto",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ puntos)",
                 "sInfoPostFix":    "",
                 "sSearch":         "Buscar:",
                 "sUrl":            "",
@@ -80,7 +83,6 @@
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
             }
-            
         } );
     });
 </script>

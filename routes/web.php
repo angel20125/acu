@@ -87,6 +87,8 @@ Route::get('presidente/puntos_propuestos/evaluar/{point_id}/{evaluation}', 'Diar
 Route::get('presidente/historial/puntos_incluidos', 'DiaryController@getPresidentHistoryPoints')->middleware("logged")->middleware(['role:presidente'])->name('president_history_points');
 Route::get('presidente/agregar_puntos', 'DiaryController@getPresidenteProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
 Route::post('presidente/agregar_puntos', 'DiaryController@PresidenteProposePoints')->middleware("logged")->middleware(['role:presidente'])->name('presidente_propose_points');
+Route::get('presidente/puntos_desglosados', 'DiaryController@getPointsDes')->middleware("logged")->middleware(['role:presidente'])->name('get_presidente_points_des');
+Route::get('presidente/puntos_desglosados/evaluar/{point_id}/{evaluation}', 'DiaryController@evaluatePointDes')->middleware("logged")->middleware(['role:presidente'])->name('evaluate_presidente_points_des');
 
 //Secretaria
 Route::get('secretaria/inicio', 'ProfileController@getSecretariaDashboard')->middleware("logged")->middleware(['role:secretaria'])->name('secretaria_dashboard');
@@ -130,3 +132,8 @@ Route::post('punto/editar', 'DiaryController@updatePoint')->middleware("logged")
 Route::get('agenda/editar/{diary_id}', 'DiaryController@getEditDiary')->middleware("logged")->name('edit_diary');
 Route::post('agenda/editar', 'DiaryController@updateDiary')->middleware("logged")->name('update_diary');
 Route::get('agenda/borrar/{diary_id}', 'DiaryController@deleteDiary')->middleware("logged")->name('delete_diary');
+Route::get('puntos', 'DiaryController@getIndexPoints')->middleware("logged")->name('points');
+Route::get('puntos/obtener', 'DiaryController@getListPoints')->middleware("logged")->name('get_points');
+Route::get('puntos/visualizar/{point_id}', 'DiaryController@getPoint')->middleware("logged")->name('get_point');
+Route::get('agenda/pdf/{diary_id}', 'DiaryController@pdfDiary')->middleware("logged")->name('diary_pdf');
+Route::get('punto/pdf/{point_id}', 'DiaryController@pdfPoint')->middleware("logged")->name('point_pdf');

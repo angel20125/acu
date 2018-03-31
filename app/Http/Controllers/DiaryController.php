@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Diary\CreateDiaryRequest;
 use App\Http\Requests\Diary\UpdateDiaryRequest;
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class DiaryController extends Controller
 {
@@ -39,7 +40,7 @@ class DiaryController extends Controller
             {
                 $status="Post-Agenda";
             }
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -74,7 +75,7 @@ class DiaryController extends Controller
                         $status="Post-Agenda";
                     }
 
-                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
+                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
                 }
             }
         }
@@ -133,7 +134,7 @@ class DiaryController extends Controller
                 $status="Post-Agenda";
             }
 
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -502,19 +503,31 @@ class DiaryController extends Controller
         return view("point.president_points");
     }
 
+    public function getPointsDes()
+    {
+        return view("point.president_points_des");
+    }
+
     public function evaluatePoint($point_id,$evaluation)
     {
         $point=Point::where("id",$point_id)->update(["pre_status"=>$evaluation]);
 
         if($evaluation=="incluido") 
         {
-            return redirect()->route("get_presidente_points")->with(["message_info"=>"Punto incluído exitosamente en la pre-agenda"]);
+            return redirect()->route("get_presidente_points")->with(["message_info"=>"Punto incluido exitosamente en la pre-agenda"]);
         }
         else
         {
             return redirect()->route("get_presidente_points")->withErrors(["Punto desglosado exitosamente de la pre-agenda"]);
         }
 
+    }
+
+    public function evaluatePointDes($point_id,$evaluation)
+    {
+        $point=Point::where("id",$point_id)->update(["pre_status"=>$evaluation]);
+
+        return redirect()->route("get_presidente_points_des")->with(["message_info"=>"Punto incluido exitosamente en la pre-agenda"]);
     }
 
     public function getPresidenteProposePoints()
@@ -535,7 +548,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("presidente_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como presidente, te invitamos a que registres una nueva en 'Registrar Agenda', para que posteriormente puedas 'Agregar puntos'"]);
+            return redirect()->route("presidente_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como presidente o el límite de la fecha para 'Agregar Puntos' ya se agotó, te invitamos a que registres una nueva en 'Registrar Agenda', para que posteriormente puedas 'Agregar Puntos'"]);
         }
 
         return view("point.president_points_propose");
@@ -664,7 +677,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("adjunto_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como adjunto, te invitamos a que registres una nueva en 'Registrar Agenda', para que posteriormente puedas 'Agregar puntos'"]);
+            return redirect()->route("adjunto_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como adjunto o el límite de la fecha para 'Agregar Puntos' ya se agotó, te invitamos a que registres una nueva en 'Registrar Agenda', para que posteriormente puedas 'Agregar Puntos'"]);
         }
 
         return view("point.adjunto_points");
@@ -793,7 +806,7 @@ class DiaryController extends Controller
 
         if(count($diaries_list)==0)
         {
-            return redirect()->route("consejero_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como consejero, te invitamos a esperar a que el presidente o adjunto del consejo donde participas, registre una nueva pre-agenda para que puedas 'Presentar Puntos'"]);
+            return redirect()->route("consejero_dashboard")->withErrors(["No existen pre-agendas registradas para los próximos días donde actúas como consejero o el límite de la fecha para 'Presentar Puntos' ya se agotó, te invitamos a esperar a que el presidente o adjunto del consejo donde participas, registre una nueva pre-agenda para que puedas 'Presentar Puntos'"]);
         }
 
         return view("point.consejero_points");
@@ -1161,5 +1174,97 @@ class DiaryController extends Controller
     {
         Diary::where("id",$diary_id)->delete();
         return redirect()->route("diaries")->with(["message_info"=>"Se ha eliminado la agenda exitosamente"]);
+    }
+
+    public function getIndexPoints()
+    {
+        return view("point.list");
+    }
+
+
+    public function getListPoints()
+    {
+        $points=Point::all();
+
+        $points_list=[];
+        foreach($points as $point)
+        {
+            if($point->post_status) 
+            {
+                if($point->post_status=="aprobado") 
+                {
+                    $post_status="Aprobado";
+                }
+                elseif($point->post_status=="rechazado") 
+                {
+                    $post_status="Rechazado";
+                }
+                elseif($point->post_status=="diferido") 
+                {
+                    $post_status="Diferido";
+                }
+                elseif($point->post_status=="diferido_virtual") 
+                {
+                    $post_status="Diferido virtual";
+                }
+                elseif($point->post_status=="retirado") 
+                {
+                    $post_status="Retirado";
+                }
+                elseif($point->post_status=="presentado") 
+                {
+                    $post_status="Presentado";
+                }
+                elseif($point->post_status=="no_presentado") 
+                {
+                    $post_status="No presentado";
+                }
+            }
+            else
+            {
+                $post_status="NA";
+            }
+
+            if($point->pre_status=="incluido") 
+            {
+                $pre_status="Incluido";
+            }
+            elseif($point->pre_status=="propuesto") 
+            {
+                $pre_status="Propuesto";
+            }
+            elseif($point->pre_status=="desglosado") 
+            {
+                $pre_status="Desglosado";
+            }
+
+            $points_list[]=[\DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y"),$point->user->last_name." ".$point->user->first_name,substr($point->description, 0, 25)."...",$point->type=="info"?"Información":"Decisión",$pre_status,$post_status,$point->agreement==null?"NA":substr($point->agreement, 0, 25)."...",'<a href="'.route("point_pdf",["point_id"=>$point->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_point",["point_id"=>$point->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+        }
+        return response()->json(['data' => $points_list]);
+    }
+
+    public function getPoint($point_id)
+    {
+        $point=Point::where("id",$point_id)->first();
+
+        return view("point.show",["point"=>$point]);
+    }
+
+    public function pdfDiary($diary_id)
+    {        
+        $diary=Diary::where("id",$diary_id)->first(); 
+
+        $pdf = PDF::loadView('pdf.diary', compact('diary'));
+
+        return $pdf->download('Agenda '.$diary->council->name.' '.$diary->event_date.'.pdf');
+    }
+
+    public function pdfPoint($point_id)
+    {        
+        $point=Point::where("id",$point_id)->first();
+
+        $pdf = PDF::loadView('pdf.point', compact('point'));
+
+        return $pdf->download('Punto '.$point->id.' '.$point->diary->council->name.' '.$point->diary->event_date.'.pdf');
     }
 }

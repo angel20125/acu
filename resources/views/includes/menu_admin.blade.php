@@ -87,6 +87,18 @@
 	</li>
 </ul>
 
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="far fa-file-powerpoint"></i><span class="mr8">PUNTOS</span> 
+</h6>
+
+<ul class="nav flex-column">
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("points")}}">
+			Buscador de Puntos
+		</a>
+	</li>
+</ul>
+
 <h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted  ">
 	<i class="far fa-address-book"></i><span class="mr8">CONTACTO</span>
 </h6>

@@ -24,7 +24,7 @@
 		</a>
 	</li>
 	<li class="nav-item">
-		<a data-toggle="modal" data-target="#my-councils" class="nav-link  " href="#">
+		<a style="outline: none;" data-toggle="modal" data-target="#my-councils" class="nav-link  " href="#">
 			Mis Consejos 
 		</a>
 	</li>
@@ -70,6 +70,23 @@
 		</a>
 	</li>
 	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("adjunto_diaries")}}">
+			Agendas Pendientes
+		</a>
+	</li>
+</ul>
+
+<h6 class="sidebar-heading d-flex  align-items-center px-3 mt-3 mb-1 text-muted">
+	<i class="far fa-file-powerpoint"></i><span class="mr8">PUNTOS</span> 
+</h6>
+
+<ul class="nav flex-column">
+	<li class="nav-item-active">
+		<a class="nav-link  " href="{{route("points")}}">
+			Buscador de Puntos
+		</a>
+	</li>
+	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("adjunto_propose_points")}}">
 			Agregar Puntos
 		</a>
@@ -77,11 +94,6 @@
 	<li class="nav-item-active">
 		<a class="nav-link  " href="{{route("adjunto_history_points")}}">
 			Historial de mis Puntos
-		</a>
-	</li>
-	<li class="nav-item-active">
-		<a class="nav-link  " href="{{route("adjunto_diaries")}}">
-			Agendas Pendientes
 		</a>
 	</li>
 </ul>
