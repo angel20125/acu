@@ -78,8 +78,9 @@
 			</div>
     	@endforeach
 
-    	<br>
     	@if($diary->status==1)
+    	
+    	<br>
 	    	<h5 class="card-subtitle mb-2 text-muted">Control de Asistencias</h5>
 	    	<div class="table-responsive">
 				<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -99,7 +100,6 @@
 
  	</div>
 </div>
-<br>
 
 <div id="edit-diary" class="modal fade" tabindex="-1" role="dialog">
   	<div class="modal-dialog" role="document">
@@ -220,5 +220,5 @@
 
 	    });
 	</script>
-<br>
+
 @endsection

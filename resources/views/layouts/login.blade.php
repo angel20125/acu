@@ -16,9 +16,10 @@
 
 <body>
 	<div class="container-fluid">
-<main  class="text-center col-md-6 col-lg-4 col-sm-6 container " >
-     @yield('content')
-</main>
-</div>
+        <main  class="text-center col-md-6 col-lg-4 col-sm-6 container " >
+             @yield('content')
+        </main>
+    </div>
 </body>
+
 </html>
