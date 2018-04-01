@@ -46,3 +46,19 @@ body{
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.mrl{
+  margin-left: 15px;
+}
+.mrr{
+  margin-right: 15px;
+}
+
+@media only screen and (max-width: 651.98px) {
+  .mrl{
+    margin-left: 5px;
+  }
+  .mrr{
+    margin-right: 5px;
+  }
+}

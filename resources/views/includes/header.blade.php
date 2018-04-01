@@ -15,7 +15,12 @@
 			<ul class="nav flex-column mr-sm-2  ">
 				<li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Notificaciones">
 					<a class="tette float-right"  href="#" >
-						<i class=" far fa-bell"></i>
+					<!--Configuracion de notificaciones aqui-->
+						<span class="fa-layers fa-fw" style="background: transparent;">
+						    <i class=" far fa-bell"></i>
+						    <span class="fa-layers-counter" style="background:red"></span>
+						</span>
+
 					</a>	
 				</li>
 			</ul>

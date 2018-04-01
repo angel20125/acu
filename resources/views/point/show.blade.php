@@ -5,23 +5,23 @@
 @section('content')
 
 <div class="card">
-	<div class="card-body" style="text-align: center;">
+	<div class="card-body text-center">
 		<h5 class="card-title"><a style="text-decoration: none;" href="{{route("get_diary",["diary_id"=>$point->diary->id])}}">Agenda del {{DateTime::createFromFormat("Y-m-d",$point->diary->event_date)->format("d/m/Y")}} - <b>{{$point->diary->council->name}}</b></a></h5>
 		<p style="font-style: oblique;">"{{$point->diary->description}}"</p>
     	
     	<div class="card">
     		@if($point->pre_status=="propuesto" && !$point->post_status)
-			<div style="background:#e8eaf6; color: black;" class="card-header">
+			<div style="background:#e8eaf6;" class="card-header text-black">
     		@elseif($point->pre_status=="incluido" && !$point->post_status)
-			<div style="background:#5c6bc0; color: white;" class="card-header">
+			<div style="background:#5c6bc0;" class="card-header text-white">
 			@elseif($point->pre_status=="desglosado" && !$point->post_status)
-			<div style="background:#ffd54f; color: black;" class="card-header">
+			<div style="background:#ffd54f;" class="card-header text-black">
 			@elseif($point->post_status=="aprobado" && $point->pre_status=="incluido")
-			<div style="background:#66bb6a; color: white;" class="card-header">
+			<div style="background:#66bb6a;" class="card-header text-white">
 			@elseif($point->post_status=="rechazado" && $point->pre_status=="incluido")
-			<div style="background:#ef5350; color: white;" class="card-header">
+			<div style="background:#ef5350;" class="card-header text-white">
 			@elseif(($point->post_status=="diferido" || $point->post_status=="diferido_virtual" || $point->post_status=="retirado" || $point->post_status=="presentado" || $point->post_status=="no_presentado") && $point->pre_status=="incluido")
-			<div style="background:#78909c; color: white;" class="card-header">
+			<div style="background:#78909c;" class="card-header text-white">
 			@endif
   				@if($point->post_status)
     				<h5 class="card-title">Punto <b>@if($point->post_status=="diferido_virtual") diferido virtual @elseif($point->post_status=="no_presentado") no presentado @else {{$point->post_status}}@endif</b></h5>
