@@ -48,14 +48,16 @@
 @endsection
 
 @section('script')
-
-
+<script  src="{{ asset('js/moment.min.js') }}" ></script>
 <script  src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
 <script  src="{{ asset('js/dataTables.bootstrap4.min.js') }}" ></script>
-
+<script  src="{{ asset('js/datetime-moment.js') }}" ></script>
 
 <script>
     $(document).ready(function() {
+
+        $.fn.dataTable.moment("DD-MM-YYYY");
+                
         $('#table').DataTable( {
             "ajax": '{{route("get_admin_positions")}}',
             "columnDefs": [{ "orderable": false, "targets": -1 }],
