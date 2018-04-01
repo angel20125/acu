@@ -1,5 +1,7 @@
 <div class="card">
 	<div class="card-body" style="text-align: center;">
+		<img class="mb-1" src="img/icon_uneg.png" alt="" width="74" height="74">
+		<h3 class="font-weight-normal">Universidad Nacional Experimental de Guayana</h3>
     	<h2 class="card-title">{{$diary->council->name}}</h2>
     	<h5 class="card-subtitle mb-2 text-muted">Descripción de la agenda</h5>
     	<p id="diary-description" style="font-style: oblique;" class="card-text">{{$diary->description}}</p>

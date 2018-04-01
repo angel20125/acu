@@ -9,7 +9,7 @@
 
 @section('content')
 	<div class="card ">
-		<div class="justify-content-between card-header" style="background:#e8221e;">
+		<div class="justify-content-between card-header" style="background:#ef5350;">
 		
 		<h5  class=" text-white "><i class="fas fa-exclamation-triangle mrr"></i>¡Error inesperado!<i class="fas fa-exclamation-triangle mrl" ></i></h5>
 		
