@@ -92,6 +92,9 @@
 .mra{
   margin: 0.3rem 0.3rem !important;
 }
+.mrt{
+  margin-top: none !important;
+}
 /*
  * Utilities
  */
@@ -107,6 +110,7 @@
   content: "Elegir"  ;
 }
 
+
 @media only screen and (max-width: 767.98px) {
   .nav-link{
     color: floralwhite !important;
@@ -118,5 +122,7 @@
   .mra{
     margin: 0.3rem 0.1rem !important;
   }
-
+  .mrt{
+     margin-top: 1rem !important;
+  }
 }

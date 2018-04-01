@@ -22,21 +22,23 @@
 @endif
 
 <div style="text-align: center; max-width: 310px;" class="container-fluid">
-    <label>Filtrar Agendas</label>
-    <select class="form-control" id="month" required>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-01-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-01-01")->format("F")}}">Enero</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-02-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-02-01")->format("F")}}">Febrero</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-03-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-03-01")->format("F")}}">Marzo</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-04-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-04-01")->format("F")}}">Abril</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-05-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-05-01")->format("F")}}">Mayo</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-06-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-06-01")->format("F")}}">Junio</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-07-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-07-01")->format("F")}}">Julio</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-08-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-08-01")->format("F")}}">Agosto</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-09-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-09-01")->format("F")}}">Septiembre</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-10-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-10-01")->format("F")}}">Octubre</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-11-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-11-01")->format("F")}}">Noviembre</option>
-        <option {{DateTime::createFromFormat("Y-m-d","2018-12-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-12-01")->format("F")}}">Diciembre</option>
-    </select>
+	<div class="form-group text-center col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-10 offset-sm-1 mrt">
+	    <label>Filtrar Agendas</label>
+	    <select class="form-control" id="month" required>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-01-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-01-01")->format("F")}}">Enero</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-02-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-02-01")->format("F")}}">Febrero</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-03-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-03-01")->format("F")}}">Marzo</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-04-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-04-01")->format("F")}}">Abril</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-05-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-05-01")->format("F")}}">Mayo</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-06-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-06-01")->format("F")}}">Junio</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-07-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-07-01")->format("F")}}">Julio</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-08-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-08-01")->format("F")}}">Agosto</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-09-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-09-01")->format("F")}}">Septiembre</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-10-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-10-01")->format("F")}}">Octubre</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-11-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-11-01")->format("F")}}">Noviembre</option>
+	        <option {{DateTime::createFromFormat("Y-m-d","2018-12-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-12-01")->format("F")}}">Diciembre</option>
+	    </select>
+	</div>
 </div>
 
 @if(count($diaries)>0)
