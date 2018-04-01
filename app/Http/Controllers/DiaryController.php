@@ -13,6 +13,7 @@ use App\Http\Requests\Diary\CreateDiaryRequest;
 use App\Http\Requests\Diary\UpdateDiaryRequest;
 use App\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade as PDF;
+use App\Notifications\NewDiaryCreated;
 
 class DiaryController extends Controller
 {
@@ -33,12 +34,12 @@ class DiaryController extends Controller
         {
             if($current_date <= $diary->event_date)
             {
-                $status="Pre-Agenda"; 
+                $status="Pre-Agenda";
             }
             elseif($current_date > $diary->event_date && $diary->status==0)
             {
                 $status="Pre-Agenda (Por finalizar)";
-            }  
+            }
             else
             {
                 $status="Post-Agenda";
@@ -61,20 +62,20 @@ class DiaryController extends Controller
         $current_date = $current_date->format("Y-m-d");
 
         $diaries_list=[];
-        foreach($user->councils as $council) 
+        foreach($user->councils as $council)
         {
-            foreach($council->diaries->where("event_date","<=",$current_date)->where("status",0) as $diary) 
+            foreach($council->diaries->where("event_date","<=",$current_date)->where("status",0) as $diary)
             {
                 if($user->getCurrentRol()->id==$council->pivot->role_id)
                 {
                     if($current_date <= $diary->event_date)
                     {
-                        $status="Pre-Agenda"; 
+                        $status="Pre-Agenda";
                     }
                     elseif($current_date > $diary->event_date && $diary->status==0)
                     {
                         $status="Pre-Agenda (Por finalizar)";
-                    }  
+                    }
                     else
                     {
                         $status="Post-Agenda";
@@ -97,19 +98,19 @@ class DiaryController extends Controller
 
         $diary=Diary::where("id",$diary_id)->first();
 
-        if(!$diary) 
+        if(!$diary)
         {
             return redirect()->route("adjunto_dashboard")->withErrors(["La pre-agenda que trata de finalizar no existe"]);
         }
 
         $user_council=$user->councils()->wherePivot("council_id",$diary->council->id)->first();
 
-        if(($diary && $user_council && $diary->council->id!=$user_council->id) || !$user_council) 
+        if(($diary && $user_council && $diary->council->id!=$user_council->id) || !$user_council)
         {
             return redirect()->route("adjunto_dashboard")->withErrors(["No tiene permisos de finalizar esa determinada pre-agenda"]);
         }
-        
-        if($diary->event_date > $current_date) 
+
+        if($diary->event_date > $current_date)
         {
             return redirect()->route("adjunto_dashboard")->withErrors(["La pre-agenda que trata de finalizar aún no se ha llevado a cabo"]);
         }
@@ -134,12 +135,12 @@ class DiaryController extends Controller
         {
             if($current_date <= $diary->event_date)
             {
-                $status="Pre-Agenda"; 
+                $status="Pre-Agenda";
             }
             elseif($current_date > $diary->event_date && $diary->status==0)
             {
                 $status="Pre-Agenda (Por finalizar)";
-            }  
+            }
             else
             {
                 $status="Post-Agenda";
@@ -170,9 +171,9 @@ class DiaryController extends Controller
         {
             $new_councils=[];
             $councils=$user->councils;
-            foreach($councils as $key => $council) 
+            foreach($councils as $key => $council)
             {
-                if($council->president && $council->president->id==$user->id) 
+                if($council->president && $council->president->id==$user->id)
                 {
                     $new_councils[]=$council;
                 }
@@ -182,9 +183,9 @@ class DiaryController extends Controller
         {
             $new_councils=[];
             $councils=$user->councils;
-            foreach($councils as $key => $council) 
+            foreach($councils as $key => $council)
             {
-                if($council->adjunto && $council->adjunto->id==$user->id) 
+                if($council->adjunto && $council->adjunto->id==$user->id)
                 {
                     $new_councils[]=$council;
                 }
@@ -196,7 +197,7 @@ class DiaryController extends Controller
             return redirect()->route("admin_councils_create")->withErrors(["Primero debes registrar un consejo como mínimo, para poder registrar o convocar una nueva pre-agenda"]);
         }
 
-        if($user->hasRole("admin")) 
+        if($user->hasRole("admin"))
         {
             return view("diary.create",["councils"=>$councils]);
         }
@@ -223,7 +224,7 @@ class DiaryController extends Controller
         $dataPoints=($request->only(["description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
 
         $data=($request->only(["council_id","description","place","event_date"]));
-        
+
         if($event_date==$date)
         {
             $data["limit_date"]=$event_date;
@@ -237,10 +238,10 @@ class DiaryController extends Controller
 
         $current_agenda=Diary::where("council_id",$data["council_id"])->where("event_date",$event_date)->first();
 
-        if($current_agenda) 
+        if($current_agenda)
         {
             return redirect()->back()->withErrors(["El presidente o adjunto del ".$council->name." ya registró una nueva pre-agenda para el día ".\DateTime::createFromFormat("Y-m-d",$event_date)->format("d/m/Y")]);
-        }   
+        }
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -339,13 +340,19 @@ class DiaryController extends Controller
             }
         }
 
-        foreach($council->users as $user) 
+        $users= $diary->council->users;
+
+        foreach ($users as $user) {
+            $user->notify(new NewDiaryCreated($diary));
+        }
+
+        foreach($council->users as $user)
         {
             $council_user=$user->councils()->where("id",$diary->council->id)->first();
 
             $rol=Role::where("id",$council_user->pivot->role_id)->first();
 
-            if($rol->name=="consejero" && $user->status && $user->validate) 
+            if($rol->name=="consejero" && $user->status && $user->validate)
             {
                 \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                 {
@@ -387,7 +394,7 @@ class DiaryController extends Controller
         $current_date = $current_date->format("Y-m-d");
 
         $diaries_list=[];
-        foreach($user->councils as $council) 
+        foreach($user->councils as $council)
         {
             foreach($council->diaries->where("limit_date",">=",$current_date) as $diary)
             {
@@ -404,19 +411,19 @@ class DiaryController extends Controller
 
         $user=User::where("id",$dataPoints["user_id"])->first();
         $diary=Diary::where("id",$dataPoints["diary_id"])->first();
-        
+
         $council=$user->councils()->where("id",$diary->council->id)->first();
 
         $rol=Role::where("id",$council->pivot->role_id)->first();
 
-        if($rol->name=="presidente" || $rol->name=="adjunto") 
+        if($rol->name=="presidente" || $rol->name=="adjunto")
         {
             $pre_status="incluido";
         }
         else
         {
             $pre_status="propuesto";
-        }  
+        }
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -511,7 +518,7 @@ class DiaryController extends Controller
                     ]);
                 }
             }
-            
+
             return redirect()->route("diaries")->with(["message_info"=>"Se han agregado/presentado exitosamente los puntos"]);
         }
     }
@@ -530,7 +537,7 @@ class DiaryController extends Controller
     {
         $point=Point::where("id",$point_id)->update(["pre_status"=>$evaluation]);
 
-        if($evaluation=="incluido") 
+        if($evaluation=="incluido")
         {
             return redirect()->route("get_presidente_points")->with(["message_info"=>"Punto incluido exitosamente en la pre-agenda"]);
         }
@@ -556,7 +563,7 @@ class DiaryController extends Controller
         $current_date = $current_date->format("Y-m-d");
 
         $diaries_list=[];
-        foreach($user->councils as $council) 
+        foreach($user->councils as $council)
         {
             if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
@@ -579,7 +586,7 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
-        $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
+        $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -676,7 +683,7 @@ class DiaryController extends Controller
                     ]);
                 }
             }
-            
+
             return redirect()->route("president_history_points")->with(["message_info"=>"Se han agregado exitosamente los puntos"]);
         }
     }
@@ -689,7 +696,7 @@ class DiaryController extends Controller
         $current_date = $current_date->format("Y-m-d");
 
         $diaries_list=[];
-        foreach($user->councils as $council) 
+        foreach($user->councils as $council)
         {
             if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
@@ -712,7 +719,7 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
-        $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
+        $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -809,7 +816,7 @@ class DiaryController extends Controller
                     ]);
                 }
             }
-            
+
             return redirect()->route("adjunto_history_points")->with(["message_info"=>"Se han agregado exitosamente los puntos"]);
         }
     }
@@ -822,7 +829,7 @@ class DiaryController extends Controller
         $current_date = $current_date->format("Y-m-d");
 
         $diaries_list=[];
-        foreach($user->councils as $council) 
+        foreach($user->councils as $council)
         {
             if($user->getCurrentRol()->id===$council->pivot->role_id)
             {
@@ -845,7 +852,7 @@ class DiaryController extends Controller
     {
         $user=User::getCurrent();
 
-        $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));   
+        $dataPoints=($request->only(["diary_id","description_point","type","attached_document_one","attached_document_two","attached_document_three","attached_document_four"]));
 
         if(!isset($dataPoints["description_point"]))
         {
@@ -942,7 +949,7 @@ class DiaryController extends Controller
                     ]);
                 }
             }
-            
+
             return redirect()->route("consejero_history_points")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
         }
     }
@@ -1085,7 +1092,7 @@ class DiaryController extends Controller
         {
             $user=User::find($user_id);
 
-            if($dataAssistance["assistance"][$key]==1) 
+            if($dataAssistance["assistance"][$key]==1)
             {
                 $user->diaries()->attach($diary_id);
             }
@@ -1118,18 +1125,18 @@ class DiaryController extends Controller
 
         $diary=Diary::where("id",$diary_id)->first();
 
-        if($diary) 
+        if($diary)
         {
             $current_agenda=Diary::where("council_id",$diary->council->id)->where("event_date",$event_date)->first();
 
             if($current_agenda && $current_agenda->id!=$diary->id)
             {
                 return response()->json(['update'=>'1']);
-            }  
-        } 
+            }
+        }
 
         $diary=Diary::where("id",$diary_id)->update(["description"=>$description,"event_date"=>$event_date,"place"=>$place,"limit_date"=>\DateTime::createFromFormat("Y-m-d",$event_date)->sub(new \DateInterval("P1D"))]);
-        
+
         $diary_edit=Diary::where("id",$diary_id)->first();
         $diary_edit["event_date"]=\DateTime::createFromFormat("Y-m-d",$diary_edit->event_date)->format("d/m/Y");
 
@@ -1150,7 +1157,7 @@ class DiaryController extends Controller
         $type=$request->get("type");
 
         $point=Point::where("id",$point_id)->update(["description"=>$description,"type"=>$type]);
-        
+
         $point_edit=Point::where("id",$point_id)->first();
 
         return response()->json(['update'=>$point_edit]);
@@ -1162,7 +1169,7 @@ class DiaryController extends Controller
 
         $point=Point::where("id",$point_id)->first();
 
-        if(!$point) 
+        if(!$point)
         {
             if($user->getCurrentRol()->name=="consejero")
             {
@@ -1233,33 +1240,33 @@ class DiaryController extends Controller
         $points_list=[];
         foreach($points as $point)
         {
-            if($point->post_status) 
+            if($point->post_status)
             {
-                if($point->post_status=="aprobado") 
+                if($point->post_status=="aprobado")
                 {
                     $post_status="Aprobado";
                 }
-                elseif($point->post_status=="rechazado") 
+                elseif($point->post_status=="rechazado")
                 {
                     $post_status="Rechazado";
                 }
-                elseif($point->post_status=="diferido") 
+                elseif($point->post_status=="diferido")
                 {
                     $post_status="Diferido";
                 }
-                elseif($point->post_status=="diferido_virtual") 
+                elseif($point->post_status=="diferido_virtual")
                 {
                     $post_status="Diferido virtual";
                 }
-                elseif($point->post_status=="retirado") 
+                elseif($point->post_status=="retirado")
                 {
                     $post_status="Retirado";
                 }
-                elseif($point->post_status=="presentado") 
+                elseif($point->post_status=="presentado")
                 {
                     $post_status="Presentado";
                 }
-                elseif($point->post_status=="no_presentado") 
+                elseif($point->post_status=="no_presentado")
                 {
                     $post_status="No presentado";
                 }
@@ -1269,15 +1276,15 @@ class DiaryController extends Controller
                 $post_status="NA";
             }
 
-            if($point->pre_status=="incluido") 
+            if($point->pre_status=="incluido")
             {
                 $pre_status="Incluido";
             }
-            elseif($point->pre_status=="propuesto") 
+            elseif($point->pre_status=="propuesto")
             {
                 $pre_status="Propuesto";
             }
-            elseif($point->pre_status=="desglosado") 
+            elseif($point->pre_status=="desglosado")
             {
                 $pre_status="Desglosado";
             }
@@ -1295,10 +1302,10 @@ class DiaryController extends Controller
     }
 
     public function pdfDiary($diary_id)
-    {        
+    {
         $diary=Diary::where("id",$diary_id)->first();
 
-        if($diary->status==0) 
+        if($diary->status==0)
         {
             $pdf = PDF::loadView('pdf.diary', compact('diary'));
 
@@ -1314,7 +1321,7 @@ class DiaryController extends Controller
                 $roles="";
                 foreach($user->councils as $council)
                 {
-                    if($council->id==$diary->council->id) 
+                    if($council->id==$diary->council->id)
                     {
                         $roles.=Role::where("id",$council->pivot->role_id)->first()->display_name;
                     }
@@ -1322,7 +1329,7 @@ class DiaryController extends Controller
 
                 $assistance=$user->diaries()->where("id",$diary->id)->first();
 
-                if($assistance) 
+                if($assistance)
                 {
                     $assistance="Si asistió";
                 }
@@ -1339,12 +1346,12 @@ class DiaryController extends Controller
 
             $pdf = PDF::loadView('pdf.diary', compact('diary','users_list'));
 
-            return $pdf->download('Post-Agenda '.$diary->council->name.' '.$diary->event_date.'.pdf'); 
+            return $pdf->download('Post-Agenda '.$diary->council->name.' '.$diary->event_date.'.pdf');
         }
     }
 
     public function pdfPoint($point_id)
-    {        
+    {
         $point=Point::where("id",$point_id)->first();
 
         $pdf = PDF::loadView('pdf.point', compact('point'));
@@ -1364,7 +1371,7 @@ class DiaryController extends Controller
             $roles="";
             foreach($user->councils as $council)
             {
-                if($council->id==$diary->council->id) 
+                if($council->id==$diary->council->id)
                 {
                     $roles.=Role::where("id",$council->pivot->role_id)->first()->display_name;
                 }
@@ -1372,7 +1379,7 @@ class DiaryController extends Controller
 
             $assistance=$user->diaries()->where("id",$diary->id)->first();
 
-            if($assistance) 
+            if($assistance)
             {
                 $assistance='<i style="color:green;" class="fa fa-check" aria-hidden="true"></i> Si';
             }
