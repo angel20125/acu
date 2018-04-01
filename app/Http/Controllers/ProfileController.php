@@ -340,7 +340,7 @@ class ProfileController extends Controller
         $last_date = new \DateTime();
         $last_date->modify('last day of '.$month.' '.$year);
 
-        $diaries=Diary::orderBy("event_date","desc")->where("event_date",">=",$new_date->format("Y-m-d"))->where("event_date","<=",$last_date->format("Y-m-d"))->get();
+        $diaries=Diary::orderBy("event_date","asc")->where("event_date",">=",$new_date->format("Y-m-d"))->where("event_date","<=",$last_date->format("Y-m-d"))->get();
 
         $calendar=[];
         foreach($diaries as $key => $diary) 

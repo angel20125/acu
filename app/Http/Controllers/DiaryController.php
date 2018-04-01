@@ -43,7 +43,7 @@ class DiaryController extends Controller
             {
                 $status="Post-Agenda";
             }
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -80,7 +80,7 @@ class DiaryController extends Controller
                         $status="Post-Agenda";
                     }
 
-                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
+                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
                 }
             }
         }
@@ -145,7 +145,7 @@ class DiaryController extends Controller
                 $status="Post-Agenda";
             }
 
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
