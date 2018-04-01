@@ -14,6 +14,9 @@ use App\Http\Requests\Diary\UpdateDiaryRequest;
 use App\Http\Controllers\Controller;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Notifications\NewDiaryCreated;
+use App\Notifications\AcceptedPoint;
+use App\Notifications\RejectedPoint;
+use App\Notifications\NewProposePoint;
 
 class DiaryController extends Controller
 {
@@ -340,12 +343,6 @@ class DiaryController extends Controller
             }
         }
 
-        $users= $diary->council->users;
-
-        foreach ($users as $user) {
-            $user->notify(new NewDiaryCreated($diary));
-        }
-
         foreach($council->users as $user)
         {
             $council_user=$user->councils()->where("id",$diary->council->id)->first();
@@ -354,6 +351,8 @@ class DiaryController extends Controller
 
             if($rol->name=="consejero" && $user->status && $user->validate)
             {
+                $user->notify(new NewDiaryCreated($diary));
+
                 \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                 {
                     $message->subject("Invitación del ".$council->name);
@@ -535,14 +534,18 @@ class DiaryController extends Controller
 
     public function evaluatePoint($point_id,$evaluation)
     {
-        $point=Point::where("id",$point_id)->update(["pre_status"=>$evaluation]);
+        $point=Point::where("id",$point_id)->get()->first();//->update(["pre_status"=>$evaluation]);
+        $point->update(["pre_status"=>$evaluation]);
 
         if($evaluation=="incluido")
         {
+            $point->user->notify(new AcceptedPoint($point));
+
             return redirect()->route("get_presidente_points")->with(["message_info"=>"Punto incluido exitosamente en la pre-agenda"]);
         }
         else
         {
+            $point->user->notify(new RejectedPoint($point));
             return redirect()->route("get_presidente_points")->withErrors(["Punto desglosado exitosamente de la pre-agenda"]);
         }
 
@@ -550,7 +553,10 @@ class DiaryController extends Controller
 
     public function evaluatePointDes($point_id,$evaluation)
     {
-        $point=Point::where("id",$point_id)->update(["pre_status"=>$evaluation]);
+        $point=Point::where("id",$point_id)->get()->first();
+        $point->update(["pre_status"=>$evaluation]);
+
+        $point->user->notify(new AcceptedPoint($point));
 
         return redirect()->route("get_presidente_points_des")->with(["message_info"=>"Punto incluido exitosamente en la pre-agenda"]);
     }
@@ -949,6 +955,20 @@ class DiaryController extends Controller
                     ]);
                 }
             }
+
+            /*$council = $point->diary->council;
+
+            foreach($council->users as $user)
+            {
+                $council_user=$user->councils()->where("id",$diary->council->id)->first();
+
+                $rol=Role::where("id",$council_user->pivot->role_id)->first();
+
+                if($rol->name=="presidente" && $user->status && $user->validate)
+                {
+                    $user->notify(new NewProposePoint($point));
+                }
+            }*/
 
             return redirect()->route("consejero_history_points")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
         }
