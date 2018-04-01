@@ -47,7 +47,7 @@
 					<div class="card-body">
 						<h5 class="card-title">{{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}}</h5>
 						<p class="card-text">{{$diary->council->name}}</p>
-						<a href="{{route("get_diary",["diary_id"=>$diary->id])}}" class="btn btn-primary">Ver Agenda</a>
+						<a href="{{route("get_diary",["diary_id"=>$diary->id])}}" class="btn btn-primary">Ver @if($diary->status==0) Pre-Agenda @else Post-Agenda @endif</a>
 					</div>
 					<div class="card-footer text-muted">
 						Lugar: {{$diary->place}}	
