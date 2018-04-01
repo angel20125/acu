@@ -1282,7 +1282,7 @@ class DiaryController extends Controller
                 $pre_status="Desglosado";
             }
 
-            $points_list[]=[\DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d/m/Y"),$point->user->last_name." ".$point->user->first_name,substr($point->description, 0, 25)."...",$point->type=="info"?"Información":"Decisión",$pre_status,$post_status,$point->agreement==null?"NA":substr($point->agreement, 0, 25)."...",'<a href="'.route("point_pdf",["point_id"=>$point->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_point",["point_id"=>$point->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $points_list[]=[\DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d-m-Y"),$point->user->last_name." ".$point->user->first_name,substr($point->description, 0, 25)."...",$point->type=="info"?"Información":"Decisión",$pre_status,$post_status,$point->agreement==null?"NA":substr($point->agreement, 0, 25)."...",'<a href="'.route("point_pdf",["point_id"=>$point->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_point",["point_id"=>$point->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
         }
         return response()->json(['data' => $points_list]);
     }
