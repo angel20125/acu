@@ -331,4 +331,23 @@ class ProfileController extends Controller
 
         return view("main.adjunto_dashboard",["diaries"=>$diaries,"calendar"=>$calendar]);
     }
+
+    public function getNewDashboard($year,$month)
+    {
+        $new_date = new \DateTime();
+        $new_date->modify('first day of '.$month.' '.$year);
+
+        $last_date = new \DateTime();
+        $last_date->modify('last day of '.$month.' '.$year);
+
+        $diaries=Diary::orderBy("event_date","desc")->where("event_date",">=",$new_date->format("Y-m-d"))->where("event_date","<=",$last_date->format("Y-m-d"))->get();
+
+        $calendar=[];
+        foreach($diaries as $key => $diary) 
+        {
+            $calendar[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d") => $diary->id];
+        }
+
+        return view("main.dashboard_extra",["diaries"=>$diaries,"calendar"=>$calendar,"month"=>$new_date->format("m"),"name_month"=>$month,"year"=>$year]);
+    }
 }

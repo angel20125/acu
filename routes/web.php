@@ -138,3 +138,5 @@ Route::get('puntos/visualizar/{point_id}', 'DiaryController@getPoint')->middlewa
 Route::get('agenda/pdf/{diary_id}', 'DiaryController@pdfDiary')->middleware("logged")->name('diary_pdf');
 Route::get('punto/pdf/{point_id}', 'DiaryController@pdfPoint')->middleware("logged")->name('point_pdf');
 Route::get('agenda/asistencia/{diary_id}', 'DiaryController@getListAssistanceMembers')->middleware("logged")->name('get_list_assistance_members');
+
+Route::get('inicio/{year}/{month}', 'ProfileController@getNewDashboard')->middleware("logged")->name('get_new_dashboard');

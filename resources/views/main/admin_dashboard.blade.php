@@ -21,6 +21,24 @@
     </div>
 @endif
 
+<div style="text-align: center; max-width: 310px;" class="container-fluid">
+    <label>Filtrar Agendas</label>
+    <select class="form-control" id="month" required>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-01-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-01-01")->format("F")}}">Enero</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-02-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-02-01")->format("F")}}">Febrero</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-03-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-03-01")->format("F")}}">Marzo</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-04-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-04-01")->format("F")}}">Abril</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-05-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-05-01")->format("F")}}">Mayo</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-06-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-06-01")->format("F")}}">Junio</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-07-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-07-01")->format("F")}}">Julio</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-08-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-08-01")->format("F")}}">Agosto</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-09-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-09-01")->format("F")}}">Septiembre</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-10-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-10-01")->format("F")}}">Octubre</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-11-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-11-01")->format("F")}}">Noviembre</option>
+        <option {{DateTime::createFromFormat("Y-m-d","2018-12-01")->format("m")==DateTime::createFromFormat("Y-m-d",$current_date)->format("m")?"selected":""}} value="{{DateTime::createFromFormat("Y-m-d","2018-12-01")->format("F")}}">Diciembre</option>
+    </select>
+</div>
+
 @if(count($diaries)>0)
 	<div class="row justify-content-center">
 		@foreach($diaries as $key => $diary)
@@ -29,7 +47,7 @@
 					<div class="card-body">
 						<h5 class="card-title">{{DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d/m/Y")}}</h5>
 						<p class="card-text">{{$diary->council->name}}</p>
-						<a href="{{route("get_diary",["diary_id"=>$diary->id])}}" class="btn btn-primary">Ver Agenda</a>
+						<a href="{{route("get_diary",["diary_id"=>$diary->id])}}" class="btn btn-primary">Ver @if($diary->status==0) Pre-Agenda @else Post-Agenda @endif</a>
 					</div>
 					<div class="card-footer text-muted">
 						Lugar: {{$diary->place}}	
@@ -42,7 +60,7 @@
 	<div class="row justify-content-center">
 		<div class="card">
 			<div class="card-body" style="text-align: center;">
-				<h4>¡No se ha registrado ninguna agenda por ahora!</h4>
+				<h4>¡No se ha registrado ninguna Pre-Agenda en el mes actual!</h4>
 			</div>
 		</div>
 	</div>
@@ -89,8 +107,8 @@
 			        </tr>
 			    </thead>
 			    </tbody>
-			    	@php $count=0; $countDay=1; $last_month=7-(7-$startDate); $future_month=1; @endphp
-			    	@for($i=1; $i <= 5; $i++)
+			    	@php $count=0; $countDay=1; $last_month=7-(7-$startDate); $future_month=0; @endphp
+			    	@for($i=1; $i <= 6; $i++)
 			        <tr style="text-align:center;">
 			        	@for($j=1; $j <= 7; $j++)
 
@@ -130,9 +148,14 @@
 
 			        		@elseif($countDay > DateTime::createFromFormat("Y-m-d",$current_date)->modify('last day of this month')->format("d"))
 			        			<td style="color: #BDBDBD">
-			        				{{DateTime::createFromFormat("d/m/Y",$current_date_format)->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
+			        				@if($future_month==0)
+				        				{{DateTime::createFromFormat("d/m/Y",$current_date_format)->modify('first day of this month')->format("d")}}
+				        				@php $future_month++; @endphp
+			        				@else
+				        				{{DateTime::createFromFormat("d/m/Y",$current_date_format)->modify('first day of this month')->add(new DateInterval("P".$future_month."D"))->format("d")}}
+					        			@php $future_month++; @endphp
+			        				@endif
 			        			</td>
-			        			@php $future_month++; @endphp
 			        		@endif
 			        		
 			        		@php $count++; @endphp
@@ -146,6 +169,15 @@
 </div>
 
 @endsection
-@section('script')
 
+@section('script')
+<script>
+    $(document).ready(function() {
+	    $("#month").change(function () {
+	    	var year = "{{DateTime::createFromFormat("Y-m-d",$current_date)->modify('last day of this month')->format("Y")}}";
+
+			location.href ="/inicio/"+year+"/"+$(this).val();      
+	    });
+    });
+</script>
 @endsection
