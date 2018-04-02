@@ -19,11 +19,11 @@
 			    	<i class=" far fa-bell"></i> <span class="badge">{{count(auth()->user()->unreadNotifications)}}</span>
 			  	</a>
 
-			  	<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+			  	<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
 					@forelse(auth()->user()->notifications as $notification)
 						@include('includes.notification.'.snake_case(class_basename($notification->type)))
 						@empty
-						<a class="dropdown-item" href="#">No hay notificaciones no leídas</a>
+						<a class="dropdown-item dropdown-item-menu" href="#">No hay notificaciones no leídas</a>
 					@endforelse
 			 	</div>
 			</div>

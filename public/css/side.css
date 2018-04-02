@@ -120,3 +120,16 @@
   }
 
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 700px;
+    overflow-x: hidden;
+    width: 50px;
+}
+
+.dropdown-item-menu {
+    white-space: normal !important;
+    font-size: 13px !important;
+
+}
