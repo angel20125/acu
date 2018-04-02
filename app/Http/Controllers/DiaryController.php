@@ -956,19 +956,11 @@ class DiaryController extends Controller
                 }
             }
 
-            /*$council = $point->diary->council;
+            $president_id = $point->diary->council->president_id;
 
-            foreach($council->users as $user)
-            {
-                $council_user=$user->councils()->where("id",$diary->council->id)->first();
+            $user=User::find($president_id);
 
-                $rol=Role::where("id",$council_user->pivot->role_id)->first();
-
-                if($rol->name=="presidente" && $user->status && $user->validate)
-                {
-                    $user->notify(new NewProposePoint($point));
-                }
-            }*/
+            $user->notify(new NewProposePoint($point));
 
             return redirect()->route("consejero_history_points")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
         }

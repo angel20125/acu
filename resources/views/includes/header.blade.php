@@ -11,36 +11,22 @@
   	</button>
 
 	<div class="collapse navbar-collapse item-rg  d-md-none bd-navba d-lg-none " id="navbarsExampleDefault">
-		<ul>
-			<li class="dropdown" id="markasread" onClick="markNotificationAsRead('{{count(auth()->user()->unreadNotifications)}}')">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-							<span class="glyphicon glyphicon-globe"></span> Notificaciones <span class="badge">{{count(auth()->user()->unreadNotifications)}}</span>
-						</a>
-
-						<ul class="dropdown-menu" role="menu">
-							@forelse(auth()->user()->unreadNotifications as $notification)
-								@include('includes.notification.'.snake_case(class_basename($notification->type)))
-								@empty
-									<a href="#">No hay notificaciones no leídas</a>
-							@endforelse
-
-						</ul>
-			</li>
-		</ul>
 
 		<div class=" d-flex justify-content-center  align-items-center px-3 item-rg nav-pills nav-fill" >
-			<ul class="nav flex-column mr-sm-2  ">
-				<li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Notificaciones">
-					<a class="tette float-right"  href="#" >
-						<i class=" far fa-bell"></i>
-					</a>
-				</li>
-			</ul>
 
+			<div class="dropdown show" id="markasread" onClick="markNotificationAsRead('{{count(auth()->user()->unreadNotifications)}}')">
+			  	<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    	<i class=" far fa-bell"></i> <span class="badge">{{count(auth()->user()->unreadNotifications)}}</span>
+			  	</a>
 
-
-
-
+			  	<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+					@forelse(auth()->user()->notifications as $notification)
+						@include('includes.notification.'.snake_case(class_basename($notification->type)))
+						@empty
+						<a class="dropdown-item" href="#">No hay notificaciones no leídas</a>
+					@endforelse
+			 	</div>
+			</div>
 
 
 			<ul class="nav flex-column mr-sm-2" style="margin-left: 2rem !important">
@@ -50,6 +36,7 @@
 					</a>
 				</li>
 			</ul>
+
 		</div>
 
 		<div class="d-lg-none d-md-none tette">
