@@ -6,7 +6,7 @@
 	<link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
 
 	<title>@yield('title') - ACU</title>
-	
+
 	<!-- Custom styles for this template -->
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/sticky.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@
 		<!-- SideBar -->
 <div class="container-fluid">
 	<div class="row flex-xl-nowrap">
-		<div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right sidebar-sticky bd-sidebar" > 
+		<div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-right sidebar-sticky bd-sidebar" >
 			@include("includes.menu_".$user->getCurrentRol()->name)
 		</div>
 
@@ -136,11 +136,12 @@
 <!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-		
+
 	<script  src="{{ asset('js/jquery-3.3.1.js') }}" ></script>
 	<script  src="{{ asset('js/popper.min.js') }}" ></script>
 	<script  src="{{ asset('js/bootstrap.min.js') }} " ></script>
-	
+	<script  src="{{ asset('/js/markAsRead.js') }} " ></script>
+
 	<!-- Icons -->
 	<script  src="{{ asset('js/fontawesome-all.min.js') }}" ></script>
 
@@ -149,7 +150,7 @@
  			 $('[data-toggle="tooltip"]').tooltip()
 		});
 	</script>
-	
+
 	@yield('script')
 </body>
 </html>

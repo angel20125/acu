@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
         {
             return response()->view('errors.505', [], 500);
         }
-        
+
         return parent::render($request, $exception);
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Role;
 class User extends Authenticatable
 {
     use EntrustUserTrait;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,8 +19,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'identity_card', 
-        'first_name', 
+        'identity_card',
+        'first_name',
         'last_name',
         'phone_number',
         'email',
@@ -44,7 +45,7 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         if(!empty($value))
-        {     
+        {
             $this->attributes['password'] = \Hash::make($value);
         }
     }
@@ -81,8 +82,8 @@ class User extends Authenticatable
             if($currentRoll)
             {
                 $currentRoll = $currentRoll->id;
-            } 
-            else 
+            }
+            else
             {
                 $this->attachRole(Role::where("name","consejero")->first());
                 return $this->getCurrentRol();
