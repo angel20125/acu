@@ -34,16 +34,26 @@ class DiaryController extends Controller
             if($current_date <= $diary->event_date)
             {
                 $status="Pre-Agenda"; 
+
+                $print='<i class="fa fa-print" aria-hidden="true"></i>';
+                $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
             }
             elseif($current_date > $diary->event_date && $diary->status==0)
             {
                 $status="Pre-Agenda (Por finalizar)";
+
+                $print='<i class="fa fa-print" aria-hidden="true"></i>';
+                $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
             }  
             else
             {
                 $status="Post-Agenda";
+                
+                $print='<i style="color:#00c853;" class="fa fa-print" aria-hidden="true"></i>';
+                $eye='<i style="color:#00c853;" class="fa fa-eye" aria-hidden="true"></i>';
             }
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'">'.$print.'</a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'">'.$eye.'</a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -70,17 +80,29 @@ class DiaryController extends Controller
                     if($current_date <= $diary->event_date)
                     {
                         $status="Pre-Agenda"; 
+
+                        $print='<i class="fa fa-print" aria-hidden="true"></i>';
+                        $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
+                        $edit='<i class="fa fa-edit" aria-hidden="true"></i>';
                     }
                     elseif($current_date > $diary->event_date && $diary->status==0)
                     {
                         $status="Pre-Agenda (Por finalizar)";
+
+                        $print='<i class="fa fa-print" aria-hidden="true"></i>';
+                        $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
+                        $edit='<i class="fa fa-edit" aria-hidden="true"></i>';
                     }  
                     else
                     {
                         $status="Post-Agenda";
+                        
+                        $print='<i style="color:#00c853;" class="fa fa-print" aria-hidden="true"></i>';
+                        $eye='<i style="color:#00c853;" class="fa fa-eye" aria-hidden="true"></i>';
+                        $edit='<i style="color:#00c853;" class="fa fa-edit" aria-hidden="true"></i>';
                     }
 
-                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'"><i class="fa fa-edit" aria-hidden="true"></i></a>'];
+                    $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'">'.$print.'</a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("adjunto_diaries_edit",["diary_id"=>$diary->id]).'">'.$edit.'</a>'];
                 }
             }
         }
@@ -135,17 +157,29 @@ class DiaryController extends Controller
             if($current_date <= $diary->event_date)
             {
                 $status="Pre-Agenda"; 
+
+                $print='<i class="fa fa-print" aria-hidden="true"></i>';
+                $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
+                $delete='<i class="fa fa-trash" aria-hidden="true"></i>';
             }
             elseif($current_date > $diary->event_date && $diary->status==0)
             {
                 $status="Pre-Agenda (Por finalizar)";
+
+                $print='<i class="fa fa-print" aria-hidden="true"></i>';
+                $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
+                $delete='<i class="fa fa-trash" aria-hidden="true"></i>';
             }  
             else
             {
                 $status="Post-Agenda";
+                
+                $print='<i style="color:#00c853;" class="fa fa-print" aria-hidden="true"></i>';
+                $eye='<i style="color:#00c853;" class="fa fa-eye" aria-hidden="true"></i>';
+                $delete='<i style="color:#00c853;" class="fa fa-trash" aria-hidden="true"></i>';
             }
 
-            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'"><i class="fa fa-trash" aria-hidden="true"></i></a>'];
+            $diaries_list[]=[\DateTime::createFromFormat("Y-m-d",$diary->event_date)->format("d-m-Y"),substr($diary->description, 0, 20)."...",$status,$diary->council->name,$diary->council->president==null?"No asignado":$diary->council->president->last_name." ".$diary->council->president->first_name,'<a href="'.route("diary_pdf",["diary_id"=>$diary->id]).'">'.$print.'</a> <a href="'.route("get_diary",["diary_id"=>$diary->id]).'">'.$eye.'</a> <a href="'.route("admin_diaries_trash",["diary_id"=>$diary->id]).'">'.$delete.'</a>'];
         }
         return response()->json(['data' => $diaries_list]);
     }
@@ -1233,40 +1267,73 @@ class DiaryController extends Controller
         $points_list=[];
         foreach($points as $point)
         {
+            $eye='<i class="fa fa-eye" aria-hidden="true"></i>';
+            $print='<i class="fa fa-print" aria-hidden="true"></i>';
+
             if($point->post_status) 
             {
                 if($point->post_status=="aprobado") 
                 {
                     $post_status="Aprobado";
+                    $eye='<i style="color:#00c853;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#00c853;" class="fa fa-print" aria-hidden="true"></i>';
                 }
                 elseif($point->post_status=="rechazado") 
                 {
                     $post_status="Rechazado";
+                    $eye='<i style="color:#ef5350;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#ef5350;" class="fa fa-print" aria-hidden="true"></i>';
                 }
                 elseif($point->post_status=="diferido") 
                 {
                     $post_status="Diferido";
+                    $eye='<i style="color:#607d8b;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#607d8b;" class="fa fa-print" aria-hidden="true"></i>';
                 }
                 elseif($point->post_status=="diferido_virtual") 
                 {
                     $post_status="Diferido virtual";
+                    $eye='<i style="color:#607d8b;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#607d8b;" class="fa fa-print" aria-hidden="true"></i>';
                 }
                 elseif($point->post_status=="retirado") 
                 {
                     $post_status="Retirado";
+                    $eye='<i style="color:#607d8b;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#607d8b;" class="fa fa-print" aria-hidden="true"></i>';
                 }
                 elseif($point->post_status=="presentado") 
                 {
                     $post_status="Presentado";
+                    $eye='<i style="color:#607d8b;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#607d8b;" class="fa fa-print" aria-hidden="true"></i>';
                 }
                 elseif($point->post_status=="no_presentado") 
                 {
                     $post_status="No presentado";
+                    $eye='<i style="color:#607d8b;" class="fa fa-eye" aria-hidden="true"></i>';
+                    $print='<i style="color:#607d8b;" class="fa fa-print" aria-hidden="true"></i>';
                 }
             }
             else
             {
                 $post_status="NA";
+            }
+
+            if($point->pre_status=="incluido" && !$point->post_status) 
+            {
+                $eye='<i style="color:#303f9f;" class="fa fa-eye" aria-hidden="true"></i>';
+                $print='<i style="color:#303f9f;" class="fa fa-print" aria-hidden="true"></i>';
+            }
+            elseif($point->pre_status=="propuesto" && !$point->post_status) 
+            {
+                $eye='<i style="color:#29b6f6;" class="fa fa-eye" aria-hidden="true"></i>';
+                $print='<i style="color:#29b6f6;" class="fa fa-print" aria-hidden="true"></i>';
+            }
+            elseif($point->pre_status=="desglosado" && !$point->post_status) 
+            {
+                $eye='<i style="color:#ffb300;" class="fa fa-eye" aria-hidden="true"></i>';
+                $print='<i style="color:#ffb300;" class="fa fa-print" aria-hidden="true"></i>';
             }
 
             if($point->pre_status=="incluido") 
@@ -1282,7 +1349,7 @@ class DiaryController extends Controller
                 $pre_status="Desglosado";
             }
 
-            $points_list[]=[\DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d-m-Y"),$point->user->last_name." ".$point->user->first_name,substr($point->description, 0, 25)."...",$point->type=="info"?"Información":"Decisión",$pre_status,$post_status,$point->agreement==null?"NA":substr($point->agreement, 0, 25)."...",'<a href="'.route("point_pdf",["point_id"=>$point->id]).'"><i class="fa fa-print" aria-hidden="true"></i></a> <a href="'.route("get_point",["point_id"=>$point->id]).'"><i class="fa fa-eye" aria-hidden="true"></i></a>'];
+            $points_list[]=[\DateTime::createFromFormat("Y-m-d H:i:s",$point->created_at)->format("d-m-Y"),$point->user->last_name." ".$point->user->first_name,substr($point->description, 0, 25)."...",$point->diary->council->name,$point->type=="info"?"Información":"Decisión",$pre_status,$post_status,'<a href="'.route("point_pdf",["point_id"=>$point->id]).'">'.$print.'</a> <a href="'.route("get_point",["point_id"=>$point->id]).'">'.$eye.'</a>'];
         }
         return response()->json(['data' => $points_list]);
     }

@@ -32,11 +32,11 @@
 	        <tr>
                 <th  scope="col">Fecha</th>
 	            <th  scope="col">Presentador</th>
-                <th  scope="col">Breve descripción</th>
+                <th  scope="col">Descripción</th>
+                <th  scope="col">Consejo</th>
                 <th  scope="col">Tipo</th>
                 <th  scope="col">Pre-status</th>
                 <th  scope="col">Post-status</th>
-                <th  scope="col">Acuerdo</th>
 	            <th></th>
 	        </tr>
 	    </thead>

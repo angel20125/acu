@@ -106,7 +106,7 @@
 <div id="my-councils" class="modal fade" tabindex="-1" role="dialog">
   	<div class="modal-dialog" role="document">
 	    <div class="modal-content">
-	      	<div class="modal-header">
+	      	<div style="background:#eceff1;" class="modal-header">
 	        	<h5 class="modal-title">Mis Consejos</h5>
 	      	</div>
 	      	<div class="modal-body">
@@ -118,7 +118,7 @@
 						<div class="card">
 						  	<ul class="list-group list-group-flush">
 	  			    	    	@foreach($user->councils->sortBy("name") as $council)
-						    		<li style="text-align: center;" class="list-group-item">{{$council->name}} - <b>{{$user->roles()->where("id",$council->pivot->role_id)->first()->display_name}}</b></li>
+						    		<li style="text-align: center; background:#eceff1;" class="list-group-item">{{$council->name}} - <b>{{$user->roles()->where("id",$council->pivot->role_id)->first()->display_name}}</b></li>
 					    	   	@endforeach
 						  	</ul>
 						</div>
