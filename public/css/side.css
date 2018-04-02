@@ -129,7 +129,7 @@
 
 .scrollable-menu {
     height: auto;
-    max-height: 500px;
+    max-height: 400px;
     overflow-x: hidden;
     width: 50px;
 }

@@ -44,7 +44,7 @@ class CouncilsController extends Controller
             return redirect()->back()->withErrors(["El consejo que trata de registar ya existe"]);
         }
 
-        $council=Council::create($data);
+        $council=Council::create(["name"=>ucfirst($data["name"])]);
 
         return redirect()->route("admin_councils")->with(["message_info"=>"Se ha registrado el consejo exitosamente"]);
     }
@@ -219,7 +219,7 @@ class CouncilsController extends Controller
             return redirect()->back()->withErrors(["Ya existe un consejo con ese nombre asignado"]);
         }
 
-        Council::where("id",$council_id)->update($data);
+        Council::where("id",$council_id)->update(["name"=>ucfirst($data["name"])]);
 
         return redirect()->route("admin_councils")->with(["message_info"=>"Se ha actualizado el consejo"]);
     }

@@ -42,7 +42,7 @@ class PositionsController extends Controller
             return redirect()->back()->withErrors(["El cargo que trata de registar ya existe"]);
         }
 
-        $position=Position::create($data);
+        $position=Position::create(["name"=>ucfirst($data["name"])]);
 
         return redirect()->route("admin_positions")->with(["message_info"=>"Se ha registrado el cargo exitosamente"]);
     }
@@ -66,7 +66,7 @@ class PositionsController extends Controller
             return redirect()->back()->withErrors(["Ya existe un cargo con ese nombre asignado"]);
         }
 
-        Position::where("id",$position_id)->update($data);
+        Position::where("id",$position_id)->update(["name"=>ucfirst($data["name"])]);
 
         return redirect()->route("admin_positions")->with(["message_info"=>"Se ha actualizado el cargo"]);
     }

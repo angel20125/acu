@@ -15,12 +15,13 @@
 		<div class=" d-flex justify-content-center  align-items-center px-3 item-rg nav-pills nav-fill" >
 			<div class="dropdown show" id="markasread" onClick="markNotificationAsRead('{{count(auth()->user()->unreadNotifications)}}')">
 			  	<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    	<i class=" far fa-bell"></i> <span class="badge">{{count($user->unreadNotifications)}}</span>
+			    	@if(count($user->unreadNotifications)>0) <i style="color:red;" class="fas fa-bell"></i >@else <i class="fas fa-bell"></i> @endif<span class="badge">{{count($user->unreadNotifications)}}</span>
 			  	</a>
 
 			  	<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
 					@forelse($user->notifications as $notification)
 						@include('includes.notification.'.snake_case(class_basename($notification->type)))
+						<div class="dropdown-divider"></div>
 						@empty
 						<a class="dropdown-item dropdown-item-menu" href="#">No tienes notificaciones.</a>
 					@endforelse
