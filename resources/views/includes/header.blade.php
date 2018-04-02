@@ -13,29 +13,16 @@
 	<div class="collapse navbar-collapse item-rg  d-md-none bd-navba d-lg-none " id="navbarsExampleDefault">
 
 		<div class=" d-flex justify-content-center  align-items-center px-3 item-rg nav-pills nav-fill" >
-			<ul class="nav flex-column mr-sm-2  ">
-				<li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="Notificaciones">
-					<a class="tette float-right"  href="#" >
-					<!--Configuracion de notificaciones aqui-->
-						<span class="fa-layers fa-fw" style="background: transparent;">
-						    <i class=" far fa-bell"></i>
-						    <span class="fa-layers-counter" style="background:red"></span>
-						</span>
-
-					</a>	
-				</li>
-			</ul>
-
 			<div class="dropdown show" id="markasread" onClick="markNotificationAsRead('{{count(auth()->user()->unreadNotifications)}}')">
 			  	<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    	<i class=" far fa-bell"></i> <span class="badge">{{count(auth()->user()->unreadNotifications)}}</span>
+			    	<i class=" far fa-bell"></i> <span class="badge">{{count($user->unreadNotifications)}}</span>
 			  	</a>
 
-			  	<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-					@forelse(auth()->user()->notifications as $notification)
+			  	<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
+					@forelse($user->notifications as $notification)
 						@include('includes.notification.'.snake_case(class_basename($notification->type)))
 						@empty
-						<a class="dropdown-item" href="#">No hay notificaciones no leídas</a>
+						<a class="dropdown-item dropdown-item-menu" href="#">No tienes notificaciones.</a>
 					@endforelse
 			 	</div>
 			</div>

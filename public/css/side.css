@@ -126,3 +126,16 @@
      margin-top: 1rem !important;
   }
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 500px;
+    overflow-x: hidden;
+    width: 50px;
+}
+
+.dropdown-item-menu {
+    white-space: normal !important;
+    font-size: 13px !important;
+
+}

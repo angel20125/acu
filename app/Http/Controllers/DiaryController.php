@@ -470,6 +470,15 @@ class DiaryController extends Controller
                   'pre_status' => $pre_status
                 ]);
 
+                if($pre_status=="propuesto") 
+                {
+                    $president_id = $point->diary->council->president_id;
+
+                    $president=User::find($president_id);
+
+                    $president->notify(new NewProposePoint($point));
+                }
+
                 $new_date = new \DateTime("now");
                 $new_date = $new_date->format("d_m_Y");
 
@@ -908,6 +917,12 @@ class DiaryController extends Controller
                   'pre_status' => 'propuesto'
                 ]);
 
+                $president_id = $point->diary->council->president_id;
+
+                $president=User::find($president_id);
+
+                $president->notify(new NewProposePoint($point));
+
                 $new_date = new \DateTime("now");
                 $new_date = $new_date->format("d_m_Y");
 
@@ -983,12 +998,6 @@ class DiaryController extends Controller
                     ]);
                 }
             }
-
-            $president_id = $point->diary->council->president_id;
-
-            $user=User::find($president_id);
-
-            $user->notify(new NewProposePoint($point));
 
             return redirect()->route("consejero_history_points")->with(["message_info"=>"Se han propuesto exitosamente los puntos"]);
         }
