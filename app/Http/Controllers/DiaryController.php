@@ -381,11 +381,11 @@ class DiaryController extends Controller
             {
                 $user->notify(new NewDiaryCreated($diary));
 
-                \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
+                /*\Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                 {
                     $message->subject("Invitación del ".$council->name);
                     $message->to($user->email,$user->first_name);
-                });
+                });*/
             }
         }
 

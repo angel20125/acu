@@ -90,11 +90,11 @@ class UsersController extends Controller
 
         $user->attachRole(Role::where("name","secretaria")->first());
 
-        \Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
+        /*\Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
         {
             $message->subject("Bienvenido a ACU");
             $message->to($user->email,$user->first_name);
-        });
+        });*/
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado la secretaria exitosamente"]);
     }
@@ -193,11 +193,11 @@ class UsersController extends Controller
             $user->attachRole(Role::where("name",$rol)->first());
         }
 
-        \Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
+        /*\Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
         {
             $message->subject("Bienvenido a ACU");
             $message->to($user->email,$user->first_name);
-        });
+        });*/
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el miembro exitosamente"]);
     }

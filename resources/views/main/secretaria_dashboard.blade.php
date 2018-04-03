@@ -21,7 +21,7 @@
     </div>
 @endif
 
-<div style="text-align: center; max-width: 310px;" class="container-fluid">
+<div class="container-fluid">
 	<div class="form-group text-center col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-10 offset-sm-1 mrt">
 	    <label>Filtrar Agendas</label>
 	    <select class="form-control" id="month" required>

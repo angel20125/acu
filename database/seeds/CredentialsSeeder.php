@@ -353,6 +353,21 @@ class CredentialsSeeder extends Seeder
         $alejandro->councils()->attach($academico->id,["role_id"=>$consejero->id]);
         Transaction::create(["type"=>"create_user_consejero","user_id"=>$alejandro->id,"affected_id"=>$academico->id,"start_date"=>gmdate("Y-m-d")]);
 
+        //Laura
+        $laura= new User();
+        $laura->identity_card= '25123456';
+        $laura->first_name= 'Laura';
+        $laura->last_name= 'Marcano';
+        $laura->phone_number= '04121234567';
+        $laura->email= 'lauramarcano@gmail.com';
+        $laura->password= '12345';
+        $laura->validate= 1;
+        $laura->position_id= $secretary->id;
+        $laura->position_boss_id= $profesor->id;
+        $laura->save();
+
+        $laura->attachRole($secretaria);
+
 
 
 
