@@ -127,15 +127,33 @@
   }
 }
 
-.scrollable-menu {
+@media only screen and (max-width: 651.98px) {
+  .scrollable-menu {
     height: auto;
     max-height: 400px;
     overflow-x: hidden;
-    width: 50px;
+    width: 13rem;
+  }
+  .dropdown-menu{
+    float: right !important; 
+    left: 0 !important;
+  }
+}
+@media only screen and (min-width: 651.98px) {
+  .scrollable-menu {
+      height: auto;
+      max-height: 400px;
+      overflow-x: hidden;
+      width: 21rem;
+  }
+  .dropdown-menu{
+    float: right !important; 
+    right: 0 !important;
+    left: inherit !important;
+  }
 }
 
 .dropdown-item-menu {
     white-space: normal !important;
     font-size: 13px !important;
-
 }

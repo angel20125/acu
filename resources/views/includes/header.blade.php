@@ -18,12 +18,12 @@
 			    	@if(count($user->unreadNotifications)>0) <i style="color:red;" class="fas fa-bell"></i >@else <i class="fas fa-bell"></i> @endif<span class="badge">{{count($user->unreadNotifications)}}</span>
 			  	</a>
 
-			  	<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuLink">
+			  	<div class="dropdown-menu scrollable-menu " aria-labelledby="dropdownMenuLink">
 					@forelse($user->notifications as $notification)
 						@include('includes.notification.'.snake_case(class_basename($notification->type)))
 						<div class="dropdown-divider"></div>
 						@empty
-						<a class="dropdown-item dropdown-item-menu" href="#">No tienes notificaciones.</a>
+						<a class="dropdown-item dropdown-item-menu text-center" href="#">No tienes notificaciones.</a>
 					@endforelse
 			 	</div>
 			</div>
