@@ -277,6 +277,53 @@ class DiaryController extends Controller
         if(!isset($dataPoints["description_point"]))
         {
             $diary=Diary::create($data);
+            $new_diary=$diary->id;
+
+            foreach($council->diaries as $diary) 
+            {
+                $points=$diary->points->where("post_status","diferido");
+
+                if(count($points) > 0)
+                {
+                    foreach($points as $point) 
+                    {
+                        $date_create = new \DateTime("now");
+                        $date_create = $date_create->format("Y-m-d H:i:s");
+
+                        Point::where("id",$point->id)->update(
+                        [
+                            'diary_id' => $new_diary,
+                            'pre_status' => "incluido",
+                            'post_status' => null,
+                            'agreement' => null,
+                            'created_at' => $date_create
+                        ]);
+                    }
+                }
+            }
+
+            foreach($council->diaries as $diary) 
+            {
+                $points=$diary->points->where("post_status","diferido_virtual");
+
+                if(count($points) > 0)
+                {
+                    foreach($points as $point) 
+                    {
+                        $date_create = new \DateTime("now");
+                        $date_create = $date_create->format("Y-m-d H:i:s");
+
+                        Point::where("id",$point->id)->update(
+                        [
+                            'diary_id' => $new_diary,
+                            'pre_status' => "incluido",
+                            'post_status' => null,
+                            'agreement' => null,
+                            'created_at' => $date_create
+                        ]);
+                    }
+                }
+            }
         }
         else
         {
@@ -369,6 +416,54 @@ class DiaryController extends Controller
                     ]);
                 }
             }
+
+            $new_diary=$diary->id;
+
+            foreach($council->diaries as $diary) 
+            {
+                $points=$diary->points->where("post_status","diferido");
+
+                if(count($points) > 0)
+                {
+                    foreach($points as $point) 
+                    {
+                        $date_create = new \DateTime("now");
+                        $date_create = $date_create->format("Y-m-d H:i:s");
+
+                        Point::where("id",$point->id)->update(
+                        [
+                            'diary_id' => $new_diary,
+                            'pre_status' => "incluido",
+                            'post_status' => null,
+                            'agreement' => null,
+                            'created_at' => $date_create
+                        ]);
+                    }
+                }
+            }
+
+            foreach($council->diaries as $diary) 
+            {
+                $points=$diary->points->where("post_status","diferido_virtual");
+
+                if(count($points) > 0)
+                {
+                    foreach($points as $point) 
+                    {
+                        $date_create = new \DateTime("now");
+                        $date_create = $date_create->format("Y-m-d H:i:s");
+
+                        Point::where("id",$point->id)->update(
+                        [
+                            'diary_id' => $new_diary,
+                            'pre_status' => "incluido",
+                            'post_status' => null,
+                            'agreement' => null,
+                            'created_at' => $date_create
+                        ]);
+                    }
+                }
+            }
         }
 
         foreach($council->users as $user)
@@ -381,11 +476,11 @@ class DiaryController extends Controller
             {
                 $user->notify(new NewDiaryCreated($diary));
 
-                /*\Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
+                \Mail::send('emails.user_invitation', ["user"=>$user,"council"=>$council,"diary"=>$diary], function($message) use($user,$council)
                 {
                     $message->subject("Invitación del ".$council->name);
                     $message->to($user->email,$user->first_name);
-                });*/
+                });
             }
         }
 

@@ -55,9 +55,6 @@ class Handler extends ExceptionHandler
                 case 404:
                     return response()->view('errors.404',[],404);
                 break;
-                case 408:
-                    return response()->view('errors.408',[],408);
-                break;
                 case 500:
                     return response()->view('errors.500',[],500);    
                 break;

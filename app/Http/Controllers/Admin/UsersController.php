@@ -87,14 +87,15 @@ class UsersController extends Controller
         $data["confirmation_code"]=str_random(25);
 
         $user=User::create($data);
+        User::where("id",$user->id)->update(["first_name"=>ucfirst($data["first_name"]),"last_name"=>ucfirst($data["last_name"])]);
 
         $user->attachRole(Role::where("name","secretaria")->first());
 
-        /*\Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
+        \Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
         {
             $message->subject("Bienvenido a ACU");
             $message->to($user->email,$user->first_name);
-        });*/
+        });
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado la secretaria exitosamente"]);
     }
@@ -168,6 +169,7 @@ class UsersController extends Controller
         $data["confirmation_code"]=str_random(25);
 
         $user=User::create($data);
+        User::where("id",$user->id)->update(["first_name"=>ucfirst($data["first_name"]),"last_name"=>ucfirst($data["last_name"])]);
 
         foreach($councils as $key => $council)
         {
@@ -193,11 +195,11 @@ class UsersController extends Controller
             $user->attachRole(Role::where("name",$rol)->first());
         }
 
-        /*\Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
+        \Mail::send('emails.user_confirmation', ["user"=>$user,"confirmation_code"=>$data["confirmation_code"]], function($message) use($user)
         {
             $message->subject("Bienvenido a ACU");
             $message->to($user->email,$user->first_name);
-        });*/
+        });
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha registrado el miembro exitosamente"]);
     }
@@ -238,6 +240,7 @@ class UsersController extends Controller
             }
 
             User::where("id",$user_id)->update($data);
+            User::where("id",$user_id)->update(["first_name"=>ucfirst($data["first_name"]),"last_name"=>ucfirst($data["last_name"])]);
 
             return redirect()->route("admin_users")->with(["message_info"=>"Se ha actualizado la secretaria"]); 
         }
@@ -367,6 +370,7 @@ class UsersController extends Controller
         }
 
         User::where("id",$user_id)->update($data);
+        User::where("id",$user_id)->update(["first_name"=>ucfirst($data["first_name"]),"last_name"=>ucfirst($data["last_name"])]);
 
         return redirect()->route("admin_users")->with(["message_info"=>"Se ha actualizado el miembro"]);
     }
