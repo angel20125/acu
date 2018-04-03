@@ -49,7 +49,7 @@
 	 	<div id="inputPoints"></div>
 
 		<!-- Aqui el codigo de los puntos-->
-		<div class="justify-content-center text-center">
+		<div class="justify-content-right text-right">
             <button id="btn-add" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Punto</button>
         </div>
 
